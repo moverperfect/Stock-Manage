@@ -13,7 +13,7 @@ namespace Stock_Manage_Client.Classes
         private static readonly ClientSocket ClientSocket = new ClientSocket();
         public static String MachineId;
         // TODO CODE THIS IN
-        public static String UserId = "-1";
+        public static String UserId = "0";
         public static String Type;
         public static String IpAddress = "127.0.0.1";
         public static Table TempReturnTable = new Table();
@@ -46,7 +46,10 @@ namespace Stock_Manage_Client.Classes
                         case "manage":
                             Console.WriteLine("This computer is set up for management");
                             Application.Run(new Authentication());
-                            Application.Run(new Management());
+                            if (UserId != "0")
+                            {
+                                Application.Run(new Management());
+                            }
                             Environment.Exit(0);
                             break;
                         case "ordering":

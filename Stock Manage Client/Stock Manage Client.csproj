@@ -115,6 +115,8 @@
     <ProjectReference Include="..\Stock Manage Server\Stock Manage Server.csproj">
       <Project>{a412f4a4-7ab1-47ee-b305-2faebac56ee7}</Project>
       <Name>Stock Manage Server</Name>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <Private>True</Private>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

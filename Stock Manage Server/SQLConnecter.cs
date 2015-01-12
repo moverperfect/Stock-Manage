@@ -49,7 +49,11 @@ namespace Stock_Manage_Server
         public bool TestConnection()
         {
             var open = OpenConnection();
-            CloseConnection();
+            try
+            {
+                CloseConnection();
+            }
+            catch { }
             return open;
         }
 
@@ -119,7 +123,7 @@ namespace Stock_Manage_Server
         /// </summary>
         /// <param name="query">The select statement</param>
         /// <returns>The datatable containing the data</returns>
-        public DataTable Select(String query)
+        public Object Select(String query)
         {
             var dt = new DataTable();
 
@@ -147,7 +151,11 @@ namespace Stock_Manage_Server
                 return dt;
 
             }
-            return dt;
+            else
+            {
+                var error = "ERROR: Connection to database could not be established, please contact an administrator!";
+                return error;
+            }
         }
 
         /// <summary>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Sockets;
 using Stock_Manage_Server.Networking.Packets;
+using System.Data;
 
 namespace Stock_Manage_Server.Networking
 {
@@ -38,8 +39,17 @@ namespace Stock_Manage_Server.Networking
                 case 2002:
                     var select = new StdData(packet);
                     connecter = new SqlConnecter("db_inventorymanagement");
-                    var dt = new Table(connecter.Select(select.Text),Program.MachineId,Program.UserId);
-                    clientSocket.Send(dt.Data);
+                    var response = connecter.Select(select.Text);
+                    if (response is DataTable)
+                    {
+                        var dt = new Table((DataTable)(response), Program.MachineId, Program.UserId);
+                        clientSocket.Send(dt.Data);
+                    }
+                    else
+                    {
+                        var error = new StdData(response.ToString(), Program.MachineId, Program.UserId);
+                        clientSocket.Send(error.Data);
+                    }
                     break;
             }
             clientSocket.Close();

@@ -76,6 +76,7 @@
             this.btn_Login.TabIndex = 4;
             this.btn_Login.Text = "Login";
             this.btn_Login.UseVisualStyleBackColor = true;
+            this.btn_Login.Click += new System.EventHandler(this.btn_Login_Click);
             // 
             // Authentication
             // 
@@ -88,6 +89,10 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txt_UserId);
             this.Controls.Add(this.lbl_Login);
+            this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(140, 170);
+            this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(140, 170);
             this.Name = "Authentication";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Please enter login information";

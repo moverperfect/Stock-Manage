@@ -38,6 +38,10 @@ namespace Stock_Manage_Server.Networking
             _socket.BeginAccept(AcceptedCallback, null);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="result"></param>
         private void AcceptedCallback(IAsyncResult result)
         {
             //Console.WriteLine("Recieved Call from " + _socket.RemoteEndPoint);
