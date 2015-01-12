@@ -1,12 +1,12 @@
 ﻿using System;
-using Stock_Manage_Server.Networking;
 using System.Net.Sockets;
+using Stock_Manage_Client.Classes.Networking;
 
-namespace Stock_Manage_Client.Classes.Networking
+namespace Stock_Manage_Server.Networking
 {
-    class ClientSocket : CustomSocket
+    class ServerSocket : CustomSocket
     {
-        public ClientSocket() { }
+        public ServerSocket() { }
 
         public override void HandlePacket(Byte[] packet, Socket clientSocket)
         {

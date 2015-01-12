@@ -3,7 +3,7 @@ using System.Data;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
-namespace Stock_Manage_Server.Networking.Packets
+namespace Stock_Manage_Client.Classes.Networking.Packets
 {
     /// <summary>
     ///     A Table object for byte arrays

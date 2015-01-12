@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Net.Sockets;
-using Stock_Manage_Server.Networking.Packets;
+using Stock_Manage_Client.Classes.Networking.Packets;
 using System.Windows.Forms;
 
 namespace Stock_Manage_Client.Classes.Networking

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net.Sockets;
-using Stock_Manage_Server.Networking.Packets;
 using System.Data;
+using Stock_Manage_Client.Classes.Networking.Packets;
 
 namespace Stock_Manage_Server.Networking
 {

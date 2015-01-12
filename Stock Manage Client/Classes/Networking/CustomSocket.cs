@@ -4,7 +4,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 
-namespace Stock_Manage_Server.Networking
+namespace Stock_Manage_Client.Classes.Networking
 {
     public class CustomSocket
     {

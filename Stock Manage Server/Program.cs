@@ -5,7 +5,7 @@ namespace Stock_Manage_Server
 {
     internal class Program
     {
-        public static CustomSocket ServerSocket = new CustomSocket();
+        public static ServerSocket Serversocket = new ServerSocket();
 
         public static ushort MachineId = 0;
 
@@ -14,9 +14,9 @@ namespace Stock_Manage_Server
         private static void Main(string[] args)
         {
             // Open the server and listen to connections
-            ServerSocket.Bind(8221);
-            ServerSocket.Listen(500);
-            ServerSocket.Accept();
+            Serversocket.Bind(8221);
+            Serversocket.Listen(500);
+            Serversocket.Accept();
 
             Console.ReadLine();
         }

@@ -47,8 +47,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Classes\Networking\ClientSocket.cs" />
+    <Compile Include="Classes\Networking\CustomSocket.cs" />
     <Compile Include="Classes\Networking\PacketHandler.cs" />
+    <Compile Include="Classes\Networking\Packets\PacketStructure.cs" />
+    <Compile Include="Classes\Networking\Packets\StdData.cs" />
+    <Compile Include="Classes\Networking\Packets\Table.cs" />
     <Compile Include="Forms\Management.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -110,14 +113,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Stock Manage Server\Stock Manage Server.csproj">
-      <Project>{a412f4a4-7ab1-47ee-b305-2faebac56ee7}</Project>
-      <Name>Stock Manage Server</Name>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-      <Private>True</Private>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

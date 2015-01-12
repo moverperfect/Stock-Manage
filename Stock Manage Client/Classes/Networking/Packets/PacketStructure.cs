@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Stock_Manage_Server.Networking.Packets
+namespace Stock_Manage_Client.Classes.Networking.Packets
 {
     /// <summary>
     ///     Standard Packet structure

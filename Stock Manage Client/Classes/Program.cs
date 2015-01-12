@@ -2,15 +2,15 @@
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using Stock_Manage_Client.Classes.Networking.Packets;
 using Stock_Manage_Client.Forms;
-using Stock_Manage_Server.Networking.Packets;
 using Stock_Manage_Client.Classes.Networking;
 
 namespace Stock_Manage_Client.Classes
 {
     internal static class Program
     {
-        private static readonly ClientSocket ClientSocket = new ClientSocket();
+        private static readonly CustomSocket ClientSocket = new CustomSocket();
         public static String MachineId;
         // TODO CODE THIS IN
         public static String UserId = "0";
