@@ -128,33 +128,45 @@ namespace Stock_Manage_Server
         /// <returns>The datatable containing the data</returns>
         public Object Select(String query)
         {
-            var dt = new DataTable();
-
-            if (OpenConnection())
+            try
             {
-                var cmd = new MySqlCommand(query, _connection);
+                var dt = new DataTable();
 
-                MySqlDataReader dr = cmd.ExecuteReader();
-
-                DataTable schemaTable = dr.GetSchemaTable();
-                foreach (DataRowView row in schemaTable.DefaultView)
+                if (OpenConnection())
                 {
-                    var columnName = (string) row["ColumnName"];
-                    var type = (Type) row["DataType"];
-                    dt.Columns.Add(columnName, type);
+                    var cmd = new MySqlCommand(query, _connection);
+
+                    MySqlDataReader dr = cmd.ExecuteReader();
+
+                    DataTable schemaTable = dr.GetSchemaTable();
+                    foreach (DataRowView row in schemaTable.DefaultView)
+                    {
+                        var columnName = (string) row["ColumnName"];
+                        var type = (Type) row["DataType"];
+                        dt.Columns.Add(columnName, type);
+                    }
+
+
+                    dt.Load(dr);
+
+                    dr.Close();
+
+                    return dt;
                 }
-
-
-                dt.Load(dr);
-
-                dr.Close();
-
-                CloseConnection();
-
-                return dt;
+                string error =
+                    "ERROR: Connection to database could not be established, please contact an administrator!";
+                return error;
             }
-            string error = "ERROR: Connection to database could not be established, please contact an administrator!";
-            return error;
+            catch (Exception e)
+            {
+                Console.WriteLine(query);
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                CloseConnection();
+            }
+            return null;
         }
 
         /// <summary>
