@@ -30,13 +30,14 @@
         {
             this.btn_newUser = new System.Windows.Forms.Button();
             this.tc_MainControl = new System.Windows.Forms.TabControl();
+            this.btn_CloseTab = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btn_newUser
             // 
-            this.btn_newUser.Location = new System.Drawing.Point(13, 40);
+            this.btn_newUser.Location = new System.Drawing.Point(5, 40);
             this.btn_newUser.Name = "btn_newUser";
-            this.btn_newUser.Size = new System.Drawing.Size(96, 23);
+            this.btn_newUser.Size = new System.Drawing.Size(104, 23);
             this.btn_newUser.TabIndex = 7;
             this.btn_newUser.Text = "Add New User";
             this.btn_newUser.UseVisualStyleBackColor = true;
@@ -53,9 +54,20 @@
             this.tc_MainControl.Size = new System.Drawing.Size(1079, 842);
             this.tc_MainControl.TabIndex = 6;
             // 
+            // btn_CloseTab
+            // 
+            this.btn_CloseTab.Location = new System.Drawing.Point(5, 12);
+            this.btn_CloseTab.Name = "btn_CloseTab";
+            this.btn_CloseTab.Size = new System.Drawing.Size(104, 23);
+            this.btn_CloseTab.TabIndex = 8;
+            this.btn_CloseTab.Text = "Close Current Tab";
+            this.btn_CloseTab.UseVisualStyleBackColor = true;
+            this.btn_CloseTab.Click += new System.EventHandler(this.btn_CloseTab_Click);
+            // 
             // Management
             // 
             this.ClientSize = new System.Drawing.Size(1206, 866);
+            this.Controls.Add(this.btn_CloseTab);
             this.Controls.Add(this.btn_newUser);
             this.Controls.Add(this.tc_MainControl);
             this.Name = "Management";
@@ -69,6 +81,7 @@
 
         private System.Windows.Forms.Button btn_newUser;
         private System.Windows.Forms.TabControl tc_MainControl;
+        private System.Windows.Forms.Button btn_CloseTab;
 
 
 

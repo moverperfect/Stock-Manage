@@ -89,6 +89,10 @@ namespace Stock_Manage_Client.Classes.Networking
             {
                 Console.WriteLine(ex.Message);
             }
+            catch (Exception ex)
+            {
+                
+            }
         }
 
         public virtual void HandlePacket(byte[] packet, Socket clientSocket)

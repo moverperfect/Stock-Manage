@@ -9,7 +9,7 @@ namespace Stock_Manage_Client.Classes
     {
         public static string GenerateSaltValue()
         {
-            var utf16 = new UnicodeEncoding();
+            var utf16 = new UTF8Encoding();
 
 
             // Create a random number object seeded from the value
@@ -22,15 +22,23 @@ namespace Stock_Manage_Client.Classes
 
             // Create an array of random values.
 
-            var saltValue = new byte[8];
+            var saltValue = new byte[4];
 
             random.NextBytes(saltValue);
+
+            for (int i = 0; i < saltValue.Length; i++)
+            {
+                if (saltValue[i] == 39)
+                {
+                    saltValue[i] = (byte) 1;
+                }
+            }
 
             // Convert the salt value to a string. Note that the resulting string
             // will still be an array of binary values and not a printable string. 
             // Also it does not convert each byte to a double byte.
 
-            var saltValueString = utf16.GetString(saltValue);
+            var saltValueString = Convert.ToBase64String(saltValue);
 
             // Return the salt value as a string.
 
@@ -39,7 +47,7 @@ namespace Stock_Manage_Client.Classes
 
         public static string HashPassword(string clearData, string saltValue, HashAlgorithm hash)
         {
-            var encoding = new UnicodeEncoding();
+            var encoding = new UTF8Encoding();
 
             if (clearData != null && hash != null)
             {
@@ -56,16 +64,16 @@ namespace Stock_Manage_Client.Classes
                 // array of bytes. Note that the password string is Unicode and
                 // therefore may or may not have a zero in every other byte.
 
-                var binarySaltValue = new byte[saltValue.Length*sizeof (char)];
+                var binarySaltValue = new byte[saltValue.Length];
                 Buffer.BlockCopy(saltValue.ToCharArray(), 0, binarySaltValue, 0, binarySaltValue.Length);
 
-                var valueToHash = new byte[8 + encoding.GetByteCount(clearData)];
+                var valueToHash = new byte[4 + encoding.GetByteCount(clearData)];
                 var binaryPassword = encoding.GetBytes(clearData);
 
                 // Copy the salt value and the password to the hash buffer.
 
                 binarySaltValue.CopyTo(valueToHash, 0);
-                binaryPassword.CopyTo(valueToHash, 4);
+                binaryPassword.CopyTo(valueToHash, 2);
 
                 var hashValue = hash.ComputeHash(valueToHash);
 

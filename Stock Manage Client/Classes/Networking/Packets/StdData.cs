@@ -6,7 +6,7 @@ namespace Stock_Manage_Client.Classes.Networking.Packets
     public class StdData : PacketStructure
     {
         public StdData(String message, ushort machineId, ushort userId)
-            : base((ushort) (8 + message.Length), machineId, userId)
+            : base((ushort) (8 + Encoding.UTF8.GetByteCount(message)), machineId, userId)
         {
             switch (message.Split(char.Parse(" "))[0].ToLower())
             {
@@ -17,6 +17,9 @@ namespace Stock_Manage_Client.Classes.Networking.Packets
                     WriteUShort(2001, 2);
                     break;
                 case "update":
+                    WriteUShort(2001, 2);
+                    break;
+                case "insert":
                     WriteUShort(2001, 2);
                     break;
                 default:

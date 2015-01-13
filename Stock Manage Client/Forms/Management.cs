@@ -19,5 +19,10 @@ namespace Stock_Manage_Client.Forms
         {
             tc_MainControl.TabPages.Add(new AddNewUserTab());
         }
+
+        private void btn_CloseTab_Click(object sender, EventArgs e)
+        {
+            tc_MainControl.TabPages.Remove(tc_MainControl.SelectedTab);
+        }
     }
 }
