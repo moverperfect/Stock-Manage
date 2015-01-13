@@ -22,7 +22,7 @@ namespace Stock_Manage_Client.Forms
         }
 
         private void txt_UserId_TextChanged(object sender, EventArgs e)
-        {
+            {
             if (System.Text.RegularExpressions.Regex.IsMatch(txt_UserId.Text, "[^0-9]"))
             {
                 MessageBox.Show("Please enter only numbers.");
@@ -33,8 +33,6 @@ namespace Stock_Manage_Client.Forms
         private void btn_Login_Click(object sender, EventArgs e)
         {
             Program.TempReturnTable = null;
-
-            HashPassword(txt_Psswrd.Text, null, MD5.Create());
 
             Program.SendData("SELECT Salt,Password_Hash FROM tbl_Users WHERE PK_UserId=" + this.txt_UserId.Text + ";");
 
@@ -117,7 +115,6 @@ namespace Stock_Manage_Client.Forms
                 {
                     // Generate a salt string.
                     saltValue = GenerateSaltValue();
-                    Program.SendData("UPDATE tbl_users SET Salt='" + saltValue + "' WHERE PK_UserId='1';");
                   }
 
                 // Convert the salt string and the password string to a single
