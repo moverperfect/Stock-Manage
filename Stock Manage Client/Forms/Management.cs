@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using Stock_Manage_Client.Classes;
+using System.Windows.Forms;
 
 namespace Stock_Manage_Client.Forms
 {
@@ -13,5 +14,11 @@ namespace Stock_Manage_Client.Forms
         {
 
         }
+
+        private void btn_newUser_Click(object sender, System.EventArgs e)
+        {
+            this.tc_MainControl.TabPages.Add(new AddNewUserTab());
+        }
+
     }
 }
