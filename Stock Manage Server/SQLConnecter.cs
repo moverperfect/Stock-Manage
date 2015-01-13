@@ -4,15 +4,15 @@ using MySql.Data.MySqlClient;
 
 namespace Stock_Manage_Server
 {
-    class SqlConnecter
+    internal class SqlConnecter
     {
         /// <summary>
-        /// The main connection object
+        ///     The main connection object
         /// </summary>
         private MySqlConnection _connection;
 
         /// <summary>
-        /// Create a database connector object with the default options for server name, user id and password
+        ///     Create a database connector object with the default options for server name, user id and password
         /// </summary>
         /// <param name="db">The database name</param>
         public SqlConnecter(String db)
@@ -21,7 +21,7 @@ namespace Stock_Manage_Server
         }
 
         /// <summary>
-        /// Creates a database object with defined properties
+        ///     Creates a database object with defined properties
         /// </summary>
         /// <param name="db">Database name</param>
         /// <param name="server">Sever location</param>
@@ -33,32 +33,35 @@ namespace Stock_Manage_Server
         }
 
         /// <summary>
-        /// Initializes the SQL connection object
+        ///     Initializes the SQL connection object
         /// </summary>
         private void Initialize(String database, String server, String uid, String password)
         {
-            var connectionString = "SERVER=" + server + ";DATABASE=" + database + ";UID=" + uid + ";PASSWORD=" + password + ";";
+            string connectionString = "SERVER=" + server + ";DATABASE=" + database + ";UID=" + uid + ";PASSWORD=" +
+                                      password + ";";
 
             _connection = new MySqlConnection(connectionString);
         }
 
         /// <summary>
-        /// Test the connection to the SQL Sever
+        ///     Test the connection to the SQL Sever
         /// </summary>
         /// <returns>True if successful connection</returns>
         public bool TestConnection()
         {
-            var open = OpenConnection();
+            bool open = OpenConnection();
             try
             {
                 CloseConnection();
             }
-            catch { }
+            catch
+            {
+            }
             return open;
         }
 
         /// <summary>
-        /// Opens the connection to the database
+        ///     Opens the connection to the database
         /// </summary>
         /// <returns>True if successful connection</returns>
         private bool OpenConnection()
@@ -85,7 +88,7 @@ namespace Stock_Manage_Server
         }
 
         /// <summary>
-        /// Closes the connection to the server, true if successful
+        ///     Closes the connection to the server, true if successful
         /// </summary>
         /// <returns>If successful</returns>
         private bool CloseConnection()
@@ -103,7 +106,7 @@ namespace Stock_Manage_Server
         }
 
         /// <summary>
-        /// Execute a NonQuery to the server
+        ///     Execute a NonQuery to the server
         /// </summary>
         /// <param name="query">The query to be sent</param>
         public void NonQuery(String query)
@@ -119,7 +122,7 @@ namespace Stock_Manage_Server
         }
 
         /// <summary>
-        /// Execute a Select statement to the sql server
+        ///     Execute a Select statement to the sql server
         /// </summary>
         /// <param name="query">The select statement</param>
         /// <returns>The datatable containing the data</returns>
@@ -131,13 +134,13 @@ namespace Stock_Manage_Server
             {
                 var cmd = new MySqlCommand(query, _connection);
 
-                var dr = cmd.ExecuteReader();
+                MySqlDataReader dr = cmd.ExecuteReader();
 
-                var schemaTable = dr.GetSchemaTable();
+                DataTable schemaTable = dr.GetSchemaTable();
                 foreach (DataRowView row in schemaTable.DefaultView)
                 {
-                    var columnName = (string)row["ColumnName"];
-                    var type = (Type)row["DataType"];
+                    var columnName = (string) row["ColumnName"];
+                    var type = (Type) row["DataType"];
                     dt.Columns.Add(columnName, type);
                 }
 
@@ -149,23 +152,19 @@ namespace Stock_Manage_Server
                 CloseConnection();
 
                 return dt;
-
             }
-            else
-            {
-                var error = "ERROR: Connection to database could not be established, please contact an administrator!";
-                return error;
-            }
+            string error = "ERROR: Connection to database could not be established, please contact an administrator!";
+            return error;
         }
 
         /// <summary>
-        /// Executes a count query
+        ///     Executes a count query
         /// </summary>
         /// <param name="query">The SQL query</param>
         /// <returns>The counted amount</returns>
         public int Count(String query)
         {
-            var count = 0;
+            int count = 0;
 
             if (OpenConnection())
             {

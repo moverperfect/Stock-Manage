@@ -2,9 +2,9 @@
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using Stock_Manage_Client.Classes.Networking;
 using Stock_Manage_Client.Classes.Networking.Packets;
 using Stock_Manage_Client.Forms;
-using Stock_Manage_Client.Classes.Networking;
 
 namespace Stock_Manage_Client.Classes
 {
@@ -64,7 +64,7 @@ namespace Stock_Manage_Client.Classes
                             break;
                     }
                 }
-                catch ( Exception ex)
+                catch (Exception ex)
                 {
                     // Get the type of machine that this is and stuff(maybe the ip of the server)
                     // Also get the machine id from the server to write to the file
@@ -103,7 +103,7 @@ namespace Stock_Manage_Client.Classes
         public static void SendData(String data)
         {
             Connect();
-            var message = new StdData(data,Convert.ToUInt16(MachineId),Convert.ToUInt16(UserId));
+            var message = new StdData(data, Convert.ToUInt16(MachineId), Convert.ToUInt16(UserId));
             ClientSocket.Send(message.Data);
         }
 

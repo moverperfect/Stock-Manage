@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net.Sockets;
-using Stock_Manage_Client.Classes.Networking.Packets;
 using System.Windows.Forms;
+using Stock_Manage_Client.Classes.Networking.Packets;
 
 namespace Stock_Manage_Client.Classes.Networking
 {
@@ -32,7 +32,8 @@ namespace Stock_Manage_Client.Classes.Networking
 
                 case 2000:
                     var msg = new StdData(packet);
-                    if (msg.Text.Contains("ERROR:")) {
+                    if (msg.Text.Contains("ERROR:"))
+                    {
                         MessageBox.Show(msg.Text);
                     }
                     Console.WriteLine(msg.Text);

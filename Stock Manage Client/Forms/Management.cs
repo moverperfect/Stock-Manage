@@ -13,13 +13,11 @@ namespace Stock_Manage_Client.Forms
 
         private void Management_Load(object sender, EventArgs e)
         {
-
         }
 
         private void btn_newUser_Click(object sender, EventArgs e)
         {
             tc_MainControl.TabPages.Add(new AddNewUserTab());
         }
-
     }
 }

@@ -28,7 +28,6 @@ namespace Stock_Manage_Client.Classes.Networking.Packets
 
         protected PacketStructure()
         {
-
         }
 
         public byte[] Data

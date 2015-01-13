@@ -1,13 +1,14 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace Stock_Manage_Client.Classes.TabPages
 {
-    class AddNewUserTab : TabPage
+    internal class AddNewUserTab : TabPage
     {
         public AddNewUserTab()
         {
-            var btnExitTab = new Button
+            var cmdExitTab = new Button
             {
                 Location = new Point(114, 95),
                 Name = "btn_ExitTab",
@@ -17,7 +18,7 @@ namespace Stock_Manage_Client.Classes.TabPages
                 UseVisualStyleBackColor = true
             };
 
-            var btnAddUser = new Button
+            var cmdAddUser = new Button
             {
                 Location = new Point(9, 95),
                 Name = "btn_AddUser",
@@ -27,7 +28,7 @@ namespace Stock_Manage_Client.Classes.TabPages
                 UseVisualStyleBackColor = true
             };
 
-            var textBox3 = new TextBox
+            var txtPassword = new TextBox
             {
                 Location = new Point(89, 63),
                 Name = "textBox3",
@@ -36,7 +37,7 @@ namespace Stock_Manage_Client.Classes.TabPages
                 TabIndex = 5
             };
 
-            var textBox2 = new TextBox
+            var txtLastName = new TextBox
             {
                 Location = new Point(89, 37),
                 Name = "textBox2",
@@ -44,7 +45,7 @@ namespace Stock_Manage_Client.Classes.TabPages
                 TabIndex = 4
             };
 
-            var textBox1 = new TextBox
+            var txtFirstName = new TextBox
             {
                 Location = new Point(89, 11),
                 Name = "textBox1",
@@ -52,7 +53,7 @@ namespace Stock_Manage_Client.Classes.TabPages
                 TabIndex = 3
             };
 
-            var label3 = new Label
+            var lblPassword = new Label
             {
                 AutoSize = true,
                 Location = new Point(6, 66),
@@ -62,7 +63,7 @@ namespace Stock_Manage_Client.Classes.TabPages
                 Text = "Password"
             };
 
-            var label2 = new Label
+            var lblSecondName = new Label
             {
                 AutoSize = true,
                 Location = new Point(6, 40),
@@ -72,7 +73,7 @@ namespace Stock_Manage_Client.Classes.TabPages
                 Text = "Second Name"
             };
 
-            var label1 = new Label
+            var lblFirstName = new Label
             {
                 AutoSize = true,
                 Location = new Point(6, 11),
@@ -82,14 +83,17 @@ namespace Stock_Manage_Client.Classes.TabPages
                 Text = "First Name"
             };
 
-            Controls.Add(btnExitTab);
-            Controls.Add(btnAddUser);
-            Controls.Add(textBox3);
-            Controls.Add(textBox2);
-            Controls.Add(textBox1);
-            Controls.Add(label3);
-            Controls.Add(label2);
-            Controls.Add(label1);
+
+            cmdAddUser.Click += cmdAddUser_Click;
+
+            Controls.Add(cmdExitTab);
+            Controls.Add(cmdAddUser);
+            Controls.Add(txtPassword);
+            Controls.Add(txtLastName);
+            Controls.Add(txtFirstName);
+            Controls.Add(lblPassword);
+            Controls.Add(lblSecondName);
+            Controls.Add(lblFirstName);
             Location = new Point(4, 22);
             Name = "NewUserTab";
             Padding = new Padding(3);
@@ -102,6 +106,10 @@ namespace Stock_Manage_Client.Classes.TabPages
         {
             get { return base.Text; }
             set { base.Text = value; }
+        }
+
+        private void cmdAddUser_Click(object sender, EventArgs e)
+        {
         }
     }
 }

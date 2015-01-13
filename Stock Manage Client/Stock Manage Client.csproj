@@ -55,6 +55,7 @@
     <Compile Include="Classes\TabPages\TabPages.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Classes\Utilities.cs" />
     <Compile Include="Forms\Management.cs">
       <SubType>Form</SubType>
     </Compile>

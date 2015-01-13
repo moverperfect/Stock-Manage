@@ -8,8 +8,8 @@ namespace Stock_Manage_Client.Classes.Networking
 {
     public class CustomSocket
     {
-        private Socket _socket;
         private byte[] _buffer;
+        private Socket _socket;
 
         public CustomSocket()
         {
@@ -39,7 +39,6 @@ namespace Stock_Manage_Client.Classes.Networking
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="result"></param>
         private void AcceptedCallback(IAsyncResult result)
@@ -119,8 +118,8 @@ namespace Stock_Manage_Client.Classes.Networking
                 if (_socket.Connected)
                 {
                     var packetData = Encoding.UTF8.GetBytes(data);
-                    var packetLength = BitConverter.GetBytes((ushort)(packetData.Length + 4));
-                    var packetType = BitConverter.GetBytes((ushort)packetNumber);
+                    var packetLength = BitConverter.GetBytes((ushort) (packetData.Length + 4));
+                    var packetType = BitConverter.GetBytes((ushort) packetNumber);
 
                     var packet = new byte[packetData.Length + 4];
                     Array.Copy(packetLength, packet, 2);

@@ -29,16 +29,12 @@ namespace Stock_Manage_Client.Classes.Networking.Packets
         public StdData(byte[] packet)
             : base(packet)
         {
-
         }
 
         public string Text
         {
             get { return ReadString(8, Data.Length - 8); }
-            set
-            {
-                WriteString(value, 8);
-            }
+            set { WriteString(value, 8); }
         }
 
         private void WriteString(String value, int offset)

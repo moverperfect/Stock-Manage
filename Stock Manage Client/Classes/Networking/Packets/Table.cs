@@ -50,7 +50,11 @@ namespace Stock_Manage_Client.Classes.Networking.Packets
         public DataTable TableData
         {
             get { return _table; }
-            private set { _table = value; TableToByteArray(value); }
+            private set
+            {
+                _table = value;
+                TableToByteArray(value);
+            }
         }
 
 
