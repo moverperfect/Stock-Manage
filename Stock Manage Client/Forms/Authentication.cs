@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Stock_Manage_Client.Classes;
 using System.Diagnostics;
@@ -23,7 +18,7 @@ namespace Stock_Manage_Client.Forms
 
         private void txt_UserId_TextChanged(object sender, EventArgs e)
             {
-            if (System.Text.RegularExpressions.Regex.IsMatch(txt_UserId.Text, "[^0-9]"))
+            if (Regex.IsMatch(txt_UserId.Text, "[^0-9]"))
             {
                 MessageBox.Show("Please enter only numbers.");
                 txt_UserId.Text = txt_UserId.Text.Remove(txt_UserId.Text.Length - 1);
@@ -34,7 +29,7 @@ namespace Stock_Manage_Client.Forms
         {
             Program.TempReturnTable = null;
 
-            Program.SendData("SELECT Salt,Password_Hash FROM tbl_Users WHERE PK_UserId=" + this.txt_UserId.Text + ";");
+            Program.SendData("SELECT Salt,Password_Hash FROM tbl_Users WHERE PK_UserId=" + txt_UserId.Text + ";");
 
             var stopwatch = new Stopwatch();
             stopwatch.Start();
@@ -48,7 +43,7 @@ namespace Stock_Manage_Client.Forms
                         if (password == Program.TempReturnTable.TableData.Rows[0]["Password_Hash"].ToString())
                         {
                             Program.UserId = txt_UserId.Text;
-                            this.Close();
+                            Close();
                             return;
                         }
                     }
@@ -68,22 +63,20 @@ namespace Stock_Manage_Client.Forms
 
         private static string GenerateSaltValue()
         {
-            UnicodeEncoding utf16 = new UnicodeEncoding();
+            var utf16 = new UnicodeEncoding();
 
-            if (utf16 != null)
-            {
+            
                 // Create a random number object seeded from the value
                 // of the last random seed value. This is done
                 // interlocked because it is a static value and we want
                 // it to roll forward safely.
 
-                Random random = new Random(unchecked((int)DateTime.Now.Ticks));
+                var random = new Random(unchecked((int)DateTime.Now.Ticks));
 
-                if (random != null)
-                {
+                
                     // Create an array of random values.
 
-                    byte[] saltValue = new byte[8];
+                    var saltValue = new byte[8];
 
                     random.NextBytes(saltValue);
 
@@ -91,22 +84,18 @@ namespace Stock_Manage_Client.Forms
                     // will still be an array of binary values and not a printable string. 
                     // Also it does not convert each byte to a double byte.
 
-                    string saltValueString = utf16.GetString(saltValue);
+                    var saltValueString = utf16.GetString(saltValue);
 
                     // Return the salt value as a string.
 
                     return saltValueString;
-                }
-            }
-
-            return null;
         }
 
         private static string HashPassword(string clearData, string saltValue, HashAlgorithm hash)
         {
-            UnicodeEncoding encoding = new UnicodeEncoding();
+            var encoding = new UnicodeEncoding();
 
-            if (clearData != null && hash != null && encoding != null)
+            if (clearData != null && hash != null)
             {
                 // If the salt string is null or the length is invalid then
                 // create a new valid salt value.
@@ -121,8 +110,8 @@ namespace Stock_Manage_Client.Forms
                 // array of bytes. Note that the password string is Unicode and
                 // therefore may or may not have a zero in every other byte.
 
-                byte[] binarySaltValue = new byte[saltValue.Length * sizeof(char)];
-                System.Buffer.BlockCopy(saltValue.ToCharArray(), 0, binarySaltValue, 0, binarySaltValue.Length);
+                var binarySaltValue = new byte[saltValue.Length * sizeof(char)];
+                Buffer.BlockCopy(saltValue.ToCharArray(), 0, binarySaltValue, 0, binarySaltValue.Length);
 
                 //byte[] binarySaltValue = new byte[4];
 
@@ -133,21 +122,21 @@ namespace Stock_Manage_Client.Forms
                 //binarySaltValue[2] = byte.Parse(saltValue.Substring(4, 2), System.Globalization.NumberStyles.HexNumber, CultureInfo.InvariantCulture.NumberFormat);
                 //binarySaltValue[3] = byte.Parse(saltValue.Substring(6, 2), System.Globalization.NumberStyles.HexNumber, CultureInfo.InvariantCulture.NumberFormat);
 
-                byte[] valueToHash = new byte[8 + encoding.GetByteCount(clearData)];
-                byte[] binaryPassword = encoding.GetBytes(clearData);
+                var valueToHash = new byte[8 + encoding.GetByteCount(clearData)];
+                var binaryPassword = encoding.GetBytes(clearData);
 
                 // Copy the salt value and the password to the hash buffer.
 
                 binarySaltValue.CopyTo(valueToHash, 0);
                 binaryPassword.CopyTo(valueToHash, 4);
 
-                byte[] hashValue = hash.ComputeHash(valueToHash);
+                var hashValue = hash.ComputeHash(valueToHash);
 
                 // The hashed password is the salt plus the hash value (as a string).
 
-                string hashedPassword = "";
+                var hashedPassword = "";
 
-                foreach (byte hexdigit in hashValue)
+                foreach (var hexdigit in hashValue)
                 {
                     hashedPassword += hexdigit.ToString("X2", CultureInfo.InvariantCulture.NumberFormat);
                 }

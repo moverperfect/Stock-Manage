@@ -52,7 +52,7 @@
     <Compile Include="Classes\Networking\Packets\PacketStructure.cs" />
     <Compile Include="Classes\Networking\Packets\StdData.cs" />
     <Compile Include="Classes\Networking\Packets\Table.cs" />
-    <Compile Include="Classes\TabPages.cs">
+    <Compile Include="Classes\TabPages\TabPages.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Forms\Management.cs">

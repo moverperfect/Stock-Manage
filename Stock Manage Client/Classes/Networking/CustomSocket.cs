@@ -62,8 +62,6 @@ namespace Stock_Manage_Client.Classes.Networking
                 var clientSocket = result.AsyncState as Socket;
                 if (_buffer.Length == 2)
                 {
-                    // For debugging
-                    var debug = _buffer;
                     _buffer = new byte[BitConverter.ToInt16(_buffer, 0)];
                     if (clientSocket != null && _buffer.Length != 0)
                         clientSocket.BeginReceive(_buffer, 2, _buffer.Length - 2, SocketFlags.None, ReceivedCallBack,

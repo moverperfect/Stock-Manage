@@ -64,7 +64,7 @@ namespace Stock_Manage_Client.Classes
                             break;
                     }
                 }
-                catch
+                catch ( Exception ex)
                 {
                     // Get the type of machine that this is and stuff(maybe the ip of the server)
                     // Also get the machine id from the server to write to the file
@@ -105,12 +105,6 @@ namespace Stock_Manage_Client.Classes
             Connect();
             var message = new StdData(data,Convert.ToUInt16(MachineId),Convert.ToUInt16(UserId));
             ClientSocket.Send(message.Data);
-        }
-
-        private static void Authenticate()
-        {
-            var loginForm = new Form {Width = 500, Height = 150, FormBorderStyle = FormBorderStyle.FixedDialog, Text = "Login", StartPosition = FormStartPosition.CenterScreen};
-            Label lbl_UserId = new Label() {Left = 50, Top = 20, Text = "Login"};
         }
 
         //public static void RefreshData()
