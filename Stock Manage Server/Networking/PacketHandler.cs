@@ -22,6 +22,7 @@ namespace Stock_Manage_Server.Networking
             // 2001 - NonQuery
             // 2002 - Select
             // 2003 - Count
+            // 2004 - Notification check
             switch (packetType)
             {
                 case 2000:
@@ -50,6 +51,12 @@ namespace Stock_Manage_Server.Networking
                         var error = new StdData(response.ToString(), Program.MachineId, Program.UserId);
                         clientSocket.Send(error.Data);
                     }
+                    break;
+
+                case 2004:
+                    var check = new StdData(packet);
+                    connecter = new SqlConnecter("db_inventorymanagement");
+                    //var isManagement = connecter.Select("SELECT ");
                     break;
             }
             clientSocket.Close();
