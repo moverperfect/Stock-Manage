@@ -3,6 +3,9 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Security.Cryptography;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
+using Stock_Manage_Client.Classes.Networking;
+using Stock_Manage_Client.Classes.Networking.Packets;
 
 namespace Stock_Manage_Client.Classes.TabPages
 {
@@ -141,27 +144,30 @@ namespace Stock_Manage_Client.Classes.TabPages
             var salt = Utilities.GenerateSaltValue();
             var hash = Utilities.HashPassword(TxtPassword.Text, salt, MD5.Create());
             var addString =
-                "INSERT INTO tbl_Users(System_Role, First_Name, Second_Name, Password_Hash, Salt) VALUES ('"+CboSystemRole.Text+"','"+TxtFirstName.Text+"','"+TxtLastName.Text+"','"+hash+"','"+salt+"')";
-            Program.SendData(addString);
-            System.Threading.Thread.Sleep(300);
-            Program.SendData("SELECT PK_UserId FROM tbl_Users WHERE Password_Hash = '"+hash+"';");
+                "INSERT INTO tbl_Users(System_Role, First_Name, Second_Name, Password_Hash, Salt) VALUES ('"+CboSystemRole.Text+"','"+TxtFirstName.Text+"','"+TxtLastName.Text+"','"+hash+"','"+salt+"');";
+            var selectString = "SELECT PK_UserId FROM tbl_Users WHERE Password_Hash = '" + hash + "';";
+            PacketHandler.DataRecieved += AddNewUserResponse;
+            Program.SendData(new StdData(addString + selectString, Convert.ToUInt16(Program.MachineId), Convert.ToUInt16(Program.UserId), 2002));
+        }
 
-            var stopwatch = new Stopwatch();
-            stopwatch.Start();
-            while (stopwatch.ElapsedMilliseconds < 3000)
+        private void AddNewUserResponse(byte[] packet)
+        {
+            try
             {
-                try
+                var table = new Table(packet);
+                if (table.TableData.Rows.Count > 0)
                 {
-                    if (Program.TempReturnTable.TableData.Rows.Count > 0)
-                    {
-                        MessageBox.Show("New user created with UserId of " +
-                                        Program.TempReturnTable.TableData.Rows[0][0].ToString());
-                        return;
-                    }
+                    MessageBox.Show("New user created with UserId of " +
+                                    table.TableData.Rows[0][0].ToString());
                 }
-                catch (Exception ex)
+                else
                 {
+                    MessageBox.Show("Failed to add new user, please try again or contact a system administrator");
                 }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
             }
         }
     }
