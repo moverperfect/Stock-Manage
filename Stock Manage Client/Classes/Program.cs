@@ -107,6 +107,12 @@ namespace Stock_Manage_Client.Classes
             ClientSocket.Send(message.Data);
         }
 
+        public static void SendData(StdData message)
+        {
+            Connect();
+            ClientSocket.Send(message.Data);
+        }
+
         //public static void RefreshData()
         //{
         //    if (window.dataGridView1.InvokeRequired)
