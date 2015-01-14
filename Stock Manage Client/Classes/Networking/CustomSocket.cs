@@ -91,7 +91,7 @@ namespace Stock_Manage_Client.Classes.Networking
             }
             catch (Exception ex)
             {
-                
+                Console.WriteLine(ex.Message);
             }
         }
 

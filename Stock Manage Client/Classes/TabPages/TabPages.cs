@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Drawing;
 using System.Security.Cryptography;
 using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
 using Stock_Manage_Client.Classes.Networking;
 using Stock_Manage_Client.Classes.Networking.Packets;
 
@@ -158,7 +156,7 @@ namespace Stock_Manage_Client.Classes.TabPages
                 if (table.TableData.Rows.Count > 0)
                 {
                     MessageBox.Show("New user created with UserId of " +
-                                    table.TableData.Rows[0][0].ToString());
+                                    table.TableData.Rows[0][0]);
                 }
                 else
                 {
@@ -167,7 +165,7 @@ namespace Stock_Manage_Client.Classes.TabPages
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Console.WriteLine(e.Message);
             }
         }
     }

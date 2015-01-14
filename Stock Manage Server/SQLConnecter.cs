@@ -54,8 +54,9 @@ namespace Stock_Manage_Server
             {
                 CloseConnection();
             }
-            catch
+            catch(Exception ex)
             {
+                Console.WriteLine(ex.Message);
             }
             return open;
         }
@@ -153,8 +154,7 @@ namespace Stock_Manage_Server
 
                     return dt;
                 }
-                string error =
-                    "ERROR: Connection to database could not be established, please contact an administrator!";
+                const string error = "ERROR: Connection to database could not be established, please contact an administrator!";
                 return error;
             }
             catch (Exception e)

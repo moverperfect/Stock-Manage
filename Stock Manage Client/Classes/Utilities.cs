@@ -9,7 +9,8 @@ namespace Stock_Manage_Client.Classes
     {
         public static string GenerateSaltValue()
         {
-            var utf16 = new UTF8Encoding();
+            // TODO Clean up this code a lot
+            //var utf16 = new UTF8Encoding();
 
 
             // Create a random number object seeded from the value
@@ -25,14 +26,6 @@ namespace Stock_Manage_Client.Classes
             var saltValue = new byte[4];
 
             random.NextBytes(saltValue);
-
-            for (int i = 0; i < saltValue.Length; i++)
-            {
-                if (saltValue[i] == 39)
-                {
-                    saltValue[i] = (byte) 1;
-                }
-            }
 
             // Convert the salt value to a string. Note that the resulting string
             // will still be an array of binary values and not a printable string. 

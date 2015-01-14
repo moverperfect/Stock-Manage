@@ -28,10 +28,10 @@ namespace Stock_Manage_Client.Classes
             Application.SetCompatibleTextRenderingDefault(false);
             AllocConsole();
 
-
             while (true)
             {
                 // Getting the file and checking what form to open
+                // TODO Make this a lot cleaner
                 try
                 {
                     var data =

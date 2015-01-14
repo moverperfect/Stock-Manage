@@ -54,6 +54,7 @@ namespace Stock_Manage_Server.Networking
                     break;
 
                 case 2004:
+                    // TODO Implement this
                     var check = new StdData(packet);
                     connecter = new SqlConnecter("db_inventorymanagement");
                     //var isManagement = connecter.Select("SELECT ");
