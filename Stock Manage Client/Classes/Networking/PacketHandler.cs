@@ -7,12 +7,23 @@ namespace Stock_Manage_Client.Classes.Networking
 {
     internal static class PacketHandler
     {
+        // A custom event handler that triggers when a packet comes through this class
+        public delegate void DataRecievedEventHandler(byte[] packet);
+        public static event DataRecievedEventHandler DataRecieved;
+
         public static void Handle(byte[] packet, Socket clientSocket)
         {
             var packetLength = BitConverter.ToUInt16(packet, 0);
             var packetType = BitConverter.ToUInt16(packet, 2);
 
             Console.WriteLine("Recieved packet of length: {0} and Type: {1}", packetLength, packetType);
+
+            // Invoke the DataRevieved event
+            if (DataRecieved != null)
+            {
+                DataRecieved(packet);
+                return;
+            }
 
             // Packet types:
             // 1001 - Table from select statement
