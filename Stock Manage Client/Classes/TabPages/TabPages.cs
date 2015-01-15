@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Security.Cryptography;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Stock_Manage_Client.Classes.Networking;
 using Stock_Manage_Client.Classes.Networking.Packets;
@@ -41,6 +42,9 @@ namespace Stock_Manage_Client.Classes.TabPages
                 Size = new Size(100, 20),
                 TabIndex = 3
             };
+
+            // Add event handler for text changed to ensure only numbers can only be entered
+            TxtPassword.TextChanged += TxtPassword_TextChanged;
 
             // Textbox for entering last name
             TxtLastName = new TextBox
@@ -155,6 +159,12 @@ namespace Stock_Manage_Client.Classes.TabPages
         /// </summary>
         private void CmdAddUser_Click(object sender, EventArgs e)
         {
+            if (TxtFirstName.Text == "" || TxtLastName.Text == "" || TxtPassword.Text == "" || CboSystemRole.Text == "")
+            {
+                MessageBox.Show("Missing information, insert and try again");
+                return;
+            }
+
             // Salt and hash the password
             var salt = Utilities.GenerateSaltValue();
             var hash = Utilities.HashPassword(TxtPassword.Text, salt, MD5.Create());
@@ -198,6 +208,15 @@ namespace Stock_Manage_Client.Classes.TabPages
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
+            }
+        }
+
+        private void TxtPassword_TextChanged(object sender, EventArgs e)
+        {
+            if (Regex.IsMatch(TxtPassword.Text, "[^0-9]"))
+            {
+                MessageBox.Show("Please enter only numbers.");
+                TxtPassword.Text = TxtPassword.Text.Remove(TxtPassword.Text.Length - 1);
             }
         }
     }
