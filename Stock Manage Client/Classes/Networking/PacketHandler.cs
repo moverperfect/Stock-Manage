@@ -9,6 +9,7 @@ namespace Stock_Manage_Client.Classes.Networking
     {
         // A custom event handler that triggers when a packet comes through this class
         public delegate void DataRecievedEventHandler(byte[] packet);
+
         public static event DataRecievedEventHandler DataRecieved;
 
         public static void Handle(byte[] packet, Socket clientSocket)

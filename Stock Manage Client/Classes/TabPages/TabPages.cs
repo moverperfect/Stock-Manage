@@ -90,7 +90,7 @@ namespace Stock_Manage_Client.Classes.TabPages
                 Name = "CboSystemRole",
                 Size = new Size(100, 20),
                 TabIndex = 29,
-                Items = { "Management", "Ordering", "Workshop"}
+                Items = {"Management", "Ordering", "Workshop"}
             };
 
             LblSystemRole = new Label
@@ -142,10 +142,13 @@ namespace Stock_Manage_Client.Classes.TabPages
             var salt = Utilities.GenerateSaltValue();
             var hash = Utilities.HashPassword(TxtPassword.Text, salt, MD5.Create());
             var addString =
-                "INSERT INTO tbl_Users(System_Role, First_Name, Second_Name, Password_Hash, Salt) VALUES ('"+CboSystemRole.Text+"','"+TxtFirstName.Text+"','"+TxtLastName.Text+"','"+hash+"','"+salt+"');";
+                "INSERT INTO tbl_Users(System_Role, First_Name, Second_Name, Password_Hash, Salt) VALUES ('" +
+                CboSystemRole.Text + "','" + TxtFirstName.Text + "','" + TxtLastName.Text + "','" + hash + "','" + salt +
+                "');";
             var selectString = "SELECT PK_UserId FROM tbl_Users WHERE Password_Hash = '" + hash + "';";
             PacketHandler.DataRecieved += AddNewUserResponse;
-            Program.SendData(new StdData(addString + selectString, Convert.ToUInt16(Program.MachineId), Convert.ToUInt16(Program.UserId), 2002));
+            Program.SendData(new StdData(addString + selectString, Convert.ToUInt16(Program.MachineId),
+                Convert.ToUInt16(Program.UserId), 2002));
         }
 
         private void AddNewUserResponse(byte[] packet)

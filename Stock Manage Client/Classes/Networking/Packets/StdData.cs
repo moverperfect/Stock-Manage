@@ -37,9 +37,10 @@ namespace Stock_Manage_Client.Classes.Networking.Packets
         public StdData(String message, ushort machineId, ushort userId, ushort packetType)
             : base((ushort) (8 + Encoding.UTF8.GetByteCount(message)), machineId, userId)
         {
-            WriteUShort(packetType,2);
+            WriteUShort(packetType, 2);
             Text = message;
         }
+
         public string Text
         {
             get { return ReadString(8, Data.Length - 8); }

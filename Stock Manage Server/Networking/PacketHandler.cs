@@ -9,8 +9,8 @@ namespace Stock_Manage_Server.Networking
     {
         public static void Handle(byte[] packet, Socket clientSocket)
         {
-            ushort packetLength = BitConverter.ToUInt16(packet, 0);
-            ushort packetType = BitConverter.ToUInt16(packet, 2);
+            var packetLength = BitConverter.ToUInt16(packet, 0);
+            var packetType = BitConverter.ToUInt16(packet, 2);
 
             Console.WriteLine("Recieved packet of length: {0} and Type: {1}", packetLength, packetType);
 
@@ -40,7 +40,7 @@ namespace Stock_Manage_Server.Networking
                 case 2002:
                     var select = new StdData(packet);
                     connecter = new SqlConnecter("db_inventorymanagement");
-                    object response = connecter.Select(select.Text);
+                    var response = connecter.Select(select.Text);
                     if (response is DataTable)
                     {
                         var dt = new Table((DataTable) (response), Program.MachineId, Program.UserId);

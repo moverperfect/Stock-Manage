@@ -37,8 +37,8 @@ namespace Stock_Manage_Server
         /// </summary>
         private void Initialize(String database, String server, String uid, String password)
         {
-            string connectionString = "SERVER=" + server + ";DATABASE=" + database + ";UID=" + uid + ";PASSWORD=" +
-                                      password + ";";
+            var connectionString = "SERVER=" + server + ";DATABASE=" + database + ";UID=" + uid + ";PASSWORD=" +
+                                   password + ";";
 
             _connection = new MySqlConnection(connectionString);
         }
@@ -49,12 +49,12 @@ namespace Stock_Manage_Server
         /// <returns>True if successful connection</returns>
         public bool TestConnection()
         {
-            bool open = OpenConnection();
+            var open = OpenConnection();
             try
             {
                 CloseConnection();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
@@ -137,9 +137,9 @@ namespace Stock_Manage_Server
                 {
                     var cmd = new MySqlCommand(query, _connection);
 
-                    MySqlDataReader dr = cmd.ExecuteReader();
+                    var dr = cmd.ExecuteReader();
 
-                    DataTable schemaTable = dr.GetSchemaTable();
+                    var schemaTable = dr.GetSchemaTable();
                     foreach (DataRowView row in schemaTable.DefaultView)
                     {
                         var columnName = (string) row["ColumnName"];
@@ -154,7 +154,8 @@ namespace Stock_Manage_Server
 
                     return dt;
                 }
-                const string error = "ERROR: Connection to database could not be established, please contact an administrator!";
+                const string error =
+                    "ERROR: Connection to database could not be established, please contact an administrator!";
                 return error;
             }
             catch (Exception e)
@@ -176,7 +177,7 @@ namespace Stock_Manage_Server
         /// <returns>The counted amount</returns>
         public int Count(String query)
         {
-            int count = 0;
+            var count = 0;
 
             if (OpenConnection())
             {
