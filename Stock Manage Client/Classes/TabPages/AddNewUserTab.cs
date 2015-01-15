@@ -209,6 +209,10 @@ namespace Stock_Manage_Client.Classes.TabPages
             {
                 Console.WriteLine(e.Message);
             }
+            finally
+            {
+                PacketHandler.DataRecieved -= AddNewUserResponse;
+            }
         }
 
         /// <summary>
