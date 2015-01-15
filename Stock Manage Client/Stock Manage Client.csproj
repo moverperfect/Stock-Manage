@@ -55,6 +55,9 @@
     <Compile Include="Classes\TabPages\AddNewUserTab.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Classes\TabPages\ManageUsersTab.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Classes\Utilities.cs" />
     <Compile Include="Forms\Management.cs">
       <SubType>Form</SubType>
