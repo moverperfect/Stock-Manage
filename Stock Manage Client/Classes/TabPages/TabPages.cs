@@ -7,68 +7,82 @@ using Stock_Manage_Client.Classes.Networking.Packets;
 
 namespace Stock_Manage_Client.Classes.TabPages
 {
+    /// <summary>
+    /// A standard new user tab used for management inherits from TabPage
+    /// </summary>
     internal class AddNewUserTab : TabPage
     {
+        
+        /// <summary>
+        /// Empty constructor for the new tab
+        /// </summary>
         public AddNewUserTab()
         {
+            // Add new user button
             CmdAddUser = new Button
             {
                 Location = new Point(9, 130),
                 Name = "CmdAddUser",
                 Size = new Size(75, 23),
-                TabIndex = 6,
+                TabIndex = 5,
                 Text = "Add User",
                 UseVisualStyleBackColor = true,
             };
 
+            // Add event handler for the click
             CmdAddUser.Click += CmdAddUser_Click;
 
+            // TextBox for the password
             TxtPassword = new TextBox
             {
                 Location = new Point(89, 70),
                 Name = "TxtPassword",
                 PasswordChar = '*',
                 Size = new Size(100, 20),
-                TabIndex = 5
+                TabIndex = 3
             };
 
+            // Textbox for entering last name
             TxtLastName = new TextBox
             {
                 Location = new Point(89, 40),
                 Name = "TxtLastName",
                 Size = new Size(100, 20),
-                TabIndex = 4
+                TabIndex = 2
             };
 
+            // Textbox for entering first name
             TxtFirstName = new TextBox
             {
                 Location = new Point(89, 10),
                 Name = "TxtFirstName",
                 Size = new Size(100, 20),
-                TabIndex = 3
+                TabIndex = 1
             };
 
-
+            // Label showing where to enter the password
             LblPassword = new Label
             {
                 AutoSize = true,
                 Location = new Point(6, 70),
                 Name = "LblPassword",
                 Size = new Size(53, 13),
-                TabIndex = 2,
+                TabIndex = 0,
                 Text = "Password"
             };
 
+            // Label showing where to enter the second name
             LblSecondName = new Label
             {
                 AutoSize = true,
                 Location = new Point(6, 40),
                 Name = "LblSecondName",
                 Size = new Size(75, 13),
-                TabIndex = 1,
+                TabIndex = 0,
                 Text = "Second Name"
             };
 
+            // Label showing where to enter the first name
             LblFirstName = new Label
             {
                 AutoSize = true,
@@ -79,6 +93,7 @@ namespace Stock_Manage_Client.Classes.TabPages
                 Text = "First Name"
             };
 
+            // ComboBox acting as a drop down list showing the system roles that are available
             CboSystemRole = new ComboBox
             {
                 AutoCompleteMode = AutoCompleteMode.SuggestAppend,
@@ -89,10 +104,11 @@ namespace Stock_Manage_Client.Classes.TabPages
                 Location = new Point(89, 100),
                 Name = "CboSystemRole",
                 Size = new Size(100, 20),
-                TabIndex = 29,
+                TabIndex = 4,
                 Items = {"Management", "Ordering", "Workshop"}
             };
 
+            // Label showing where to enter the system role of the user
             LblSystemRole = new Label
             {
                 AutoSize = true,
@@ -103,6 +119,7 @@ namespace Stock_Manage_Client.Classes.TabPages
                 Text = "System Role"
             };
 
+            // Adding all of the controls to the tabpage
             Controls.Add(CmdAddUser);
             Controls.Add(TxtPassword);
             Controls.Add(TxtLastName);
@@ -112,6 +129,8 @@ namespace Stock_Manage_Client.Classes.TabPages
             Controls.Add(LblSecondName);
             Controls.Add(LblFirstName);
             Controls.Add(LblSystemRole);
+
+            // Set the location, name, padding, tabIndex, text[ of the tabpage
             Location = new Point(4, 22);
             Name = "NewUserTab";
             Padding = new Padding(3);
@@ -120,6 +139,7 @@ namespace Stock_Manage_Client.Classes.TabPages
             UseVisualStyleBackColor = true;
         }
 
+        // Declaring all of the tab controls
         private Label LblFirstName { get; set; }
         private Label LblSecondName { get; set; }
         private Label LblPassword { get; set; }
@@ -130,31 +150,39 @@ namespace Stock_Manage_Client.Classes.TabPages
         private TextBox TxtFirstName { get; set; }
         private ComboBox CboSystemRole { get; set; }
 
-        public override sealed string Text
-        {
-            get { return base.Text; }
-            set { base.Text = value; }
-        }
-
+        /// <summary>
+        /// Happens when the user clicks add new user, generates a salt, hashes the password then sends new user to the database and gets back the new user id
+        /// </summary>
         private void CmdAddUser_Click(object sender, EventArgs e)
         {
-            Program.TempReturnTable = null;
+            // Salt and hash the password
             var salt = Utilities.GenerateSaltValue();
             var hash = Utilities.HashPassword(TxtPassword.Text, salt, MD5.Create());
+
+            // Create the two strings, one to insert the user and one to grab the user id
             var addString =
                 "INSERT INTO tbl_Users(System_Role, First_Name, Second_Name, Password_Hash, Salt) VALUES ('" +
                 CboSystemRole.Text + "','" + TxtFirstName.Text + "','" + TxtLastName.Text + "','" + hash + "','" + salt +
                 "');";
             var selectString = "SELECT PK_UserId FROM tbl_Users WHERE Password_Hash = '" + hash + "';";
+
+            // Add AddNewUserResponse to event handler for datareceiving
             PacketHandler.DataRecieved += AddNewUserResponse;
+
+            // Send the SQL statement to the server with the custom packettype of 2002(SELECT statement)
             Program.SendData(new StdData(addString + selectString, Convert.ToUInt16(Program.MachineId),
                 Convert.ToUInt16(Program.UserId), 2002));
         }
 
+        /// <summary>
+        /// Happens when data is received after we have sent of new user information
+        /// </summary>
+        /// <param name="packet">The packet that we get back from the server</param>
         private void AddNewUserResponse(byte[] packet)
         {
             try
             {
+                // Create table and check if it has rows, if so then display a messagebox of the user id
                 var table = new Table(packet);
                 if (table.TableData.Rows.Count > 0)
                 {
@@ -163,6 +191,7 @@ namespace Stock_Manage_Client.Classes.TabPages
                 }
                 else
                 {
+                    // Else show a error message
                     MessageBox.Show("Failed to add new user, please try again or contact a system administrator");
                 }
             }
