@@ -1,11 +1,18 @@
 ﻿using System;
+using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
+using Stock_Manage_Client.Classes.Networking;
+using Stock_Manage_Client.Classes.Networking.Packets;
 
 namespace Stock_Manage_Client.Classes.TabPages
 {
     internal class ManageUsersTab : TabPage
     {
+        /// <summary>
+        /// Empty constructor to create a new ManageUsersTab, Tab has a table that can display the users and can add,
+        /// delete and change any user
+        /// </summary>
         public ManageUsersTab()
         {
             // DataGridView of the users
@@ -18,7 +25,12 @@ namespace Stock_Manage_Client.Classes.TabPages
                 Location = new Point(3, 3),
                 Name = "DgdUsers",
                 Size = new Size(1065, 781),
-                TabIndex = 0
+                TabIndex = 0,
+                AllowUserToAddRows = false,
+                AllowUserToDeleteRows = false,
+                SelectionMode = DataGridViewSelectionMode.FullRowSelect,
+                ReadOnly = true,
+                MultiSelect = false
             };
 
             // Button for refreshing the list of users
@@ -33,6 +45,8 @@ namespace Stock_Manage_Client.Classes.TabPages
                 UseVisualStyleBackColor = true
             };
 
+            CmdRefreshList.Click += CmdRefreshList_Click;
+
             // Button for adding a new user, launches NewUserTab
             CmdAddNewUser = new Button
             {
@@ -46,6 +60,7 @@ namespace Stock_Manage_Client.Classes.TabPages
                 UseVisualStyleBackColor = true
             };
 
+            // Event for when the button is clicked
             CmdAddNewUser.Click += CmdAddNewUser_Click;
 
             // Button for changing a users name
@@ -129,12 +144,53 @@ namespace Stock_Manage_Client.Classes.TabPages
         private Button CmdChangeSystemRole { get; set; }
         private Button CmdDeleteUser { get; set; }
 
+        private Table DataGridTable { get; set; }
+
+        /// <summary>
+        /// Gets the list of users from the server and relays it to RefreshDataHandler
+        /// </summary>
+        private void CmdRefreshList_Click(object sender, EventArgs e)
+        {
+            PacketHandler.DataRecieved += RefreshDataHandler;
+            Program.SendData("SELECT PK_UserId, System_Role, First_Name, Second_Name FROM tbl_users;");
+        }
+
+        /// <summary>
+        /// Takes the packet and makes it the datasource of the DataGridView inside this tab(This gets called when data is recieved from client after user has asked for it)
+        /// </summary>>
+        private void RefreshDataHandler(byte[] packet)
+        {
+            DataGridTable = new Table(packet);
+            Invoke(new MethodInvoker(delegate { DgdUsers.DataSource = DataGridTable.TableData; }));
+            Invoke((MethodInvoker) DisableColunmSort);
+            PacketHandler.DataRecieved -= RefreshDataHandler;
+        }
+
+        /// <summary>
+        /// Disable sorting of all columns, may not be needed
+        /// </summary>
+        private void DisableColunmSort()
+        {
+            foreach (DataGridViewColumn column in DgdUsers.Columns)
+            {
+                column.SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
+        }
+
+        /// <summary>
+        /// Gets called when AddNewUser is clicked, it opens a new tab that can add a new user and focus's that tab
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CmdAddNewUser_Click(object sender, EventArgs e)
         {
             ((TabControl) Parent).TabPages.Add(new AddNewUserTab());
             ((TabControl) Parent).SelectedIndex = ((TabControl) Parent).TabCount - 1;
         }
 
+        /// <summary>
+        /// Resizes all of the elements to fit inside the tab page because anchoring just doesn't want to work
+        /// </summary>
         private void ManageUsers_SizeChanged(object sender, EventArgs e)
         {
             DgdUsers.Size = new Size(Size.Width - 6, Size.Height - 35);
