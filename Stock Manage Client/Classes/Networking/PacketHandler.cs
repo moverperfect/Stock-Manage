@@ -19,8 +19,8 @@ namespace Stock_Manage_Client.Classes.Networking
 
             Console.WriteLine("Recieved packet of length: {0} and Type: {1}", packetLength, packetType);
 
-            // Invoke the DataRevieved event
-            if (DataRecieved != null)
+            // Invoke the DataRecieved event
+            if (DataRecieved != null && !(new StdData(packet).Text.Contains("ERROR:")))
             {
                 DataRecieved(packet);
                 return;
