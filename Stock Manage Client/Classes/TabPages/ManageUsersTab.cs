@@ -46,6 +46,8 @@ namespace Stock_Manage_Client.Classes.TabPages
                 UseVisualStyleBackColor = true
             };
 
+            CmdAddNewUser.Click += CmdAddNewUser_Click;
+
             // Button for changing a users name
             CmdChangeName = new Button
             {
@@ -126,6 +128,12 @@ namespace Stock_Manage_Client.Classes.TabPages
         private Button CmdChangePassword { get; set; }
         private Button CmdChangeSystemRole { get; set; }
         private Button CmdDeleteUser { get; set; }
+
+        private void CmdAddNewUser_Click(object sender, EventArgs e)
+        {
+            ((TabControl) Parent).TabPages.Add(new AddNewUserTab());
+            ((TabControl) Parent).SelectedIndex = ((TabControl) Parent).TabCount - 1;
+        }
 
         private void ManageUsers_SizeChanged(object sender, EventArgs e)
         {
