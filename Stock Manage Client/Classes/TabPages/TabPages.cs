@@ -211,6 +211,9 @@ namespace Stock_Manage_Client.Classes.TabPages
             }
         }
 
+        /// <summary>
+        /// Ensures that the user can only enter numbers into the password
+        /// </summary>
         private void TxtPassword_TextChanged(object sender, EventArgs e)
         {
             if (Regex.IsMatch(TxtPassword.Text, "[^0-9]"))
