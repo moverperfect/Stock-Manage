@@ -55,6 +55,8 @@ namespace Stock_Manage_Client.Forms
 
         public String Password { get { return txtPassword.Text; } }
 
+        public String SystemRole { get { return cboSystemRole.Text; } }
+
         private void cmdChangeUserDetails_Click(object sender, EventArgs e)
         {
             Close();

@@ -120,9 +120,14 @@ namespace Stock_Manage_Client.Classes.TabPages
             // Event for when the button is clicked, opens a new form
             CmdChangeName.Click += CmdChangeName_Click;
 
+            // Event for when the change password button is clicke, opens a new form
             CmdChangePassword.Click += CmdChangePassword_Click;
 
+            // Event for when delete user is clicked, opens a new form
             CmdDeleteUser.Click += CmdDeleteUser_Click;
+
+            // Event for when change system role is clicked, opens a new form
+            CmdChangeSystemRole.Click += CmdChangeSystemRole_Click;
 
             // Anchoring just doesn't work, so yay for workarounds
             SizeChanged += ManageUsers_SizeChanged;
@@ -275,6 +280,39 @@ namespace Stock_Manage_Client.Classes.TabPages
         private void CmdDeleteUser_PacketRecieved(byte[] packet)
         {
             PacketHandler.DataRecieved -= CmdDeleteUser_PacketRecieved;
+            Invoke((MethodInvoker)CmdRefreshList.PerformClick);
+        }
+
+        /// <summary>
+        /// Opens a new form asking for what the users system role is
+        /// </summary>
+        private void CmdChangeSystemRole_Click(object sender, EventArgs e)
+        {
+            var row = DgdUsers.SelectedRows;
+
+            if (row.Count != 0)
+            {
+                var detailsForm = new ChangeUserDetails(3, Convert.ToInt32(row[0].Cells[0].Value.ToString()),
+                    row[0].Cells[1].Value.ToString(),
+                    row[0].Cells[2].Value.ToString(), row[0].Cells[3].Value.ToString());
+                detailsForm.ShowDialog();
+                PacketHandler.DataRecieved += CmdChangeSystemRole_PacketRecieved; 
+                Program.SendData("UPDATE tbl_users SET System_Role = '" +
+                                 detailsForm.SystemRole + "' WHERE PK_UserId = '" + detailsForm.UserId + "';");
+            }
+            else
+            {
+                MessageBox.Show("Please select a row");
+            }
+        }
+
+        /// <summary>
+        /// Happens when success message comes in, refreshes the list
+        /// </summary>
+        /// <param name="packet"></param>
+        private void CmdChangeSystemRole_PacketRecieved(byte[] packet)
+        {
+            PacketHandler.DataRecieved -= CmdChangeSystemRole_PacketRecieved;
             Invoke((MethodInvoker)CmdRefreshList.PerformClick);
         }
 
