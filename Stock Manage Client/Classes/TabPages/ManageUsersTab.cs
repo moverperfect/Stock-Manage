@@ -16,6 +16,14 @@ namespace Stock_Manage_Client.Classes.TabPages
         /// </summary>
         public ManageUsersTab()
         {
+            // Set all of the tabpage properties
+            Location = new Point(4, 22);
+            Name = "ManageUsersTab";
+            Size = new Size(1071, 816);
+            TabIndex = 0;
+            Text = "ManageUsers";
+            UseVisualStyleBackColor = true;
+
             // DataGridView of the users
             DgdUsers = new DataGridView
             {
@@ -129,9 +137,6 @@ namespace Stock_Manage_Client.Classes.TabPages
             // Event for when change system role is clicked, opens a new form
             CmdChangeSystemRole.Click += CmdChangeSystemRole_Click;
 
-            // Anchoring just doesn't work, so yay for workarounds
-            SizeChanged += ManageUsers_SizeChanged;
-
             // Adding all of the controls to the tabpage
             Controls.Add(DgdUsers);
             Controls.Add(CmdRefreshList);
@@ -140,14 +145,6 @@ namespace Stock_Manage_Client.Classes.TabPages
             Controls.Add(CmdChangePassword);
             Controls.Add(CmdChangeSystemRole);
             Controls.Add(CmdDeleteUser);
-
-            // Set all of the tabpage properties
-            Location = new Point(4, 22);
-            Name = "ManageUsersTab";
-            Size = new Size(1071, 816);
-            TabIndex = 0;
-            Text = "ManageUsers";
-            UseVisualStyleBackColor = true;
         }
 
         private DataGridView DgdUsers { get; set; }
@@ -314,20 +311,6 @@ namespace Stock_Manage_Client.Classes.TabPages
         {
             PacketHandler.DataRecieved -= CmdChangeSystemRole_PacketRecieved;
             Invoke((MethodInvoker)CmdRefreshList.PerformClick);
-        }
-
-        /// <summary>
-        /// Resizes all of the elements to fit inside the tab page because anchoring just doesn't want to work
-        /// </summary>
-        private void ManageUsers_SizeChanged(object sender, EventArgs e)
-        {
-            DgdUsers.Size = new Size(Size.Width - 6, Size.Height - 35);
-            CmdRefreshList.Location = new Point(3, Size.Height - 26);
-            CmdAddNewUser.Location = new Point(Size.Width - 502, Size.Height - 26);
-            CmdChangeName.Location = new Point(Size.Width - 409, Size.Height - 26);
-            CmdChangePassword.Location = new Point(Size.Width - 318, Size.Height - 26);
-            CmdChangeSystemRole.Location = new Point(Size.Width - 210, Size.Height - 26);
-            CmdDeleteUser.Location = new Point(Size.Width - 92, Size.Height - 26);
         }
     }
 }
