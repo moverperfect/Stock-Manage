@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using Stock_Manage_Client.Classes.Networking;
 using Stock_Manage_Client.Classes.Networking.Packets;
+using Stock_Manage_Client.Forms;
 
 namespace Stock_Manage_Client.Classes.TabPages
 {
@@ -75,6 +76,9 @@ namespace Stock_Manage_Client.Classes.TabPages
                 Text = "Change name",
                 UseVisualStyleBackColor = true
             };
+
+            // Event for when the button is clicked, opens a new form
+            CmdChangeName.Click += CmdChangeName_Click;
 
             // Button for changing a users password
             CmdChangePassword = new Button
@@ -152,7 +156,7 @@ namespace Stock_Manage_Client.Classes.TabPages
         private void CmdRefreshList_Click(object sender, EventArgs e)
         {
             PacketHandler.DataRecieved += RefreshDataHandler;
-            Program.SendData("SELECT PK_UserId, System_Role, First_Name, Second_Name FROM tbl_users;");
+            Program.SendData("SELECT PK_UserId as 'User Id', First_Name, Second_Name, System_Role FROM tbl_users;");
         }
 
         /// <summary>
@@ -186,6 +190,32 @@ namespace Stock_Manage_Client.Classes.TabPages
         {
             ((TabControl) Parent).TabPages.Add(new AddNewUserTab());
             ((TabControl) Parent).SelectedIndex = ((TabControl) Parent).TabCount - 1;
+        }
+
+        private void CmdChangeName_Click(object sender, EventArgs e)
+        {
+            var row = DgdUsers.SelectedRows;
+
+            if (row.Count != 0)
+            {
+                var detailsForm = new ChangeUserDetails(1, Convert.ToInt32(row[0].Cells[0].Value.ToString()),
+                    row[0].Cells[1].Value.ToString(),
+                    row[0].Cells[2].Value.ToString(), row[0].Cells[3].Value.ToString());
+                detailsForm.ShowDialog();
+                PacketHandler.DataRecieved += CmdChangeName_RecievePacket;
+                Program.SendData("UPDATE tbl_users SET First_Name = '" + detailsForm.FirstName + "', Second_Name = '" + detailsForm.LastName + "' WHERE PK_UserId = '" + detailsForm.UserId + "';");
+            }
+            else
+            {
+                MessageBox.Show("Please select a row");
+            }
+        }
+
+        private void CmdChangeName_RecievePacket(byte[] packet)
+        {
+            PacketHandler.DataRecieved -= CmdChangeName_RecievePacket;
+            CmdRefreshList_Click(new object(),new EventArgs());
+            //Invoke(new MethodInvoker(CmdRefreshList_Click(new object(), new EventArgs())));
         }
 
         /// <summary>
