@@ -102,6 +102,9 @@
             // 
             // cboSystemRole
             // 
+            this.cboSystemRole.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cboSystemRole.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboSystemRole.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboSystemRole.FormattingEnabled = true;
             this.cboSystemRole.Items.AddRange(new object[] {
             "Management",
