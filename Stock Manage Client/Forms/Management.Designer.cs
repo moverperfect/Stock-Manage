@@ -32,6 +32,7 @@
             this.tc_MainControl = new System.Windows.Forms.TabControl();
             this.btn_CloseTab = new System.Windows.Forms.Button();
             this.cmdManageUsers = new System.Windows.Forms.Button();
+            this.cmdManageProducts = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btn_newUser
@@ -52,7 +53,7 @@
             this.tc_MainControl.Location = new System.Drawing.Point(115, 12);
             this.tc_MainControl.Name = "tc_MainControl";
             this.tc_MainControl.SelectedIndex = 0;
-            this.tc_MainControl.Size = new System.Drawing.Size(1079, 842);
+            this.tc_MainControl.Size = new System.Drawing.Size(1223, 705);
             this.tc_MainControl.TabIndex = 6;
             // 
             // btn_CloseTab
@@ -75,9 +76,20 @@
             this.cmdManageUsers.UseVisualStyleBackColor = true;
             this.cmdManageUsers.Click += new System.EventHandler(this.cmdManageUsers_Click);
             // 
+            // cmdManageProducts
+            // 
+            this.cmdManageProducts.Location = new System.Drawing.Point(5, 99);
+            this.cmdManageProducts.Name = "cmdManageProducts";
+            this.cmdManageProducts.Size = new System.Drawing.Size(104, 23);
+            this.cmdManageProducts.TabIndex = 10;
+            this.cmdManageProducts.Text = "Manage Products";
+            this.cmdManageProducts.UseVisualStyleBackColor = true;
+            this.cmdManageProducts.Click += new System.EventHandler(this.cmdManageProducts_Click);
+            // 
             // Management
             // 
-            this.ClientSize = new System.Drawing.Size(1206, 866);
+            this.ClientSize = new System.Drawing.Size(1350, 729);
+            this.Controls.Add(this.cmdManageProducts);
             this.Controls.Add(this.cmdManageUsers);
             this.Controls.Add(this.btn_CloseTab);
             this.Controls.Add(this.btn_newUser);
@@ -96,6 +108,7 @@
         private System.Windows.Forms.TabControl tc_MainControl;
         private System.Windows.Forms.Button btn_CloseTab;
         private System.Windows.Forms.Button cmdManageUsers;
+        private System.Windows.Forms.Button cmdManageProducts;
 
 
 
