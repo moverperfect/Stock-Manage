@@ -26,10 +26,10 @@ namespace Stock_Manage_Client.Forms
 
         private void txt_Psswrd_TextChanged(object sender, EventArgs e)
         {
-            if (Regex.IsMatch(txt_UserId.Text, "[^0-9]"))
+            if (Regex.IsMatch(txt_Psswrd.Text, "[^0-9]"))
             {
                 MessageBox.Show("Please enter only numbers.");
-                txt_UserId.Text = txt_UserId.Text.Remove(txt_UserId.Text.Length - 1);
+                txt_Psswrd.Text = txt_Psswrd.Text.Remove(txt_Psswrd.Text.Length - 1);
             }
         }
 
