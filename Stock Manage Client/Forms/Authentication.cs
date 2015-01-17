@@ -24,6 +24,15 @@ namespace Stock_Manage_Client.Forms
             }
         }
 
+        private void txt_Psswrd_TextChanged(object sender, EventArgs e)
+        {
+            if (Regex.IsMatch(txt_UserId.Text, "[^0-9]"))
+            {
+                MessageBox.Show("Please enter only numbers.");
+                txt_UserId.Text = txt_UserId.Text.Remove(txt_UserId.Text.Length - 1);
+            }
+        }
+
         private void btn_Login_Click(object sender, EventArgs e)
         {
             Program.TempReturnTable = null;

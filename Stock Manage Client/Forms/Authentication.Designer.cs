@@ -68,6 +68,7 @@
             this.txt_Psswrd.PasswordChar = '*';
             this.txt_Psswrd.Size = new System.Drawing.Size(100, 20);
             this.txt_Psswrd.TabIndex = 3;
+            this.txt_Psswrd.TextChanged += new System.EventHandler(this.txt_Psswrd_TextChanged);
             // 
             // btn_Login
             // 
@@ -84,7 +85,7 @@
             this.AcceptButton = this.btn_Login;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(124, 132);
+            this.ClientSize = new System.Drawing.Size(124, 131);
             this.Controls.Add(this.btn_Login);
             this.Controls.Add(this.txt_Psswrd);
             this.Controls.Add(this.label1);
