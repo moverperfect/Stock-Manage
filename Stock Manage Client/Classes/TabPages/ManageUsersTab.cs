@@ -39,7 +39,8 @@ namespace Stock_Manage_Client.Classes.TabPages
                 AllowUserToDeleteRows = false,
                 SelectionMode = DataGridViewSelectionMode.FullRowSelect,
                 ReadOnly = true,
-                MultiSelect = false
+                MultiSelect = false,
+                AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
             };
 
             // Button for refreshing the list of users
@@ -163,7 +164,7 @@ namespace Stock_Manage_Client.Classes.TabPages
         private void CmdRefreshList_Click(object sender, EventArgs e)
         {
             PacketHandler.DataRecieved += RefreshDataHandler;
-            Program.SendData("SELECT PK_UserId as 'User Id', First_Name, Second_Name, System_Role FROM tbl_users;");
+            Program.SendData("SELECT PK_UserId as 'User Id', First_Name, Second_Name, System_Role FROM tbl_users ORDER BY PK_UserId;");
         }
 
         /// <summary>
