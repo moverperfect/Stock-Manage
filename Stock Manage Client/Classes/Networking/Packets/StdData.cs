@@ -22,6 +22,9 @@ namespace Stock_Manage_Client.Classes.Networking.Packets
                 case "insert":
                     WriteUShort(2001, 2);
                     break;
+                case "delete":
+                    WriteUShort(2001, 2);
+                    break;
                 default:
                     WriteUShort(2000, 2);
                     break;
