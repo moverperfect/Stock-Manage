@@ -1,14 +1,36 @@
 ﻿using System;
+using System.Data;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using Stock_Manage_Client.Classes;
+using Stock_Manage_Client.Classes.Networking;
+using Stock_Manage_Client.Classes.Networking.Packets;
 
 namespace Stock_Manage_Client.Forms
 {
     public partial class AddChangeProduct : Form
     {
+        private DataTable _dataGridTable = new DataTable();
+
         public AddChangeProduct()
         {
             InitializeComponent();
+            UpdateSuppliers(null);
+        }
+
+        private void UpdateSuppliers(byte[] packet)
+        {
+            if (packet == null)
+            {
+                PacketHandler.DataRecieved += UpdateSuppliers;
+                Program.SendData("SELECT PK_SupplierId as 'Supplier Id', Name FROM tbl_suppliers;");
+            }
+            else
+            {
+                PacketHandler.DataRecieved -= UpdateSuppliers;
+                _dataGridTable = new Table(packet).TableData;
+                Invoke(new MethodInvoker(delegate { dgdSuppliers.DataSource = _dataGridTable; }));
+            }
         }
 
         private void txtQuantity_TextChanged(object sender, EventArgs e)

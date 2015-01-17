@@ -1,6 +1,7 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
 using Stock_Manage_Client.Classes.Networking.Packets;
+using Stock_Manage_Client.Forms;
 
 namespace Stock_Manage_Client.Classes.TabPages
 {
@@ -86,6 +87,8 @@ namespace Stock_Manage_Client.Classes.TabPages
                 UseVisualStyleBackColor = true
             };
 
+            CmdAddNewProduct.Click += CmdAddNewProduct_Click;
+
             // Adding all of the controls to the tabpage
             Controls.Add(DgdProducts);
             Controls.Add(CmdAddNewProduct);
@@ -123,5 +126,11 @@ namespace Stock_Manage_Client.Classes.TabPages
         ///     The datasource of the DataGridView
         /// </summary>
         private Table DataGridTable { get; set; }
+
+        private void CmdAddNewProduct_Click(object sender, System.EventArgs e)
+        {
+            var addProduct = new AddChangeProduct();
+            addProduct.ShowDialog();
+        }
     }
 }

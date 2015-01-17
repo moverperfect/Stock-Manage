@@ -205,7 +205,7 @@
             this.dgdSuppliers.AllowUserToAddRows = false;
             this.dgdSuppliers.AllowUserToDeleteRows = false;
             this.dgdSuppliers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgdSuppliers.Location = new System.Drawing.Point(224, 6);
+            this.dgdSuppliers.Location = new System.Drawing.Point(210, 6);
             this.dgdSuppliers.MultiSelect = false;
             this.dgdSuppliers.Name = "dgdSuppliers";
             this.dgdSuppliers.ReadOnly = true;
@@ -215,6 +215,7 @@
             // 
             // cmdCancel
             // 
+            this.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.cmdCancel.Location = new System.Drawing.Point(104, 240);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(100, 23);
@@ -233,9 +234,11 @@
             // 
             // AddChangeProduct
             // 
+            this.AcceptButton = this.cmdAddProduct;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(501, 270);
+            this.CancelButton = this.cmdCancel;
+            this.ClientSize = new System.Drawing.Size(488, 270);
             this.Controls.Add(this.cmdAddProduct);
             this.Controls.Add(this.cmdCancel);
             this.Controls.Add(this.dgdSuppliers);
