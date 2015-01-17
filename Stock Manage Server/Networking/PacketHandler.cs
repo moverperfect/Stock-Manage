@@ -35,6 +35,8 @@ namespace Stock_Manage_Server.Networking
                     connecter = new SqlConnecter("db_inventorymanagement");
                     connecter.NonQuery(nonQuery.Text);
                     Console.WriteLine(nonQuery.Text);
+                    // TODO Maybe verify this message?
+                    clientSocket.Send(new StdData("Success", Program.MachineId, Program.UserId).Buffer);
                     break;
 
                 case 2002:
