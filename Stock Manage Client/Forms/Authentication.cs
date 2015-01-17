@@ -35,6 +35,7 @@ namespace Stock_Manage_Client.Forms
 
         private void AuthenticatePassword(byte[] packet)
         {
+            PacketHandler.DataRecieved -= AuthenticatePassword;
             var table = new Table(packet);
             if (table.TableData.Rows.Count > 0)
             {
@@ -43,7 +44,6 @@ namespace Stock_Manage_Client.Forms
                 if (password == table.TableData.Rows[0]["Password_Hash"].ToString())
                 {
                     Program.UserId = txt_UserId.Text;
-                    PacketHandler.DataRecieved -= AuthenticatePassword;
                     Invoke((MethodInvoker) Close);
                     return;
                 }
