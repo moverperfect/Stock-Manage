@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Drawing;
+using System.Security.Cryptography;
 using System.Windows.Forms;
 using Stock_Manage_Client.Classes.Networking;
 using Stock_Manage_Client.Classes.Networking.Packets;
@@ -46,8 +47,6 @@ namespace Stock_Manage_Client.Classes.TabPages
                 UseVisualStyleBackColor = true
             };
 
-            CmdRefreshList.Click += CmdRefreshList_Click;
-
             // Button for adding a new user, launches NewUserTab
             CmdAddNewUser = new Button
             {
@@ -61,9 +60,6 @@ namespace Stock_Manage_Client.Classes.TabPages
                 UseVisualStyleBackColor = true
             };
 
-            // Event for when the button is clicked
-            CmdAddNewUser.Click += CmdAddNewUser_Click;
-
             // Button for changing a users name
             CmdChangeName = new Button
             {
@@ -76,9 +72,6 @@ namespace Stock_Manage_Client.Classes.TabPages
                 Text = "Change name",
                 UseVisualStyleBackColor = true
             };
-
-            // Event for when the button is clicked, opens a new form
-            CmdChangeName.Click += CmdChangeName_Click;
 
             // Button for changing a users password
             CmdChangePassword = new Button
@@ -118,6 +111,19 @@ namespace Stock_Manage_Client.Classes.TabPages
                 Text = "Delete User",
                 UseVisualStyleBackColor = true
             };
+
+            // Event for when the refresh list button is clicked
+            CmdRefreshList.Click += CmdRefreshList_Click;
+
+            // Event for when the button is clicked
+            CmdAddNewUser.Click += CmdAddNewUser_Click;
+
+            // Event for when the button is clicked, opens a new form
+            CmdChangeName.Click += CmdChangeName_Click;
+
+            CmdChangePassword.Click += CmdChangePassword_Click;
+
+            CmdDeleteUser.Click += CmdDeleteUser_Click;
 
             // Anchoring just doesn't work, so yay for workarounds
             SizeChanged += ManageUsers_SizeChanged;
@@ -164,10 +170,10 @@ namespace Stock_Manage_Client.Classes.TabPages
         /// </summary>>
         private void RefreshDataHandler(byte[] packet)
         {
+            PacketHandler.DataRecieved -= RefreshDataHandler;
             DataGridTable = new Table(packet);
             Invoke(new MethodInvoker(delegate { DgdUsers.DataSource = DataGridTable.TableData; }));
             Invoke((MethodInvoker) DisableColunmSort);
-            PacketHandler.DataRecieved -= RefreshDataHandler;
         }
 
         /// <summary>
@@ -184,14 +190,15 @@ namespace Stock_Manage_Client.Classes.TabPages
         /// <summary>
         /// Gets called when AddNewUser is clicked, it opens a new tab that can add a new user and focus's that tab
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void CmdAddNewUser_Click(object sender, EventArgs e)
         {
             ((TabControl) Parent).TabPages.Add(new AddNewUserTab());
             ((TabControl) Parent).SelectedIndex = ((TabControl) Parent).TabCount - 1;
         }
 
+        /// <summary>
+        /// Gets called when user wants to change the name of another user, opens form and sends new data to server and also refreshes the list
+        /// </summary>
         private void CmdChangeName_Click(object sender, EventArgs e)
         {
             var row = DgdUsers.SelectedRows;
@@ -211,11 +218,65 @@ namespace Stock_Manage_Client.Classes.TabPages
             }
         }
 
+        /// <summary>
+        /// If we get a message back after changing the name then refresh the DataGrid
+        /// </summary>
+        /// <param name="packet">A pretty much useless variable</param>
         private void CmdChangeName_RecievePacket(byte[] packet)
         {
             PacketHandler.DataRecieved -= CmdChangeName_RecievePacket;
-            CmdRefreshList_Click(new object(),new EventArgs());
-            //Invoke(new MethodInvoker(CmdRefreshList_Click(new object(), new EventArgs())));
+            Invoke((MethodInvoker)CmdRefreshList.PerformClick);
+        }
+
+        /// <summary>
+        /// Asks for a new password then salts and hashes and then sends to the server
+        /// </summary>
+        private void CmdChangePassword_Click(object sender, EventArgs e)
+        {
+            var row = DgdUsers.SelectedRows;
+
+            if (row.Count != 0)
+            {
+                var detailsForm = new ChangeUserDetails(2, Convert.ToInt32(row[0].Cells[0].Value.ToString()),
+                    row[0].Cells[1].Value.ToString(),
+                    row[0].Cells[2].Value.ToString(), row[0].Cells[3].Value.ToString());
+                detailsForm.ShowDialog();
+                var salt = Utilities.GenerateSaltValue();
+                var hash = Utilities.HashPassword(detailsForm.Password, salt, MD5.Create());
+                Program.SendData("UPDATE tbl_users SET Salt = '" + salt + "', Password_Hash = '" + hash + "' WHERE PK_UserId = '" + detailsForm.UserId + "';");
+            }
+            else
+            {
+                MessageBox.Show("Please select a row");
+            }
+        }
+
+        /// <summary>
+        /// Gets the user id of the selected user and sends to the server to delete
+        /// </summary>
+        private void CmdDeleteUser_Click(object sender, EventArgs e)
+        {
+            var row = DgdUsers.SelectedRows;
+
+            if (row.Count != 0)
+            {
+                PacketHandler.DataRecieved += CmdDeleteUser_PacketRecieved;
+                Program.SendData("DELETE FROM tbl_users WHERE PK_UserId = '" + row[0].Cells[0].Value.ToString() + "';");
+            }
+            else
+            {
+                MessageBox.Show("Please select a row");
+            }
+        }
+
+        /// <summary>
+        /// Refreshes the datagridview after we have recieved a success message from the server
+        /// </summary>
+        /// <param name="packet"></param>
+        private void CmdDeleteUser_PacketRecieved(byte[] packet)
+        {
+            PacketHandler.DataRecieved -= CmdDeleteUser_PacketRecieved;
+            Invoke((MethodInvoker)CmdRefreshList.PerformClick);
         }
 
         /// <summary>
