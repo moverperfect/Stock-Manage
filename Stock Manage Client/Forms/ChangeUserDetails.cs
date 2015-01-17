@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace Stock_Manage_Client.Forms
@@ -21,10 +15,10 @@ namespace Stock_Manage_Client.Forms
         /// Initialises the form with the specified case
         /// </summary>
         /// <param name="caseNo">1 = change name, 2 = change password, 3 = change system role, 4 = change everything</param>
-        /// <param name="userId"></param>
-        /// <param name="firstName"></param>
-        /// <param name="lastName"></param>
-        /// <param name="systemRole"></param>
+        /// <param name="userId">The user id of the user</param>
+        /// <param name="firstName">The first name of the user</param>
+        /// <param name="lastName">The last name of the user</param>
+        /// <param name="systemRole">The system role of the user</param>
         public ChangeUserDetails(int caseNo, int userId, string firstName, string lastName, string systemRole)
         {
             InitializeComponent();
@@ -41,7 +35,14 @@ namespace Stock_Manage_Client.Forms
                     cboSystemRole.Enabled = false;
                     break;
                 case 2:
-
+                    txtFirstName.Enabled = false;
+                    txtLastName.Enabled = false;
+                    cboSystemRole.Enabled = false;
+                    break;
+                case 3:
+                    txtFirstName.Enabled = false;
+                    txtLastName.Enabled = false;
+                    txtPassword.Enabled = false;
                     break;
             }
         }
@@ -56,7 +57,16 @@ namespace Stock_Manage_Client.Forms
 
         private void cmdChangeUserDetails_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
+        }
+
+        private void txtPassword_TextChanged(object sender, EventArgs e)
+        {
+            if (Regex.IsMatch(txtPassword.Text, "[^0-9]"))
+            {
+                MessageBox.Show("Please enter only numbers.");
+                txtPassword.Text = txtPassword.Text.Remove(txtPassword.Text.Length - 1);
+            }
         }
     }
 }
