@@ -222,6 +222,7 @@
             this.cmdCancel.TabIndex = 19;
             this.cmdCancel.Text = "Cancel";
             this.cmdCancel.UseVisualStyleBackColor = true;
+            this.cmdCancel.Click += new System.EventHandler(this.cmdCancel_Click);
             // 
             // cmdAddProduct
             // 
@@ -231,6 +232,7 @@
             this.cmdAddProduct.TabIndex = 20;
             this.cmdAddProduct.Text = "Add Product";
             this.cmdAddProduct.UseVisualStyleBackColor = true;
+            this.cmdAddProduct.Click += new System.EventHandler(this.cmdAddProduct_Click);
             // 
             // AddChangeProduct
             // 

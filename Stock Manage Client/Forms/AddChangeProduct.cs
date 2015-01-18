@@ -68,5 +68,29 @@ namespace Stock_Manage_Client.Forms
                 txtNominalLevel.Text = txtNominalLevel.Text.Remove(txtNominalLevel.Text.Length - 1);
             }
         }
+
+        private void cmdAddProduct_Click(object sender, EventArgs e)
+        {
+            var row = dgdSuppliers.SelectedRows;
+            if (row.Count == 0)
+            {
+                MessageBox.Show("Please select a supplier");
+                return;
+            }
+            PacketHandler.DataRecieved += cmdAddProduct_DataRecieved;
+            var values = string.Join("','", new[] {txtBarcode.Text,txtName.Text,txtDescription.Text,txtLocation.Text,txtQuantity.Text,txtPurchasePrice.Text,txtUnitsInCase.Text,row[0].Cells[0].Value,txtCriticalLevel.Text,txtNominalLevel.Text});
+            Program.SendData("INSERT INTO tbl_products(Barcode,Name,Description,Location,Quantity,Purchase_Price,Units_In_Case,FK_SupplierId,Critical_Level,Nominal_Level) VALUES('" + values + "');");
+        }
+
+        private void cmdAddProduct_DataRecieved(byte[] packet)
+        {
+            PacketHandler.DataRecieved -= cmdAddProduct_DataRecieved;
+            Close();
+        }
+
+        private void cmdCancel_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
     }
 }
