@@ -1,7 +1,9 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
+using Stock_Manage_Client.Classes.Networking;
 using Stock_Manage_Client.Classes.Networking.Packets;
 using Stock_Manage_Client.Forms;
+using System;
 
 namespace Stock_Manage_Client.Classes.TabPages
 {
@@ -88,6 +90,7 @@ namespace Stock_Manage_Client.Classes.TabPages
             };
 
             CmdAddNewProduct.Click += CmdAddNewProduct_Click;
+            CmdChangeQuantity.Click += CmdChangeQuantity_Click;
 
             // Adding all of the controls to the tabpage
             Controls.Add(DgdProducts);
@@ -95,6 +98,7 @@ namespace Stock_Manage_Client.Classes.TabPages
             Controls.Add(CmdChangeQuantity);
             Controls.Add(CmdChangeProduct);
             Controls.Add(CmdDeleteProduct);
+            RefreshList();
         }
 
         /// <summary>
@@ -127,10 +131,34 @@ namespace Stock_Manage_Client.Classes.TabPages
         /// </summary>
         private Table DataGridTable { get; set; }
 
+        private void RefreshList()
+        {
+            PacketHandler.DataRecieved += RefreshList_DataRecieved;
+            Program.SendData("SELECT * FROM tbl_products;");
+        }
+
+        private void RefreshList_DataRecieved(byte[] packet)
+        {
+            PacketHandler.DataRecieved -= RefreshList_DataRecieved;
+            DataGridTable = new Table(packet);
+            Invoke(new MethodInvoker(delegate { DgdProducts.DataSource = DataGridTable.TableData; }));
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         private void CmdAddNewProduct_Click(object sender, System.EventArgs e)
         {
             var addProduct = new AddChangeProduct();
             addProduct.ShowDialog();
         }
+
+        private void CmdChangeQuantity_Click(object sender, System.EventArgs e)
+        {
+            var changeQuantity = new ChangeQuantity(Convert.ToInt32(DgdProducts.SelectedRows[0].Cells[0].Value), Convert.ToInt32(DgdProducts.SelectedRows[0].Cells[5].Value));
+            changeQuantity.ShowDialog();
+            RefreshList();
+        }
+
     }
 }

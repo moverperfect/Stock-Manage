@@ -75,6 +75,12 @@
     <Compile Include="Forms\ChangeUserDetails.Designer.cs">
       <DependentUpon>ChangeUserDetails.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\ChangeQuantity.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ChangeQuantity.Designer.cs">
+      <DependentUpon>ChangeQuantity.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Management.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -109,6 +115,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ChangeUserDetails.resx">
       <DependentUpon>ChangeUserDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ChangeQuantity.resx">
+      <DependentUpon>ChangeQuantity.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Management.resx">
       <DependentUpon>Management.cs</DependentUpon>
