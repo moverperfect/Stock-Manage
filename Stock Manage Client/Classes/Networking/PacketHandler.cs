@@ -26,6 +26,9 @@ namespace Stock_Manage_Client.Classes.Networking
                 return;
             }
 
+            // Just trying this out for, now ensures that if a load of error messages come in then the user will not have a overload of events triggered when no error message is sent back
+            DataRecieved = null;
+
             // Packet types:
             // 1001 - Table from select statement
             // 2000 - Standard string 
