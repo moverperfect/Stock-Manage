@@ -131,12 +131,19 @@ namespace Stock_Manage_Client.Classes.TabPages
         /// </summary>
         private Table DataGridTable { get; set; }
 
+        /// <summary>
+        /// Refreshes the datagridview by accessing the server database
+        /// </summary>
         private void RefreshList()
         {
             PacketHandler.DataRecieved += RefreshList_DataRecieved;
             Program.SendData("SELECT * FROM tbl_products;");
         }
 
+        /// <summary>
+        /// Function called when success message recieved from the server
+        /// </summary>
+        /// <param name="packet"></param>
         private void RefreshList_DataRecieved(byte[] packet)
         {
             PacketHandler.DataRecieved -= RefreshList_DataRecieved;
@@ -145,7 +152,7 @@ namespace Stock_Manage_Client.Classes.TabPages
         }
 
         /// <summary>
-        /// 
+        /// Opens addproduct dialog box for all of the information for the product
         /// </summary>
         private void CmdAddNewProduct_Click(object sender, System.EventArgs e)
         {
@@ -153,10 +160,23 @@ namespace Stock_Manage_Client.Classes.TabPages
             addProduct.ShowDialog();
         }
 
+        /// <summary>
+        /// Opens a changeQuantity dialog with the product id and the current quantity passed into the form
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CmdChangeQuantity_Click(object sender, System.EventArgs e)
         {
-            var changeQuantity = new ChangeQuantity(Convert.ToInt32(DgdProducts.SelectedRows[0].Cells[0].Value), Convert.ToInt32(DgdProducts.SelectedRows[0].Cells[5].Value));
-            changeQuantity.ShowDialog();
+            var row = DgdProducts.SelectedRows;
+            if (row.Count > 0)
+            {
+                var changeQuantity = new ChangeQuantity(Convert.ToInt32(row[0].Cells[0].Value), Convert.ToInt32(row[0].Cells[5].Value));
+                changeQuantity.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Please select a row");
+            }
             RefreshList();
         }
 
