@@ -1,9 +1,9 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 using Stock_Manage_Client.Classes.Networking;
 using Stock_Manage_Client.Classes.Networking.Packets;
 using Stock_Manage_Client.Forms;
-using System;
 
 namespace Stock_Manage_Client.Classes.TabPages
 {
@@ -26,13 +26,18 @@ namespace Stock_Manage_Client.Classes.TabPages
             // DataGridView of the users
             DgdProducts = new DataGridView
             {
+                AllowUserToAddRows =  false,
+                AllowUserToDeleteRows = false,
                 Anchor =
                     ((AnchorStyles.Top | AnchorStyles.Bottom)
                      | AnchorStyles.Left)
                     | AnchorStyles.Right,
                 ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize,
                 Location = new Point(3, 3),
+                MultiSelect =  false,
                 Name = "dgdProducts",
+                ReadOnly = true,
+                SelectionMode = DataGridViewSelectionMode.FullRowSelect,
                 Size = new Size(1209, 644),
                 TabIndex = 0
             };
@@ -91,6 +96,7 @@ namespace Stock_Manage_Client.Classes.TabPages
 
             CmdAddNewProduct.Click += CmdAddNewProduct_Click;
             CmdChangeQuantity.Click += CmdChangeQuantity_Click;
+            CmdChangeProduct.Click += CmdChangeProduct_Click;
 
             // Adding all of the controls to the tabpage
             Controls.Add(DgdProducts);
@@ -154,7 +160,7 @@ namespace Stock_Manage_Client.Classes.TabPages
         /// <summary>
         /// Opens addproduct dialog box for all of the information for the product
         /// </summary>
-        private void CmdAddNewProduct_Click(object sender, System.EventArgs e)
+        private void CmdAddNewProduct_Click(object sender, EventArgs e)
         {
             var addProduct = new AddChangeProduct();
             addProduct.ShowDialog();
@@ -163,14 +169,13 @@ namespace Stock_Manage_Client.Classes.TabPages
         /// <summary>
         /// Opens a changeQuantity dialog with the product id and the current quantity passed into the form
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void CmdChangeQuantity_Click(object sender, System.EventArgs e)
+        private void CmdChangeQuantity_Click(object sender, EventArgs e)
         {
             var row = DgdProducts.SelectedRows;
             if (row.Count > 0)
             {
-                var changeQuantity = new ChangeQuantity(Convert.ToInt32(row[0].Cells[0].Value), Convert.ToInt32(row[0].Cells[5].Value));
+                var changeQuantity = new ChangeQuantity(Convert.ToInt32(row[0].Cells[0].Value),
+                    Convert.ToInt32(row[0].Cells[5].Value));
                 changeQuantity.ShowDialog();
             }
             else
@@ -180,5 +185,25 @@ namespace Stock_Manage_Client.Classes.TabPages
             RefreshList();
         }
 
+        /// <summary>
+        /// Happens when the change product button is clicked, launches a new AddChangeProduct form with the values pre loaded into the form
+        /// </summary>
+        private void CmdChangeProduct_Click(object sender, EventArgs e)
+        {
+            var row = DgdProducts.SelectedRows;
+            if (row.Count > 0)
+            {
+                var changeProduct = new AddChangeProduct((int) row[0].Cells[0].Value, row[0].Cells[1].Value.ToString(),
+                    row[0].Cells[2].Value.ToString(), row[0].Cells[3].Value.ToString(), row[0].Cells[4].Value.ToString(),
+                    (int) row[0].Cells[5].Value, row[0].Cells[6].Value.ToString(), row[0].Cells[7].Value.ToString(),
+                    (int) row[0].Cells[8].Value, (int) row[0].Cells[9].Value, (int) row[0].Cells[10].Value);
+                changeProduct.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Please select a row");
+            }
+            RefreshList();
+        }
     }
 }

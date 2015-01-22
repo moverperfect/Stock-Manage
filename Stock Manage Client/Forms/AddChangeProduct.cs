@@ -10,6 +10,19 @@ namespace Stock_Manage_Client.Forms
 {
     public partial class AddChangeProduct : Form
     {
+        /// <summary>
+        /// Contains the product id, is only used when changing a products details
+        /// </summary>
+        private int ProductId;
+
+        /// <summary>
+        /// Contains the supplierId that is used to determine the supplier for changing a products details
+        /// </summary>
+        private int SupplierId;
+
+        /// <summary>
+        /// Datagridtable that contains the information for the suppliers for the datagridview
+        /// </summary>
         private DataTable _dataGridTable = new DataTable();
 
         /// <summary>
@@ -19,6 +32,44 @@ namespace Stock_Manage_Client.Forms
         {
             InitializeComponent();
             UpdateSuppliers(null);
+        }
+
+        /// <summary>
+        /// Initializes the form and updates the suppliers datagridview and sets all of the text boxes to their correct value
+        /// </summary>
+        /// <param name="productId">The product id</param>
+        /// <param name="barcode">The product barcode</param>
+        /// <param name="name">The products name</param>
+        /// <param name="description">The products descripton</param>
+        /// <param name="location">The products location</param>
+        /// <param name="quantity">The quantity of the product</param>
+        /// <param name="purchasePrice">The purchase price of the product</param>
+        /// <param name="unitsInCase">The number of units in a case of the product</param>
+        /// <param name="supplierId">The Suppier id for the product</param>
+        /// <param name="criticalValue">The critical value for the product</param>
+        /// <param name="nominalLevel">The nominal value for the product</param>
+        public AddChangeProduct(int productId, string barcode, string name, string description, string location,
+            int quantity, string purchasePrice, string unitsInCase, int supplierId, int criticalValue, int nominalLevel)
+        {
+            InitializeComponent();
+
+            SupplierId = supplierId;
+            ProductId = productId;
+
+            UpdateSuppliers(null);
+
+            txtName.Text = name;
+            txtBarcode.Text = barcode;
+            txtDescription.Text = description;
+            txtLocation.Text = location;
+            txtQuantity.Text = quantity.ToString();
+            txtPurchasePrice.Text = purchasePrice;
+            txtUnitsInCase.Text = unitsInCase;
+            txtCriticalLevel.Text = criticalValue.ToString();
+            txtNominalLevel.Text = nominalLevel.ToString();
+
+            // Funny thing, there is not enough space for product in this sentance so it only shows change
+            cmdAddProduct.Text = "Change Product";
         }
 
         /// <summary>
@@ -37,6 +88,18 @@ namespace Stock_Manage_Client.Forms
                 PacketHandler.DataRecieved -= UpdateSuppliers;
                 _dataGridTable = new Table(packet).TableData;
                 Invoke(new MethodInvoker(delegate { dgdSuppliers.DataSource = _dataGridTable; }));
+
+                // If we are changing a product and not just adding a new one
+                if (SupplierId != 0)
+                {
+                    for (var i = 0; i < dgdSuppliers.Rows.Count; i++)
+                    {
+                        if (dgdSuppliers.Rows[i].Cells[0].Value.ToString() == SupplierId.ToString())
+                        {
+                            dgdSuppliers.Rows[i].Selected = true;
+                        }
+                    }
+                }
             }
         }
 
@@ -52,16 +115,31 @@ namespace Stock_Manage_Client.Forms
                 return;
             }
             PacketHandler.DataRecieved += cmdAddProduct_DataRecieved;
-            var values = string.Join("','",
-                new[]
-                {
-                    txtBarcode.Text, txtName.Text, txtDescription.Text, txtLocation.Text, txtQuantity.Text,
-                    txtPurchasePrice.Text, txtUnitsInCase.Text, row[0].Cells[0].Value, txtCriticalLevel.Text,
-                    txtNominalLevel.Text
-                });
-            Program.SendData(
-                "INSERT INTO tbl_products(Barcode,Name,Description,Location,Quantity,Purchase_Price,Units_In_Case,FK_SupplierId,Critical_Level,Nominal_Level) VALUES('" +
-                values + "');");
+
+            // If we are adding a product and not changing one
+            if (SupplierId == 0)
+            {
+                var values = string.Join("','",
+                    new[]
+                    {
+                        txtBarcode.Text, txtName.Text, txtDescription.Text, txtLocation.Text, txtQuantity.Text,
+                        txtPurchasePrice.Text, txtUnitsInCase.Text, row[0].Cells[0].Value, txtCriticalLevel.Text,
+                        txtNominalLevel.Text
+                    });
+                Program.SendData(
+                    "INSERT INTO tbl_products(Barcode,Name,Description,Location,Quantity,Purchase_Price,Units_In_Case,FK_SupplierId,Critical_Level,Nominal_Level) VALUES('" +
+                    values + "');");
+            }
+            else
+            {
+                var update =
+                    "UPDATE tbl_products SET Barcode='" + txtBarcode.Text + "',Name='" + txtName.Text + "',Description='" +
+                    txtDescription.Text + "',Location='" + txtLocation.Text + "',Quantity='" + txtQuantity.Text +
+                    "',Purchase_Price='" + txtPurchasePrice.Text + "',Units_In_Case='" + txtUnitsInCase.Text +
+                    "',FK_SupplierId='" + row[0].Cells[0].Value + "',Critical_Level='" + txtCriticalLevel.Text +
+                    "',Nominal_Level='" + txtNominalLevel.Text + "' WHERE PK_ProductId='" + ProductId + "';";
+                Program.SendData(update);
+            }
         }
 
         /// <summary>
@@ -70,7 +148,7 @@ namespace Stock_Manage_Client.Forms
         private void cmdAddProduct_DataRecieved(byte[] packet)
         {
             PacketHandler.DataRecieved -= cmdAddProduct_DataRecieved;
-            Close();
+            Invoke((MethodInvoker)Close);
         }
 
         /// <summary>
