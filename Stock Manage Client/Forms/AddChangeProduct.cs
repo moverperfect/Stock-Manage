@@ -12,12 +12,19 @@ namespace Stock_Manage_Client.Forms
     {
         private DataTable _dataGridTable = new DataTable();
 
+        /// <summary>
+        /// Initializes the form and updates the suppliers datagridview
+        /// </summary>
         public AddChangeProduct()
         {
             InitializeComponent();
             UpdateSuppliers(null);
         }
 
+        /// <summary>
+        /// Updates the datagridview
+        /// </summary>
+        /// <param name="packet">Either null or the packet that has the data in it</param>
         private void UpdateSuppliers(byte[] packet)
         {
             if (packet == null)
@@ -32,6 +39,51 @@ namespace Stock_Manage_Client.Forms
                 Invoke(new MethodInvoker(delegate { dgdSuppliers.DataSource = _dataGridTable; }));
             }
         }
+
+        /// <summary>
+        /// Happens when addproduct is clicked, opens a new form asking for all of the data and then sends it all to the server
+        /// </summary>
+        private void cmdAddProduct_Click(object sender, EventArgs e)
+        {
+            var row = dgdSuppliers.SelectedRows;
+            if (row.Count == 0)
+            {
+                MessageBox.Show("Please select a supplier");
+                return;
+            }
+            PacketHandler.DataRecieved += cmdAddProduct_DataRecieved;
+            var values = string.Join("','",
+                new[]
+                {
+                    txtBarcode.Text, txtName.Text, txtDescription.Text, txtLocation.Text, txtQuantity.Text,
+                    txtPurchasePrice.Text, txtUnitsInCase.Text, row[0].Cells[0].Value, txtCriticalLevel.Text,
+                    txtNominalLevel.Text
+                });
+            Program.SendData(
+                "INSERT INTO tbl_products(Barcode,Name,Description,Location,Quantity,Purchase_Price,Units_In_Case,FK_SupplierId,Critical_Level,Nominal_Level) VALUES('" +
+                values + "');");
+        }
+
+        /// <summary>
+        /// Closes the form when we get a success message back from the server
+        /// </summary>
+        private void cmdAddProduct_DataRecieved(byte[] packet)
+        {
+            PacketHandler.DataRecieved -= cmdAddProduct_DataRecieved;
+            Close();
+        }
+
+        /// <summary>
+        /// Happens when user clicks cancel, closes the form
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void cmdCancel_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        #region Data Validation for all of the number input textboxes
 
         private void txtQuantity_TextChanged(object sender, EventArgs e)
         {
@@ -69,28 +121,6 @@ namespace Stock_Manage_Client.Forms
             }
         }
 
-        private void cmdAddProduct_Click(object sender, EventArgs e)
-        {
-            var row = dgdSuppliers.SelectedRows;
-            if (row.Count == 0)
-            {
-                MessageBox.Show("Please select a supplier");
-                return;
-            }
-            PacketHandler.DataRecieved += cmdAddProduct_DataRecieved;
-            var values = string.Join("','", new[] {txtBarcode.Text,txtName.Text,txtDescription.Text,txtLocation.Text,txtQuantity.Text,txtPurchasePrice.Text,txtUnitsInCase.Text,row[0].Cells[0].Value,txtCriticalLevel.Text,txtNominalLevel.Text});
-            Program.SendData("INSERT INTO tbl_products(Barcode,Name,Description,Location,Quantity,Purchase_Price,Units_In_Case,FK_SupplierId,Critical_Level,Nominal_Level) VALUES('" + values + "');");
-        }
-
-        private void cmdAddProduct_DataRecieved(byte[] packet)
-        {
-            PacketHandler.DataRecieved -= cmdAddProduct_DataRecieved;
-            Close();
-        }
-
-        private void cmdCancel_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
+        #endregion
     }
 }
