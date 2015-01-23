@@ -97,6 +97,7 @@ namespace Stock_Manage_Client.Classes.TabPages
             CmdAddNewProduct.Click += CmdAddNewProduct_Click;
             CmdChangeQuantity.Click += CmdChangeQuantity_Click;
             CmdChangeProduct.Click += CmdChangeProduct_Click;
+            CmdDeleteProduct.Click += CmdDeleteProduct_Click;
 
             // Adding all of the controls to the tabpage
             Controls.Add(DgdProducts);
@@ -164,6 +165,7 @@ namespace Stock_Manage_Client.Classes.TabPages
         {
             var addProduct = new AddChangeProduct();
             addProduct.ShowDialog();
+            RefreshList();
         }
 
         /// <summary>
@@ -177,12 +179,12 @@ namespace Stock_Manage_Client.Classes.TabPages
                 var changeQuantity = new ChangeQuantity(Convert.ToInt32(row[0].Cells[0].Value),
                     Convert.ToInt32(row[0].Cells[5].Value));
                 changeQuantity.ShowDialog();
+                RefreshList();
             }
             else
             {
                 MessageBox.Show("Please select a row");
             }
-            RefreshList();
         }
 
         /// <summary>
@@ -203,6 +205,33 @@ namespace Stock_Manage_Client.Classes.TabPages
             {
                 MessageBox.Show("Please select a row");
             }
+            RefreshList();
+        }
+
+        /// <summary>
+        /// Called when delete product button is clicked, sends a delete sql statement to the server to delete the selected
+        /// </summary>
+        private void CmdDeleteProduct_Click(object sender, EventArgs e)
+        {
+            var row = DgdProducts.SelectedRows;
+            if (row.Count > 0)
+            {
+                PacketHandler.DataRecieved += CmdDeleteProduct_DataRecieved;
+                Program.SendData("DELETE FROM tbl_products WHERE PK_productId = '" + row[0].Cells[0].Value + "';");
+            }
+            else
+            {
+                MessageBox.Show("Please select a row");
+            }
+        }
+
+        /// <summary>
+        /// Is called when data is recieved after deleting an item
+        /// </summary>
+        /// <param name="packet"></param>
+        private void CmdDeleteProduct_DataRecieved(byte[] packet)
+        {
+            PacketHandler.DataRecieved -= CmdDeleteProduct_DataRecieved;
             RefreshList();
         }
     }
