@@ -218,9 +218,30 @@ namespace Stock_Manage_Client.Classes.TabPages
             }
         }
 
+        /// <summary>
+        /// Called when delete suppplier is clicked, sends a delete sql statement to the server
+        /// </summary>
         private void CmdDeleteSupplier_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            var row = DgdSuppliers.SelectedRows;
+            if (row.Count > 0)
+            {
+                if (MessageBox.Show("Are you sure?", "Confirmation", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    PacketHandler.DataRecieved += CmdDeleteSupplier_DataRecieved;
+                    Program.SendData("DELETE FROM tbl_suppliers WHERE PK_supplierId = '" + row[0].Cells[0].Value + "';");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Is called when data is recieved after deleteing an item
+        /// </summary>
+        /// <param name="packet"></param>
+        private void CmdDeleteSupplier_DataRecieved(byte[] packet)
+        {
+            PacketHandler.DataRecieved -= CmdDeleteSupplier_DataRecieved;
+            RefreshList();
         }
     }
 }
