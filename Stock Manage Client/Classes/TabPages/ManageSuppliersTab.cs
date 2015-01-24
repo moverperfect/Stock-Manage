@@ -1,5 +1,7 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
+using Stock_Manage_Client.Classes.Networking;
+using Stock_Manage_Client.Classes.Networking.Packets;
 
 namespace Stock_Manage_Client.Classes.TabPages
 {
@@ -96,13 +98,19 @@ namespace Stock_Manage_Client.Classes.TabPages
                 UseVisualStyleBackColor = true
             };
 
+
+
+            // Add all of the controls to the tab page
             Controls.Add(DgdSuppliers);
             Controls.Add(CmdAddSupplier);
             Controls.Add(CmdViewProducts);
             Controls.Add(CmdViewOrders);
             Controls.Add(CmdChangeDetails);
             Controls.Add(CmdDeleteSupplier);
+            RefreshList();
         }
+
+        #region Define accessor variables
 
         /// <summary>
         /// DataGridView of the suppliers
@@ -133,5 +141,32 @@ namespace Stock_Manage_Client.Classes.TabPages
         /// Button used to delete a supplier, first asks for a confirmation before deleting
         /// </summary>
         private Button CmdDeleteSupplier { get; set; }
+
+        /// <summary>
+        /// The data source for the actual DataGridView
+        /// </summary>
+        private Table DataGridTable { get; set; }
+
+        #endregion
+
+        /// <summary>
+        /// Refreshed the DataGridView by accessing the server database
+        /// </summary>
+        private void RefreshList()
+        {
+            PacketHandler.DataRecieved += RefreshList_DataRecieved;
+            Program.SendData("SELECT * FROM tbl_suppliers ORDER BY PK_SupplierId;");
+        }
+
+        /// <summary>
+        /// Function called when data is recieved back from the server, sets the DataGridView to the packet
+        /// </summary>
+        /// <param name="packet">Data that is used as the table for the GridView</param>
+        private void RefreshList_DataRecieved(byte[] packet)
+        {
+            PacketHandler.DataRecieved -= RefreshList_DataRecieved;
+            DataGridTable = new Table(packet);
+            Invoke(new MethodInvoker(delegate { DgdSuppliers.DataSource = DataGridTable.TableData; }));
+        }
     }
 }
