@@ -144,7 +144,7 @@ namespace Stock_Manage_Client.Classes.TabPages
         private void RefreshList()
         {
             PacketHandler.DataRecieved += RefreshList_DataRecieved;
-            Program.SendData("SELECT * FROM tbl_products;");
+            Program.SendData("SELECT * FROM tbl_products ORDER BY PK_ProductId;");
         }
 
         /// <summary>
@@ -216,8 +216,11 @@ namespace Stock_Manage_Client.Classes.TabPages
             var row = DgdProducts.SelectedRows;
             if (row.Count > 0)
             {
-                PacketHandler.DataRecieved += CmdDeleteProduct_DataRecieved;
-                Program.SendData("DELETE FROM tbl_products WHERE PK_productId = '" + row[0].Cells[0].Value + "';");
+                if (MessageBox.Show("Are you sure?","Confirmation",MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    PacketHandler.DataRecieved += CmdDeleteProduct_DataRecieved;
+                    Program.SendData("DELETE FROM tbl_products WHERE PK_productId = '" + row[0].Cells[0].Value + "';");
+                }
             }
             else
             {
