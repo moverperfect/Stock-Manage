@@ -33,6 +33,7 @@
             this.btn_CloseTab = new System.Windows.Forms.Button();
             this.cmdManageUsers = new System.Windows.Forms.Button();
             this.cmdManageProducts = new System.Windows.Forms.Button();
+            this.cmdManageSuppliers = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btn_newUser
@@ -86,9 +87,20 @@
             this.cmdManageProducts.UseVisualStyleBackColor = true;
             this.cmdManageProducts.Click += new System.EventHandler(this.cmdManageProducts_Click);
             // 
+            // cmdManageSuppliers
+            // 
+            this.cmdManageSuppliers.Location = new System.Drawing.Point(5, 128);
+            this.cmdManageSuppliers.Name = "cmdManageSuppliers";
+            this.cmdManageSuppliers.Size = new System.Drawing.Size(104, 23);
+            this.cmdManageSuppliers.TabIndex = 11;
+            this.cmdManageSuppliers.Text = "Manage Suppliers";
+            this.cmdManageSuppliers.UseVisualStyleBackColor = true;
+            this.cmdManageSuppliers.Click += new System.EventHandler(this.cmdManageSuppliers_Click);
+            // 
             // Management
             // 
             this.ClientSize = new System.Drawing.Size(1350, 729);
+            this.Controls.Add(this.cmdManageSuppliers);
             this.Controls.Add(this.cmdManageProducts);
             this.Controls.Add(this.cmdManageUsers);
             this.Controls.Add(this.btn_CloseTab);
@@ -109,6 +121,7 @@
         private System.Windows.Forms.Button btn_CloseTab;
         private System.Windows.Forms.Button cmdManageUsers;
         private System.Windows.Forms.Button cmdManageProducts;
+        private System.Windows.Forms.Button cmdManageSuppliers;
 
 
 
