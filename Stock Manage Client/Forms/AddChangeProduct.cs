@@ -13,12 +13,12 @@ namespace Stock_Manage_Client.Forms
         /// <summary>
         /// Contains the product id, is only used when changing a products details
         /// </summary>
-        private int ProductId;
+        private readonly int _productId;
 
         /// <summary>
         /// Contains the supplierId that is used to determine the supplier for changing a products details
         /// </summary>
-        private int SupplierId;
+        private readonly int _supplierId;
 
         /// <summary>
         /// Datagridtable that contains the information for the suppliers for the datagridview
@@ -53,8 +53,8 @@ namespace Stock_Manage_Client.Forms
         {
             InitializeComponent();
 
-            SupplierId = supplierId;
-            ProductId = productId;
+            _supplierId = supplierId;
+            _productId = productId;
 
             UpdateSuppliers(null);
 
@@ -90,11 +90,11 @@ namespace Stock_Manage_Client.Forms
                 Invoke(new MethodInvoker(delegate { dgdSuppliers.DataSource = _dataGridTable; }));
 
                 // If we are changing a product and not just adding a new one
-                if (SupplierId != 0)
+                if (_supplierId != 0)
                 {
                     for (var i = 0; i < dgdSuppliers.Rows.Count; i++)
                     {
-                        if (dgdSuppliers.Rows[i].Cells[0].Value.ToString() == SupplierId.ToString())
+                        if (dgdSuppliers.Rows[i].Cells[0].Value.ToString() == _supplierId.ToString())
                         {
                             dgdSuppliers.Rows[i].Selected = true;
                         }
@@ -117,7 +117,7 @@ namespace Stock_Manage_Client.Forms
             PacketHandler.DataRecieved += cmdAddProduct_DataRecieved;
 
             // If we are adding a product and not changing one
-            if (SupplierId == 0)
+            if (_supplierId == 0)
             {
                 var values = string.Join("','",
                     new[]
@@ -137,7 +137,7 @@ namespace Stock_Manage_Client.Forms
                     txtDescription.Text + "',Location='" + txtLocation.Text + "',Quantity='" + txtQuantity.Text +
                     "',Purchase_Price='" + txtPurchasePrice.Text + "',Units_In_Case='" + txtUnitsInCase.Text +
                     "',FK_SupplierId='" + row[0].Cells[0].Value + "',Critical_Level='" + txtCriticalLevel.Text +
-                    "',Nominal_Level='" + txtNominalLevel.Text + "' WHERE PK_ProductId='" + ProductId + "';";
+                    "',Nominal_Level='" + txtNominalLevel.Text + "' WHERE PK_ProductId='" + _productId + "';";
                 Program.SendData(update);
             }
         }
