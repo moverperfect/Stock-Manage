@@ -10,8 +10,8 @@ namespace Stock_Manage_Client.Classes.TabPages
     internal class ManageProductsTab : TabPage
     {
         /// <summary>
-        ///     Empty contructor to create a new manageproductstab
-        ///     that can manage all elements of products
+        /// Empty contructor to create a new manageproductstab
+        /// that can manage all elements of products
         /// </summary>
         public ManageProductsTab()
         {
@@ -109,32 +109,32 @@ namespace Stock_Manage_Client.Classes.TabPages
         }
 
         /// <summary>
-        ///     DataGridView of the users
+        /// DataGridView of the products
         /// </summary>
         private DataGridView DgdProducts { get; set; }
 
         /// <summary>
-        ///     Button that shows a form that asks for details of a new product
+        /// Button that shows a form that asks for details of a new product
         /// </summary>
         private Button CmdAddNewProduct { get; set; }
 
         /// <summary>
-        ///     Button that shows a box asking for the new quantity of the selected product
+        /// Button that shows a box asking for the new quantity of the selected product
         /// </summary>
         private Button CmdChangeQuantity { get; set; }
 
         /// <summary>
-        ///     Button that shows a form that can change the details of a product
+        /// Button that shows a form that can change the details of a product
         /// </summary>
         private Button CmdChangeProduct { get; set; }
 
         /// <summary>
-        ///     Button that deletes the selected product
+        /// Button that deletes the selected product
         /// </summary>
         private Button CmdDeleteProduct { get; set; }
 
         /// <summary>
-        ///     The datasource of the DataGridView
+        /// The datasource of the DataGridView
         /// </summary>
         private Table DataGridTable { get; set; }
 
