@@ -204,12 +204,12 @@ namespace Stock_Manage_Client.Classes.TabPages
                     (int) row[0].Cells[5].Value, row[0].Cells[6].Value.ToString(), row[0].Cells[7].Value.ToString(),
                     (int) row[0].Cells[8].Value, (int) row[0].Cells[9].Value, (int) row[0].Cells[10].Value);
                 changeProduct.ShowDialog();
+                RefreshList();
             }
             else
             {
                 MessageBox.Show("Please select a row");
             }
-            RefreshList();
         }
 
         /// <summary>
