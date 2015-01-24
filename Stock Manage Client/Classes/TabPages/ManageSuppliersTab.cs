@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 using Stock_Manage_Client.Classes.Networking;
 using Stock_Manage_Client.Classes.Networking.Packets;
@@ -177,31 +178,49 @@ namespace Stock_Manage_Client.Classes.TabPages
         /// <summary>
         /// Opens a addSupplier dialog box for all of the new information for a supplier
         /// </summary>
-        private void CmdAddSupplier_Click(object sender, System.EventArgs e)
+        private void CmdAddSupplier_Click(object sender, EventArgs e)
         {
             var addSupplier = new AddChangeSupplier();
             addSupplier.ShowDialog();
             RefreshList();
         }
 
-        private void CmdViewProducts_Click(object sender, System.EventArgs e)
+        private void CmdViewProducts_Click(object sender, EventArgs e)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
-        private void CmdViewOrders_Click(object sender, System.EventArgs e)
+        private void CmdViewOrders_Click(object sender, EventArgs e)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
-        private void CmdChangeDetails_Click(object sender, System.EventArgs e)
+        /// <summary>
+        /// Opens a new form with the selected rows details that is editiable and sends the changed information to the server
+        /// </summary>
+        private void CmdChangeDetails_Click(object sender, EventArgs e)
         {
-            throw new System.NotImplementedException();
+            var row = DgdSuppliers.SelectedRows;
+
+            if (row.Count > 0)
+            {
+                var changeDetails = new AddChangeSupplier((int) row[0].Cells[0].Value, row[0].Cells[1].Value.ToString(),
+                    row[0].Cells[2].Value.ToString(), row[0].Cells[3].Value.ToString(), row[0].Cells[4].Value.ToString(),
+                    row[0].Cells[5].Value.ToString(),
+                    row[0].Cells[6].Value.ToString(), row[0].Cells[7].Value.ToString(), row[0].Cells[8].Value.ToString(),
+                    row[0].Cells[9].Value.ToString());
+                changeDetails.ShowDialog();
+                RefreshList();
+            }
+            else
+            {
+                MessageBox.Show("Please selet a row");
+            }
         }
 
-        private void CmdDeleteSupplier_Click(object sender, System.EventArgs e)
+        private void CmdDeleteSupplier_Click(object sender, EventArgs e)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }
