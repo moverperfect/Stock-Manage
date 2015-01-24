@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using Stock_Manage_Client.Classes.Networking;
 using Stock_Manage_Client.Classes.Networking.Packets;
+using Stock_Manage_Client.Forms;
 
 namespace Stock_Manage_Client.Classes.TabPages
 {
@@ -98,7 +99,11 @@ namespace Stock_Manage_Client.Classes.TabPages
                 UseVisualStyleBackColor = true
             };
 
-
+            CmdAddSupplier.Click += CmdAddSupplier_Click;
+            CmdViewProducts.Click += CmdViewProducts_Click;
+            CmdViewOrders.Click += CmdViewOrders_Click;
+            CmdChangeDetails.Click += CmdChangeDetails_Click;
+            CmdDeleteSupplier.Click += CmdDeleteSupplier_Click;
 
             // Add all of the controls to the tab page
             Controls.Add(DgdSuppliers);
@@ -167,6 +172,36 @@ namespace Stock_Manage_Client.Classes.TabPages
             PacketHandler.DataRecieved -= RefreshList_DataRecieved;
             DataGridTable = new Table(packet);
             Invoke(new MethodInvoker(delegate { DgdSuppliers.DataSource = DataGridTable.TableData; }));
+        }
+
+        /// <summary>
+        /// Opens a addSupplier dialog box for all of the new information for a supplier
+        /// </summary>
+        private void CmdAddSupplier_Click(object sender, System.EventArgs e)
+        {
+            var addSupplier = new AddChangeSupplier();
+            addSupplier.ShowDialog();
+            RefreshList();
+        }
+
+        private void CmdViewProducts_Click(object sender, System.EventArgs e)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        private void CmdViewOrders_Click(object sender, System.EventArgs e)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        private void CmdChangeDetails_Click(object sender, System.EventArgs e)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        private void CmdDeleteSupplier_Click(object sender, System.EventArgs e)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
