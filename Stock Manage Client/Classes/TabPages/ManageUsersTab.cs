@@ -263,7 +263,7 @@ namespace Stock_Manage_Client.Classes.TabPages
             if (row.Count != 0)
             {
                 PacketHandler.DataRecieved += CmdDeleteUser_PacketRecieved;
-                Program.SendData("DELETE FROM tbl_users WHERE PK_UserId = '" + row[0].Cells[0].Value.ToString() + "';");
+                Program.SendData("DELETE FROM tbl_users WHERE PK_UserId = '" + row[0].Cells[0].Value + "';");
             }
             else
             {
