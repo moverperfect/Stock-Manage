@@ -108,6 +108,8 @@ namespace Stock_Manage_Client.Classes.TabPages
             RefreshList();
         }
 
+        #region Define accessor variables
+
         /// <summary>
         /// DataGridView of the products
         /// </summary>
@@ -137,6 +139,8 @@ namespace Stock_Manage_Client.Classes.TabPages
         /// The datasource of the DataGridView
         /// </summary>
         private Table DataGridTable { get; set; }
+
+        #endregion
 
         /// <summary>
         /// Refreshes the datagridview by accessing the server database
