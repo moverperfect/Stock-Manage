@@ -185,9 +185,24 @@ namespace Stock_Manage_Client.Classes.TabPages
             RefreshList();
         }
 
+        /// <summary>
+        /// Opens a new tab that shows the products that are from the selected supplier
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CmdViewProducts_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            var row = DgdSuppliers.SelectedRows;
+
+            if (row.Count > 0)
+            {
+                ((TabControl) Parent).TabPages.Add(new ManageProductsTab(Convert.ToInt32(row[0].Cells[0].Value)));
+                ((TabControl) Parent).SelectedIndex = ((TabControl) Parent).TabCount - 1;
+            }
+            else
+            {
+                MessageBox.Show("Please select a row");
+            }
         }
 
         private void CmdViewOrders_Click(object sender, EventArgs e)

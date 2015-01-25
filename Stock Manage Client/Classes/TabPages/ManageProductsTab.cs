@@ -15,6 +15,61 @@ namespace Stock_Manage_Client.Classes.TabPages
         /// </summary>
         public ManageProductsTab()
         {
+            InitializeComponent();
+            RefreshList();
+        }
+
+        public ManageProductsTab(int supplierId)
+        {
+            InitializeComponent();
+            SupplierId = supplierId;
+            RefreshList();
+        }
+
+        #region Define accessor variables
+
+        /// <summary>
+        /// DataGridView of the products
+        /// </summary>
+        private DataGridView DgdProducts { get; set; }
+
+        /// <summary>
+        /// Button that shows a form that asks for details of a new product
+        /// </summary>
+        private Button CmdAddNewProduct { get; set; }
+
+        /// <summary>
+        /// Button that shows a box asking for the new quantity of the selected product
+        /// </summary>
+        private Button CmdChangeQuantity { get; set; }
+
+        /// <summary>
+        /// Button that shows a form that can change the details of a product
+        /// </summary>
+        private Button CmdChangeProduct { get; set; }
+
+        /// <summary>
+        /// Button that deletes the selected product
+        /// </summary>
+        private Button CmdDeleteProduct { get; set; }
+
+        /// <summary>
+        /// The datasource of the DataGridView
+        /// </summary>
+        private Table DataGridTable { get; set; }
+
+        /// <summary>
+        /// Variable used when not all products need to be viewed and only ones of this supplier id
+        /// </summary>
+        private int SupplierId { get; set; }
+
+        #endregion
+
+        /// <summary>
+        /// Defines the tab page
+        /// </summary>
+        private void InitializeComponent()
+        {
             // Set all of the tabpage properties
             Location = new Point(4, 22);
             Name = "ManageProductsTab";
@@ -26,7 +81,7 @@ namespace Stock_Manage_Client.Classes.TabPages
             // DataGridView of the users
             DgdProducts = new DataGridView
             {
-                AllowUserToAddRows =  false,
+                AllowUserToAddRows = false,
                 AllowUserToDeleteRows = false,
                 Anchor =
                     ((AnchorStyles.Top | AnchorStyles.Bottom)
@@ -34,7 +89,7 @@ namespace Stock_Manage_Client.Classes.TabPages
                     | AnchorStyles.Right,
                 ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize,
                 Location = new Point(3, 3),
-                MultiSelect =  false,
+                MultiSelect = false,
                 Name = "dgdProducts",
                 ReadOnly = true,
                 SelectionMode = DataGridViewSelectionMode.FullRowSelect,
@@ -105,42 +160,7 @@ namespace Stock_Manage_Client.Classes.TabPages
             Controls.Add(CmdChangeQuantity);
             Controls.Add(CmdChangeProduct);
             Controls.Add(CmdDeleteProduct);
-            RefreshList();
         }
-
-        #region Define accessor variables
-
-        /// <summary>
-        /// DataGridView of the products
-        /// </summary>
-        private DataGridView DgdProducts { get; set; }
-
-        /// <summary>
-        /// Button that shows a form that asks for details of a new product
-        /// </summary>
-        private Button CmdAddNewProduct { get; set; }
-
-        /// <summary>
-        /// Button that shows a box asking for the new quantity of the selected product
-        /// </summary>
-        private Button CmdChangeQuantity { get; set; }
-
-        /// <summary>
-        /// Button that shows a form that can change the details of a product
-        /// </summary>
-        private Button CmdChangeProduct { get; set; }
-
-        /// <summary>
-        /// Button that deletes the selected product
-        /// </summary>
-        private Button CmdDeleteProduct { get; set; }
-
-        /// <summary>
-        /// The datasource of the DataGridView
-        /// </summary>
-        private Table DataGridTable { get; set; }
-
-        #endregion
 
         /// <summary>
         /// Refreshes the datagridview by accessing the server database
@@ -148,7 +168,14 @@ namespace Stock_Manage_Client.Classes.TabPages
         private void RefreshList()
         {
             PacketHandler.DataRecieved += RefreshList_DataRecieved;
-            Program.SendData("SELECT * FROM tbl_products ORDER BY PK_ProductId;");
+            if (SupplierId == 0)
+            {
+                Program.SendData("SELECT * FROM tbl_products ORDER BY PK_ProductId;");
+            }
+            else
+            {
+                Program.SendData("SELECT * FROM tbl_products WHERE FK_SupplierId = '" + SupplierId + "' ORDER BY PK_ProductId;");
+            }
         }
 
         /// <summary>
