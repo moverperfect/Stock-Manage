@@ -16,7 +16,6 @@ namespace Stock_Manage_Client.Classes
         public static String UserId = "0";
         public static String Type;
         public static String IpAddress = "127.0.0.1";
-        public static Table TempReturnTable = new Table();
 
         /// <summary>
         ///     The main entry point for the application.
