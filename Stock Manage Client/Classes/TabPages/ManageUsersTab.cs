@@ -243,6 +243,8 @@ namespace Stock_Manage_Client.Classes.TabPages
                     row[0].Cells[1].Value.ToString(),
                     row[0].Cells[2].Value.ToString(), row[0].Cells[3].Value.ToString());
                 detailsForm.ShowDialog();
+                // TODO Change this to inside the dialog form as will be much easier to do
+                if (detailsForm.Password == "") return;
                 var salt = Utilities.GenerateSaltValue();
                 var hash = Utilities.HashPassword(detailsForm.Password, salt, MD5.Create());
                 Program.SendData("UPDATE tbl_users SET Salt = '" + salt + "', Password_Hash = '" + hash + "' WHERE PK_UserId = '" + detailsForm.UserId + "';");
