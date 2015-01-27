@@ -41,7 +41,7 @@ namespace Stock_Manage_Client.Classes.Networking
                     //Byte[] temp = new Byte[packet.Length-4];
                     // TODO CHANGE THIS WHEN ADD PACKET STRUCTURE ASWELL
                     //Array.Copy(packet,4,temp,0,temp.Length);
-                    Program.TempReturnTable = new Table(packet);
+                    //Program.TempReturnTable = new Table(packet);
                     //Program.RefreshData();
                     break;
 

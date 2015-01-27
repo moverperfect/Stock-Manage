@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Windows.Forms;
 
 namespace Stock_Manage_Client.Classes.Networking
 {
@@ -146,6 +147,11 @@ namespace Stock_Manage_Client.Classes.Networking
                     _socket.Send(data);
                     return;
                 }
+            }
+            // If still not connected after 3 seconds then display error message
+            if (!_socket.Connected)
+            {
+                MessageBox.Show("Unable to connect to server");
             }
         }
     }

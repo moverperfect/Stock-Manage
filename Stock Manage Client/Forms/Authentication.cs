@@ -35,8 +35,6 @@ namespace Stock_Manage_Client.Forms
 
         private void btn_Login_Click(object sender, EventArgs e)
         {
-            Program.TempReturnTable = null;
-
             Program.SendData("SELECT Salt,Password_Hash FROM tbl_Users WHERE PK_UserId=" + txt_UserId.Text + ";");
 
             PacketHandler.DataRecieved += AuthenticatePassword;
