@@ -148,31 +148,65 @@ namespace Stock_Manage_Client.Classes.TabPages
             Controls.Add(CmdDeleteUser);
         }
 
+        #region Define accessor variables
+
+        /// <summary>
+        /// A datagridview that shows the users
+        /// </summary>
         private DataGridView DgdUsers { get; set; }
+
+        /// <summary>
+        /// A button that refreshes the list
+        /// </summary>
         private Button CmdRefreshList { get; set; }
+
+        /// <summary>
+        /// A button that when clicked opens a new tab that can add a new user
+        /// </summary>
         private Button CmdAddNewUser { get; set; }
+
+        /// <summary>
+        /// A button that opens a new form allowing changing of name of the user
+        /// </summary>
         private Button CmdChangeName { get; set; }
+
+        /// <summary>
+        /// A button that opens a new form allowing change of password
+        /// </summary>
         private Button CmdChangePassword { get; set; }
+
+        /// <summary>
+        /// A button that opens a new form allowing change of the system role of a user
+        /// </summary>
         private Button CmdChangeSystemRole { get; set; }
+
+        /// <summary>
+        /// A button that deletes the selected user from the system
+        /// </summary>
         private Button CmdDeleteUser { get; set; }
 
+        /// <summary>
+        /// The datasource for the datagridview
+        /// </summary>
         private Table DataGridTable { get; set; }
+
+        #endregion
 
         /// <summary>
         /// Gets the list of users from the server and relays it to RefreshDataHandler
         /// </summary>
         private void CmdRefreshList_Click(object sender, EventArgs e)
         {
-            PacketHandler.DataRecieved += RefreshDataHandler;
+            PacketHandler.DataRecieved += CmdRefreshList_DataRecieved;
             Program.SendData("SELECT PK_UserId as 'User Id', First_Name, Second_Name, System_Role FROM tbl_users ORDER BY PK_UserId;");
         }
 
         /// <summary>
         /// Takes the packet and makes it the datasource of the DataGridView inside this tab(This gets called when data is recieved from client after user has asked for it)
-        /// </summary>>
-        private void RefreshDataHandler(byte[] packet)
+        /// </summary>
+        private void CmdRefreshList_DataRecieved(byte[] packet)
         {
-            PacketHandler.DataRecieved -= RefreshDataHandler;
+            PacketHandler.DataRecieved -= CmdRefreshList_DataRecieved;
             DataGridTable = new Table(packet);
             Invoke(new MethodInvoker(delegate { DgdUsers.DataSource = DataGridTable.TableData; }));
             Invoke((MethodInvoker) DisableColunmSort);
@@ -211,7 +245,7 @@ namespace Stock_Manage_Client.Classes.TabPages
                     row[0].Cells[1].Value.ToString(),
                     row[0].Cells[2].Value.ToString(), row[0].Cells[3].Value.ToString());
                 detailsForm.ShowDialog();
-                PacketHandler.DataRecieved += CmdChangeName_RecievePacket;
+                PacketHandler.DataRecieved += CmdChangeName_DataRecieved;
                 Program.SendData("UPDATE tbl_users SET First_Name = '" + detailsForm.FirstName + "', Second_Name = '" + detailsForm.LastName + "' WHERE PK_UserId = '" + detailsForm.UserId + "';");
             }
             else
@@ -224,9 +258,9 @@ namespace Stock_Manage_Client.Classes.TabPages
         /// If we get a message back after changing the name then refresh the DataGrid
         /// </summary>
         /// <param name="packet">A pretty much useless variable</param>
-        private void CmdChangeName_RecievePacket(byte[] packet)
+        private void CmdChangeName_DataRecieved(byte[] packet)
         {
-            PacketHandler.DataRecieved -= CmdChangeName_RecievePacket;
+            PacketHandler.DataRecieved -= CmdChangeName_DataRecieved;
             Invoke((MethodInvoker)CmdRefreshList.PerformClick);
         }
 
@@ -264,7 +298,7 @@ namespace Stock_Manage_Client.Classes.TabPages
 
             if (row.Count != 0)
             {
-                PacketHandler.DataRecieved += CmdDeleteUser_PacketRecieved;
+                PacketHandler.DataRecieved += CmdDeleteUser_DataRecieved;
                 Program.SendData("DELETE FROM tbl_users WHERE PK_UserId = '" + row[0].Cells[0].Value + "';");
             }
             else
@@ -277,9 +311,9 @@ namespace Stock_Manage_Client.Classes.TabPages
         /// Refreshes the datagridview after we have recieved a success message from the server
         /// </summary>
         /// <param name="packet"></param>
-        private void CmdDeleteUser_PacketRecieved(byte[] packet)
+        private void CmdDeleteUser_DataRecieved(byte[] packet)
         {
-            PacketHandler.DataRecieved -= CmdDeleteUser_PacketRecieved;
+            PacketHandler.DataRecieved -= CmdDeleteUser_DataRecieved;
             Invoke((MethodInvoker)CmdRefreshList.PerformClick);
         }
 
@@ -296,7 +330,7 @@ namespace Stock_Manage_Client.Classes.TabPages
                     row[0].Cells[1].Value.ToString(),
                     row[0].Cells[2].Value.ToString(), row[0].Cells[3].Value.ToString());
                 detailsForm.ShowDialog();
-                PacketHandler.DataRecieved += CmdChangeSystemRole_PacketRecieved; 
+                PacketHandler.DataRecieved += CmdChangeSystemRole_DataRecieved; 
                 Program.SendData("UPDATE tbl_users SET System_Role = '" +
                                  detailsForm.SystemRole + "' WHERE PK_UserId = '" + detailsForm.UserId + "';");
             }
@@ -310,9 +344,9 @@ namespace Stock_Manage_Client.Classes.TabPages
         /// Happens when success message comes in, refreshes the list
         /// </summary>
         /// <param name="packet"></param>
-        private void CmdChangeSystemRole_PacketRecieved(byte[] packet)
+        private void CmdChangeSystemRole_DataRecieved(byte[] packet)
         {
-            PacketHandler.DataRecieved -= CmdChangeSystemRole_PacketRecieved;
+            PacketHandler.DataRecieved -= CmdChangeSystemRole_DataRecieved;
             Invoke((MethodInvoker)CmdRefreshList.PerformClick);
         }
     }
