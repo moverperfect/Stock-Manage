@@ -34,6 +34,7 @@
             this.cmdManageUsers = new System.Windows.Forms.Button();
             this.cmdManageProducts = new System.Windows.Forms.Button();
             this.cmdManageSuppliers = new System.Windows.Forms.Button();
+            this.cmdManageOrders = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btn_newUser
@@ -97,9 +98,20 @@
             this.cmdManageSuppliers.UseVisualStyleBackColor = true;
             this.cmdManageSuppliers.Click += new System.EventHandler(this.cmdManageSuppliers_Click);
             // 
+            // cmdManageOrders
+            // 
+            this.cmdManageOrders.Location = new System.Drawing.Point(5, 157);
+            this.cmdManageOrders.Name = "cmdManageOrders";
+            this.cmdManageOrders.Size = new System.Drawing.Size(104, 23);
+            this.cmdManageOrders.TabIndex = 12;
+            this.cmdManageOrders.Text = "Manage Orders";
+            this.cmdManageOrders.UseVisualStyleBackColor = true;
+            this.cmdManageOrders.Click += new System.EventHandler(this.cmdManageOrders_Click);
+            // 
             // Management
             // 
             this.ClientSize = new System.Drawing.Size(1350, 729);
+            this.Controls.Add(this.cmdManageOrders);
             this.Controls.Add(this.cmdManageSuppliers);
             this.Controls.Add(this.cmdManageProducts);
             this.Controls.Add(this.cmdManageUsers);
@@ -122,6 +134,7 @@
         private System.Windows.Forms.Button cmdManageUsers;
         private System.Windows.Forms.Button cmdManageProducts;
         private System.Windows.Forms.Button cmdManageSuppliers;
+        private System.Windows.Forms.Button cmdManageOrders;
 
 
 

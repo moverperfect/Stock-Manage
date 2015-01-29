@@ -39,5 +39,10 @@ namespace Stock_Manage_Client.Forms
         {
             tc_MainControl.TabPages.Add(new ManageSuppliersTab());
         }
+
+        private void cmdManageOrders_Click(object sender, EventArgs e)
+        {
+            tc_MainControl.TabPages.Add(new ManageOrdersTab());
+        }
     }
 }
