@@ -177,7 +177,7 @@ namespace Stock_Manage_Client.Classes.TabPages
             var selectString = "SELECT PK_UserId FROM tbl_Users WHERE Password_Hash = '" + hash + "';";
 
             // Add AddNewUserResponse to event handler for datareceiving
-            PacketHandler.DataRecieved += AddNewUserResponse;
+            PacketHandler.DataRecieved += AddNewUser_DataRecieved;
 
             // Send the SQL statement to the server with the custom packettype of 2002(SELECT statement)
             Program.SendData(new StdData(addString + selectString, Convert.ToUInt16(Program.MachineId),
@@ -185,10 +185,10 @@ namespace Stock_Manage_Client.Classes.TabPages
         }
 
         /// <summary>
-        /// Happens when data is received after we have sent of new user information
+        /// Happens when data is received after we have sent of new user information]
         /// </summary>
         /// <param name="packet">The packet that we get back from the server</param>
-        private void AddNewUserResponse(byte[] packet)
+        private void AddNewUser_DataRecieved(byte[] packet)
         {
             try
             {
@@ -211,7 +211,7 @@ namespace Stock_Manage_Client.Classes.TabPages
             }
             finally
             {
-                PacketHandler.DataRecieved -= AddNewUserResponse;
+                PacketHandler.DataRecieved -= AddNewUser_DataRecieved;
             }
         }
 
