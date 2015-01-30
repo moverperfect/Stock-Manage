@@ -5,29 +5,54 @@ namespace Stock_Manage_Client.Classes.TabPages
 {
     internal class ManageOrdersTab : TabPage
     {
+        /// <summary>
+        /// Empty constructor to create a order tab with no special parameters
+        /// </summary>
         public ManageOrdersTab()
         {
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Creates a orders tab that only shows the orders for the parsed supplierId
+        /// </summary>
+        /// <param name="supplierId">Show only orders for this supplierId</param>
         public ManageOrdersTab(int supplierId)
         {
         }
 
         #region Define accessor variables
 
+        /// <summary>
+        /// Datagridview of the orders
+        /// </summary>
         private DataGridView dgdOrders { get; set; }
 
+        /// <summary>
+        /// Button allowing users to add new orders
+        /// </summary>
         private Button cmdAddNewOrder { get; set; }
 
+        /// <summary>
+        /// Button allowing users to view products in a selected order
+        /// </summary>
         private Button cmdViewProducts { get; set; }
 
+        /// <summary>
+        /// Button allowing users to change the details of a selected order
+        /// </summary>
         private Button cmdChangeDetails { get; set; }
 
+        /// <summary>
+        /// Button allowing users to delete an order from the system
+        /// </summary>
         private Button cmdDeleteOrder { get; set; }
 
         #endregion
 
+        /// <summary>
+        /// Defines the tab page
+        /// </summary>
         private void InitializeComponent()
         {
             // Set all of the tabpage properties
