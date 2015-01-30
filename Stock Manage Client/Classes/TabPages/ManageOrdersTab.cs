@@ -1,4 +1,6 @@
-﻿using System.Drawing;
+﻿using Stock_Manage_Client.Classes.Networking;
+using Stock_Manage_Client.Classes.Networking.Packets;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace Stock_Manage_Client.Classes.TabPages
@@ -11,6 +13,7 @@ namespace Stock_Manage_Client.Classes.TabPages
         public ManageOrdersTab()
         {
             InitializeComponent();
+            RefreshList();
         }
 
         /// <summary>
@@ -47,6 +50,11 @@ namespace Stock_Manage_Client.Classes.TabPages
         /// Button allowing users to delete an order from the system
         /// </summary>
         private Button cmdDeleteOrder { get; set; }
+
+        /// <summary>
+        /// The datasource for the datagridview
+        /// </summary>
+        private Table DataGridTable { get; set; }
 
         #endregion
 
@@ -139,6 +147,28 @@ namespace Stock_Manage_Client.Classes.TabPages
             Controls.Add(cmdViewProducts);
             Controls.Add(cmdChangeDetails);
             Controls.Add(cmdDeleteOrder);
+        }
+
+        /// <summary>
+        /// Refresh the datagridview data from the server
+        /// </summary>
+        private void RefreshList()
+        {
+            PacketHandler.DataRecieved += RefreshList_DataRecieved;
+            var select =
+                "SELECT PK_OrderId as 'Order Id', FK_UserId AS 'User Id', tbl_users.First_Name as 'First Name', tbl_users.Second_Name as 'Second Name', FK_SupplierId as 'Supplier Id', tbl_suppliers.Name as 'Supplier Name', CAST(sum(Total_Cost) as DECimal(10,2)) as Order_total from ( SELECT PK_OrderId, Total_Cost, FK_UserId, FK_SupplierId From tbl_orders INNER JOIN tbl_purchase_orders on tbl_orders.FK_OrderId = tbl_purchase_orders.PK_OrderId ) t  INNER JOIN tbl_users on t.FK_UserId = tbl_users.PK_UserId INNER JOIN tbl_suppliers on t.FK_SupplierId = tbl_suppliers.PK_SupplierId group by PK_OrderId";
+            Program.SendData(select);
+        }
+
+        /// <summary>
+        /// When we recieve the data back from the server, set the datagridview to the data
+        /// </summary>
+        /// <param name="packet">The table data from the server</param>
+        private void RefreshList_DataRecieved(byte[] packet)
+        {
+            PacketHandler.DataRecieved -= RefreshList_DataRecieved;
+            DataGridTable = new Table(packet);
+            Invoke(new MethodInvoker(delegate { dgdOrders.DataSource = DataGridTable.TableData; }));
         }
     }
 }
