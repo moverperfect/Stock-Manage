@@ -29,27 +29,27 @@ namespace Stock_Manage_Client.Classes.TabPages
         /// <summary>
         /// Datagridview of the orders
         /// </summary>
-        private DataGridView dgdOrders { get; set; }
+        private DataGridView DgdOrders { get; set; }
 
         /// <summary>
         /// Button allowing users to add new orders
         /// </summary>
-        private Button cmdAddNewOrder { get; set; }
+        private Button CmdAddNewOrder { get; set; }
 
         /// <summary>
         /// Button allowing users to view products in a selected order
         /// </summary>
-        private Button cmdViewProducts { get; set; }
+        private Button CmdViewProducts { get; set; }
 
         /// <summary>
         /// Button allowing users to change the details of a selected order
         /// </summary>
-        private Button cmdChangeDetails { get; set; }
+        private Button CmdChangeDetails { get; set; }
 
         /// <summary>
         /// Button allowing users to delete an order from the system
         /// </summary>
-        private Button cmdDeleteOrder { get; set; }
+        private Button CmdDeleteOrder { get; set; }
 
         /// <summary>
         /// The datasource for the datagridview
@@ -72,7 +72,7 @@ namespace Stock_Manage_Client.Classes.TabPages
             UseVisualStyleBackColor = true;
 
             // Datagridview of all of the orders
-            dgdOrders = new DataGridView
+            DgdOrders = new DataGridView
             {
                 AllowUserToAddRows = false,
                 AllowUserToDeleteRows = false,
@@ -91,7 +91,7 @@ namespace Stock_Manage_Client.Classes.TabPages
             };
 
             // Button that opens new form so can edit orders
-            cmdAddNewOrder = new Button
+            CmdAddNewOrder = new Button
             {
                 Anchor =
                     AnchorStyles.Bottom | AnchorStyles.Left,
@@ -104,7 +104,7 @@ namespace Stock_Manage_Client.Classes.TabPages
             };
 
             // Button that opens tab that shows the products for this order
-            cmdViewProducts = new Button
+            CmdViewProducts = new Button
             {
                 Anchor = AnchorStyles.Bottom,
                 Location = new Point(539, 653),
@@ -116,7 +116,7 @@ namespace Stock_Manage_Client.Classes.TabPages
             };
 
             // Button that allows the user to change the details of an order
-            cmdChangeDetails = new Button
+            CmdChangeDetails = new Button
             {
                 Anchor =
                     AnchorStyles.Bottom | AnchorStyles.Right,
@@ -129,7 +129,7 @@ namespace Stock_Manage_Client.Classes.TabPages
             };
 
             // Button that allows the user to delete an order from the database
-            cmdDeleteOrder = new Button
+            CmdDeleteOrder = new Button
             {
                 Anchor =
                     AnchorStyles.Bottom | AnchorStyles.Right,
@@ -142,11 +142,11 @@ namespace Stock_Manage_Client.Classes.TabPages
             };
 
             // Adding all of the controls
-            Controls.Add(dgdOrders);
-            Controls.Add(cmdAddNewOrder);
-            Controls.Add(cmdViewProducts);
-            Controls.Add(cmdChangeDetails);
-            Controls.Add(cmdDeleteOrder);
+            Controls.Add(DgdOrders);
+            Controls.Add(CmdAddNewOrder);
+            Controls.Add(CmdViewProducts);
+            Controls.Add(CmdChangeDetails);
+            Controls.Add(CmdDeleteOrder);
         }
 
         /// <summary>
@@ -168,7 +168,7 @@ namespace Stock_Manage_Client.Classes.TabPages
         {
             PacketHandler.DataRecieved -= RefreshList_DataRecieved;
             DataGridTable = new Table(packet);
-            Invoke(new MethodInvoker(delegate { dgdOrders.DataSource = DataGridTable.TableData; }));
+            Invoke(new MethodInvoker(delegate { DgdOrders.DataSource = DataGridTable.TableData; }));
         }
     }
 }
