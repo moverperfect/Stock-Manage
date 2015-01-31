@@ -154,6 +154,8 @@ namespace Stock_Manage_Client.Classes.TabPages
             CmdChangeProduct.Click += CmdChangeProduct_Click;
             CmdDeleteProduct.Click += CmdDeleteProduct_Click;
 
+            DgdProducts.DataSourceChanged += DgdProducts_DataSourceChanged;
+
             // Adding all of the controls to the tabpage
             Controls.Add(DgdProducts);
             Controls.Add(CmdAddNewProduct);
@@ -267,6 +269,25 @@ namespace Stock_Manage_Client.Classes.TabPages
         {
             PacketHandler.DataRecieved -= CmdDeleteProduct_DataRecieved;
             RefreshList();
+        }
+
+        /// <summary>
+        /// When the data in the view changes, check for the quantity to change to colour of the products
+        /// </summary>
+        private void DgdProducts_DataSourceChanged(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow row in DgdProducts.Rows)
+            {
+                if(Convert.ToInt32(row.Cells[5].Value) <= Convert.ToInt32(row.Cells[9].Value))
+                {
+                    row.DefaultCellStyle.BackColor = Color.Red;
+                }
+                else if (Convert.ToInt32(row.Cells[9].Value) < Convert.ToInt32(row.Cells[5].Value) && Convert.ToInt32(row.Cells[5].Value) < Convert.ToInt32(row.Cells[10].Value))
+                {
+                    row.DefaultCellStyle.BackColor = Color.Orange;
+                }
+            }
+            DgdProducts.ClearSelection();
         }
     }
 }
