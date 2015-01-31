@@ -63,6 +63,7 @@
             this.dgdProducts.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgdProducts.Size = new System.Drawing.Size(915, 331);
             this.dgdProducts.TabIndex = 1;
+            this.dgdProducts.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgdProducts_CellEndEdit);
             // 
             // cmdAddOrder
             // 
@@ -88,9 +89,9 @@
             this.lblTotalCost.AutoSize = true;
             this.lblTotalCost.Location = new System.Drawing.Point(12, 354);
             this.lblTotalCost.Name = "lblTotalCost";
-            this.lblTotalCost.Size = new System.Drawing.Size(61, 13);
+            this.lblTotalCost.Size = new System.Drawing.Size(88, 13);
             this.lblTotalCost.TabIndex = 4;
-            this.lblTotalCost.Text = "Total Cost: ";
+            this.lblTotalCost.Text = "Total Cost: £0.00";
             // 
             // AddChangeOrder
             // 

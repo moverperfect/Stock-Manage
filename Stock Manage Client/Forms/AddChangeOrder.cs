@@ -78,6 +78,10 @@ namespace Stock_Manage_Client.Forms
                 column.ReadOnly = true;
             }
             _productsTable.TableData.Columns[_productsTable.TableData.Columns.Count - 1].ReadOnly = false;
+            foreach (DataRow row in _productsTable.TableData.Rows)
+            {
+                row[9] = 0;
+            }
             Invoke(new MethodInvoker(delegate { dgdProducts.DataSource = _productsTable.TableData; }));
             dgdProducts.ClearSelection();
         }
@@ -88,6 +92,22 @@ namespace Stock_Manage_Client.Forms
         private void dgdSuppliers_SelectionChanged(object sender, System.EventArgs e)
         {
             RefreshProducts();
+        }
+
+        /// <summary>
+        /// Happens when the user ends editing a cell, this updates the total cost label to be accurate
+        /// </summary>
+        private void dgdProducts_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            decimal sum = 0;
+            foreach (DataGridViewRow row in dgdProducts.Rows)
+            {
+                if (row.Cells[9].Value.ToString() != "")
+                {
+                    sum += Convert.ToDecimal(row.Cells[7].Value)*Convert.ToInt32(row.Cells[9].Value);
+                }
+            }
+            lblTotalCost.Text = "Total Cost: £" + sum;
         }
     }
 }
