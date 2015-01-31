@@ -3,6 +3,7 @@ using Stock_Manage_Client.Classes.Networking;
 using Stock_Manage_Client.Classes.Networking.Packets;
 using System.Drawing;
 using System.Windows.Forms;
+using Stock_Manage_Client.Forms;
 
 namespace Stock_Manage_Client.Classes.TabPages
 {
@@ -170,7 +171,7 @@ namespace Stock_Manage_Client.Classes.TabPages
         {
             PacketHandler.DataRecieved += RefreshList_DataRecieved;
             var select =
-                "SELECT PK_OrderId as 'Order Id', FK_UserId AS 'User Id', tbl_users.First_Name as 'First Name', tbl_users.Second_Name as 'Second Name', FK_SupplierId as 'Supplier Id', tbl_suppliers.Name as 'Supplier Name', CAST(sum(Total_Cost) as DECimal(10,2)) as Order_total from ( SELECT PK_OrderId, Total_Cost, FK_UserId, FK_SupplierId From tbl_orders INNER JOIN tbl_purchase_orders on tbl_orders.FK_OrderId = tbl_purchase_orders.PK_OrderId ) t  INNER JOIN tbl_users on t.FK_UserId = tbl_users.PK_UserId INNER JOIN tbl_suppliers on t.FK_SupplierId = tbl_suppliers.PK_SupplierId";
+                "SELECT PK_OrderId as 'Order Id', FK_UserId AS 'User Id', tbl_users.First_Name as 'First Name', tbl_users.Second_Name as 'Second Name', FK_SupplierId as 'Supplier Id', tbl_suppliers.Name as 'Supplier Name', CAST(sum(Total_Cost) as DECimal(10,2)) as Order_total, DateOrdered from ( SELECT PK_OrderId, Total_Cost, FK_UserId, FK_SupplierId, DateOrdered From tbl_orders INNER JOIN tbl_purchase_orders on tbl_orders.FK_OrderId = tbl_purchase_orders.PK_OrderId ) t  INNER JOIN tbl_users on t.FK_UserId = tbl_users.PK_UserId INNER JOIN tbl_suppliers on t.FK_SupplierId = tbl_suppliers.PK_SupplierId";
             if (SupplierId != 0)
             {
                 Program.SendData(select + " WHERE FK_SupplierId = '" + SupplierId + "' GROUP BY PK_OrderId;");
@@ -192,9 +193,14 @@ namespace Stock_Manage_Client.Classes.TabPages
             Invoke(new MethodInvoker(delegate { DgdOrders.DataSource = DataGridTable.TableData; }));
         }
 
+        /// <summary>
+        /// Opens a new form asking for all of the information required for adding a new order
+        /// </summary>
         private void CmdAddNewOrder_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            var addOrder = new AddChangeOrder();
+            addOrder.ShowDialog();
+            RefreshList();
         }
 
         private void CmdViewProducts_Click(object sender, EventArgs e)
