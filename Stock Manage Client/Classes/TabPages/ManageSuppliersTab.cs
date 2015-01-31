@@ -205,9 +205,22 @@ namespace Stock_Manage_Client.Classes.TabPages
             }
         }
 
+        /// <summary>
+        /// Opens a new tab page that shows the orders of the selected supplier
+        /// </summary>
         private void CmdViewOrders_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            var row = DgdSuppliers.SelectedRows;
+
+            if (row.Count > 0)
+            {
+                ((TabControl)Parent).TabPages.Add(new ManageOrdersTab(Convert.ToInt32(row[0].Cells[0].Value)));
+                ((TabControl)Parent).SelectedIndex = ((TabControl)Parent).TabCount - 1;
+            }
+            else
+            {
+                MessageBox.Show("Please select a row");
+            }
         }
 
         /// <summary>

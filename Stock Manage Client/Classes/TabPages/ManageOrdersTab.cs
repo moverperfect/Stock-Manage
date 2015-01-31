@@ -1,4 +1,5 @@
-﻿using Stock_Manage_Client.Classes.Networking;
+﻿using System;
+using Stock_Manage_Client.Classes.Networking;
 using Stock_Manage_Client.Classes.Networking.Packets;
 using System.Drawing;
 using System.Windows.Forms;
@@ -22,6 +23,9 @@ namespace Stock_Manage_Client.Classes.TabPages
         /// <param name="supplierId">Show only orders for this supplierId</param>
         public ManageOrdersTab(int supplierId)
         {
+            InitializeComponent();
+            SupplierId = supplierId;
+            RefreshList();
         }
 
         #region Define accessor variables
@@ -55,6 +59,11 @@ namespace Stock_Manage_Client.Classes.TabPages
         /// The datasource for the datagridview
         /// </summary>
         private Table DataGridTable { get; set; }
+
+        /// <summary>
+        /// Only used if looking at the orders for a specific supplier
+        /// </summary>
+        private int SupplierId { get; set; }
 
         #endregion
 
@@ -141,6 +150,11 @@ namespace Stock_Manage_Client.Classes.TabPages
                 UseVisualStyleBackColor = true
             };
 
+            CmdAddNewOrder.Click += CmdAddNewOrder_Click;
+            CmdViewProducts.Click += CmdViewProducts_Click;
+            CmdChangeDetails.Click += CmdChangeDetails_Click;
+            CmdDeleteOrder.Click += CmdDeleteOrder_Click;
+
             // Adding all of the controls
             Controls.Add(DgdOrders);
             Controls.Add(CmdAddNewOrder);
@@ -156,8 +170,15 @@ namespace Stock_Manage_Client.Classes.TabPages
         {
             PacketHandler.DataRecieved += RefreshList_DataRecieved;
             var select =
-                "SELECT PK_OrderId as 'Order Id', FK_UserId AS 'User Id', tbl_users.First_Name as 'First Name', tbl_users.Second_Name as 'Second Name', FK_SupplierId as 'Supplier Id', tbl_suppliers.Name as 'Supplier Name', CAST(sum(Total_Cost) as DECimal(10,2)) as Order_total from ( SELECT PK_OrderId, Total_Cost, FK_UserId, FK_SupplierId From tbl_orders INNER JOIN tbl_purchase_orders on tbl_orders.FK_OrderId = tbl_purchase_orders.PK_OrderId ) t  INNER JOIN tbl_users on t.FK_UserId = tbl_users.PK_UserId INNER JOIN tbl_suppliers on t.FK_SupplierId = tbl_suppliers.PK_SupplierId group by PK_OrderId";
-            Program.SendData(select);
+                "SELECT PK_OrderId as 'Order Id', FK_UserId AS 'User Id', tbl_users.First_Name as 'First Name', tbl_users.Second_Name as 'Second Name', FK_SupplierId as 'Supplier Id', tbl_suppliers.Name as 'Supplier Name', CAST(sum(Total_Cost) as DECimal(10,2)) as Order_total from ( SELECT PK_OrderId, Total_Cost, FK_UserId, FK_SupplierId From tbl_orders INNER JOIN tbl_purchase_orders on tbl_orders.FK_OrderId = tbl_purchase_orders.PK_OrderId ) t  INNER JOIN tbl_users on t.FK_UserId = tbl_users.PK_UserId INNER JOIN tbl_suppliers on t.FK_SupplierId = tbl_suppliers.PK_SupplierId";
+            if (SupplierId != 0)
+            {
+                Program.SendData(select + " WHERE FK_SupplierId = '" + SupplierId + "' GROUP BY PK_OrderId;");
+            }
+            else
+            {
+                Program.SendData(select + " GROUP BY PK_OrderId");
+            }
         }
 
         /// <summary>
@@ -169,6 +190,26 @@ namespace Stock_Manage_Client.Classes.TabPages
             PacketHandler.DataRecieved -= RefreshList_DataRecieved;
             DataGridTable = new Table(packet);
             Invoke(new MethodInvoker(delegate { DgdOrders.DataSource = DataGridTable.TableData; }));
+        }
+
+        private void CmdAddNewOrder_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void CmdViewProducts_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void CmdChangeDetails_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void CmdDeleteOrder_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
         }
     }
 }
