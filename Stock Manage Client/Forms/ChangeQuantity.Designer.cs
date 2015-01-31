@@ -73,6 +73,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ChangeQuantity";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Change Quantity";
             ((System.ComponentModel.ISupportInitialize)(this.updQuantity)).EndInit();
             this.ResumeLayout(false);
