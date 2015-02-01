@@ -38,7 +38,7 @@ namespace Stock_Manage_Server
         private void Initialize(String database, String server, String uid, String password)
         {
             var connectionString = "SERVER=" + server + ";DATABASE=" + database + ";UID=" + uid + ";PASSWORD=" +
-                                   password + ";";
+                                   password + ";Allow User Variables=true";
 
             _connection = new MySqlConnection(connectionString);
         }
