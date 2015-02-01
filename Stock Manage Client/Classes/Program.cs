@@ -29,17 +29,9 @@ namespace Stock_Manage_Client.Classes
 
             while (true)
             {
-                // Getting the file and checking what form to open
-                // TODO Make this a lot cleaner
                 try
                 {
-                    var data =
-                        File.ReadAllLines(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) +
-                                          "/stockmanage/machine.txt");
-                    MachineId = data[0];
-                    Type = data[1];
-                    IpAddress = data[2];
-
+                    GetFileData();
                     switch (Type)
                     {
                         case "manage":
@@ -61,44 +53,30 @@ namespace Stock_Manage_Client.Classes
                             Application.Run(new Workshop());
                             Environment.Exit(0);
                             break;
+                        default:
+                            SetFileData();
+                            break;
                     }
                 }
                 catch (Exception ex)
                 {
-                    // Get the type of machine that this is and stuff(maybe the ip of the server)
-                    // Also get the machine id from the server to write to the file
-                    Console.WriteLine("File not found");
-                    Console.WriteLine("Machine id?");
-                    MachineId = Console.ReadLine();
-                    Console.WriteLine("Machine type? Manage, Ordering, Workshop");
-                    Type = Console.ReadLine().ToLower();
-                    Console.WriteLine("What is the IP address of the server?");
-                    IpAddress = Console.ReadLine();
-
-                    Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) +
-                                              "/stockmanage/");
-
-                    var typewriter =
-                        new StreamWriter(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) +
-                                         "/stockmanage/machine.txt");
-                    typewriter.WriteLine(MachineId);
-                    typewriter.WriteLine(Type);
-                    typewriter.WriteLine(IpAddress);
-                    typewriter.Close();
-                }
-                if (Console.ReadLine() == "reset")
-                {
-                    File.Delete(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) +
-                                "/stockmanage/machine.txt");
+                    Console.WriteLine(ex.Message);
                 }
             }
         }
 
+        /// <summary>
+        /// Connects the socket to the server
+        /// </summary>
         public static void Connect()
         {
             ClientSocket.Connect(IpAddress, 8221);
         }
 
+        /// <summary>
+        /// Sends a string value to the server
+        /// </summary>
+        /// <param name="data">String message to be sent to the server</param>
         public static void SendData(String data)
         {
             Connect();
@@ -106,24 +84,69 @@ namespace Stock_Manage_Client.Classes
             ClientSocket.Send(message.Data);
         }
 
+        /// <summary>
+        /// Sends a StdData datatype to the server
+        /// </summary>
+        /// <param name="message">The StdData datatype to be sent</param>
         public static void SendData(StdData message)
         {
             Connect();
             ClientSocket.Send(message.Data);
         }
 
-        //public static void RefreshData()
-        //{
-        //    if (window.dataGridView1.InvokeRequired)
-        //    {
-        //        Management. d = new SetTextCallback(RefreshData());
-        //        window.Invoke(d);
-        //    }
-        //    else
-        //    {
-        //        window.dataGridView1.DataSource = TempReturnTable.TableData;
-        //    }
-        //}
+        /// <summary>
+        /// Gets the file data from the AppData folder
+        /// </summary>
+        public static void GetFileData()
+        {
+            try
+            {
+                var data =
+                    File.ReadAllLines(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) +
+                                      "/stockmanage/machine.txt");
+                MachineId = data[0];
+                Type = data[1];
+                IpAddress = data[2];
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+
+        /// <summary>
+        /// Sets the filedata file that is inside AppData
+        /// </summary>
+        public static void SetFileData()
+        {
+            Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) +
+                                      "/stockmanage/");
+
+            var typewriter =
+                new StreamWriter(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) +
+                                 "/stockmanage/machine.txt");
+            try
+            {
+                Console.WriteLine("Machine id?");
+                MachineId = Console.ReadLine();
+                Console.WriteLine("Machine type? Manage, Ordering, Workshop");
+                Type = Console.ReadLine().ToLower();
+                Console.WriteLine("What is the IP address of the server?");
+                IpAddress = Console.ReadLine();
+
+                typewriter.WriteLine(MachineId);
+                typewriter.WriteLine(Type);
+                typewriter.WriteLine(IpAddress);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                typewriter.Close();
+            }
+        }
 
         [DllImport("kernel32.dll", SetLastError = true)]
         private static extern bool AllocConsole();
