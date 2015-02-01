@@ -33,6 +33,11 @@ namespace Stock_Manage_Client.Classes.TabPages
             } else if (type == "order")
             {
                 OrderId = foriegnKey;
+                CmdAddNewProduct.Enabled = false;
+                CmdChangeProduct.Enabled = false;
+                CmdChangeQuantity.Enabled = false;
+                CmdDeleteProduct.Enabled = false;
+                Text = "Order " + OrderId;
             }
             RefreshList();
         }
@@ -186,13 +191,18 @@ namespace Stock_Manage_Client.Classes.TabPages
         private void RefreshList()
         {
             PacketHandler.DataRecieved += RefreshList_DataRecieved;
-            if (SupplierId == 0)
+            if (SupplierId != 0)
             {
-                Program.SendData("SELECT * FROM tbl_products ORDER BY PK_ProductId;");
+                Program.SendData("SELECT * FROM tbl_products WHERE FK_SupplierId = '" + SupplierId +
+                                 "' ORDER BY PK_ProductId;");
+            }
+            else if (OrderId != 0)
+            {
+                Program.SendData("SELECT PK_ProductId as 'Product Id', Barcode, Name, Description, Location, Purchase_Price as 'Purchase Price', Critical_Level as 'Critical Level', Nominal_Level as 'Nominal Level', Quantity as 'Quantity in Stock', Product_Quantity as 'Quantity Bought', Total_Cost as 'Total Cost' FROM tbl_products INNER JOIN tbl_orders ON tbl_Products.PK_ProductId = tbl_orders.FK_ProductId WHERE FK_OrderId = '" + OrderId + "';");
             }
             else
             {
-                Program.SendData("SELECT * FROM tbl_products WHERE FK_SupplierId = '" + SupplierId + "' ORDER BY PK_ProductId;");
+                Program.SendData("SELECT * FROM tbl_products ORDER BY PK_ProductId;");
             }
         }
 
