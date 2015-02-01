@@ -196,7 +196,7 @@ namespace Stock_Manage_Client.Classes.TabPages
 
             if (row.Count > 0)
             {
-                ((TabControl) Parent).TabPages.Add(new ManageProductsTab(Convert.ToInt32(row[0].Cells[0].Value)));
+                ((TabControl) Parent).TabPages.Add(new ManageProductsTab(Convert.ToInt32(row[0].Cells[0].Value),"supplier"));
                 ((TabControl) Parent).SelectedIndex = ((TabControl) Parent).TabCount - 1;
             }
             else

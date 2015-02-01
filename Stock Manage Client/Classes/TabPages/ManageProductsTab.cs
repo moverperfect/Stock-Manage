@@ -19,10 +19,21 @@ namespace Stock_Manage_Client.Classes.TabPages
             RefreshList();
         }
 
-        public ManageProductsTab(int supplierId)
+        /// <summary>
+        /// Creates a new tab that has a foreign key attached to it
+        /// </summary>
+        /// <param name="foriegnKey">The id of the foriegn key</param>
+        /// <param name="type">The type of key, "supplier" or "order"</param>
+        public ManageProductsTab(int foriegnKey, String type)
         {
             InitializeComponent();
-            SupplierId = supplierId;
+            if (type == "supplier")
+            {
+                SupplierId = foriegnKey;
+            } else if (type == "order")
+            {
+                OrderId = foriegnKey;
+            }
             RefreshList();
         }
 
@@ -62,6 +73,11 @@ namespace Stock_Manage_Client.Classes.TabPages
         /// Variable used when not all products need to be viewed and only ones of this supplier id
         /// </summary>
         private int SupplierId { get; set; }
+
+        /// <summary>
+        /// Variable used when getting the products that are in an order
+        /// </summary>
+        private int OrderId { get; set; }
 
         #endregion
 
