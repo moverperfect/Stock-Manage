@@ -71,16 +71,21 @@ namespace Stock_Manage_Client.Forms
         {
             PacketHandler.DataRecieved -= RefreshProducts_DataRecieved;
             _productsTable = new Table(packet);
+            // Add a new column to the table for the users to enter into
             _productsTable.TableData.Columns.Add("Quantity", typeof(Int32));
+            // Set all columns to be readonly
             foreach (DataColumn column in _productsTable.TableData.Columns)
             {
                 column.ReadOnly = true;
             }
+            // Apart from the one the users enter into
             _productsTable.TableData.Columns[_productsTable.TableData.Columns.Count - 1].ReadOnly = false;
+            // Set the defualt for all rows for the quantity to be 0
             foreach (DataRow row in _productsTable.TableData.Rows)
             {
                 row[9] = 0;
             }
+            // Set the datasource and clear the selection
             Invoke(new MethodInvoker(delegate { dgdProducts.DataSource = _productsTable.TableData; }));
             dgdProducts.ClearSelection();
         }
@@ -115,17 +120,20 @@ namespace Stock_Manage_Client.Forms
         /// </summary>
         private void cmdAddOrder_Click(object sender, EventArgs e)
         {
+            // Check if they have selected a supplier, should always be true
             var supplierRow = dgdSuppliers.SelectedRows;
             if (supplierRow.Count == 0)
             {
                 MessageBox.Show("Please select a supplier");
                 return;
             }
+            // Create the statements
             var insertOrder = "INSERT INTO tbl_Purchase_Orders (FK_UserId,FK_SupplierId) VALUES ('" +
                               Program.UserId + "','" + supplierRow[0].Cells[0].Value + "');";
             var getOrderId = "SELECT @ORDERID := LAST_INSERT_ID();";
             var insertProducts = "INSERT INTO tbl_Orders (FK_OrderId,FK_ProductId,Product_Quantity,Total_Cost) VALUES ";
             var count = 0;
+            // Create the insert into orders statment with all of the products
             foreach (DataGridViewRow row in dgdProducts.Rows)
             {
                 if (Convert.ToInt32(row.Cells[9].Value) > 0)
@@ -141,8 +149,10 @@ namespace Stock_Manage_Client.Forms
                 MessageBox.Show("Please buy a product before adding an order");
                 return;
             }
+            // Take away the , at the end and insert a ;
             insertProducts = insertProducts.TrimEnd(',') + ";";
             PacketHandler.DataRecieved += cmdAddOrder_DataRecieved;
+            // Send the entire statement off to the server
             Program.SendData(insertOrder + getOrderId + insertProducts);
         }
 
