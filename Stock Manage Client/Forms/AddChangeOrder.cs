@@ -46,7 +46,6 @@ namespace Stock_Manage_Client.Forms
             PacketHandler.DataRecieved -= RefreshSuppliers_DataRecieved;
             _suppliersTable = new Table(packet);
             Invoke(new MethodInvoker(delegate { dgdSuppliers.DataSource = _suppliersTable.TableData; }));
-            dgdSuppliers.ClearSelection();
         }
 
         /// <summary>
@@ -108,6 +107,53 @@ namespace Stock_Manage_Client.Forms
                 }
             }
             lblTotalCost.Text = "Total Cost: £" + sum;
+        }
+
+        /// <summary>
+        /// Happens when adding a new order, creates the statement and sends it to the server
+        /// TODO Comment this
+        /// </summary>
+        private void cmdAddOrder_Click(object sender, EventArgs e)
+        {
+            var supplierRow = dgdSuppliers.SelectedRows;
+            if (supplierRow.Count == 0)
+            {
+                MessageBox.Show("Please select a supplier");
+                return;
+            }
+            var insertOrder = "INSERT INTO tbl_Purchase_Orders (FK_UserId,FK_SupplierId) VALUES ('" +
+                              Program.UserId + "','" + supplierRow[0].Cells[0].Value + "');";
+            var getOrderId = "SELECT @ORDERID := LAST_INSERT_ID();";
+            var insertProducts = "INSERT INTO tbl_Orders (FK_OrderId,FK_ProductId,Product_Quantity,Total_Cost) VALUES ";
+            var count = 0;
+            foreach (DataGridViewRow row in dgdProducts.Rows)
+            {
+                if (Convert.ToInt32(row.Cells[9].Value) > 0)
+                {
+                    insertProducts += "(@ORDERID,'" + row.Cells[0].Value + "','" + row.Cells[9].Value + "','" +
+                                      (Convert.ToDecimal(row.Cells[7].Value)*
+                                      Convert.ToInt32(row.Cells[9].Value)) + "'),";
+                    count++;
+                }
+            }
+            if (count == 0)
+            {
+                MessageBox.Show("Please buy a product before adding an order");
+                return;
+            }
+            insertProducts = insertProducts.TrimEnd(',') + ";";
+            PacketHandler.DataRecieved += cmdAddOrder_DataRecieved;
+            Program.SendData(insertOrder + getOrderId + insertProducts);
+        }
+
+        /// <summary>
+        /// Closes the form after recieved message back from the server
+        /// </summary>
+        /// <param name="packet"></param>
+        private void cmdAddOrder_DataRecieved(byte[] packet)
+        {
+            PacketHandler.DataRecieved -= cmdAddOrder_DataRecieved;
+            Invoke(new MethodInvoker(Close));
         }
     }
 }

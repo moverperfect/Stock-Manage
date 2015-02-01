@@ -73,6 +73,7 @@
             this.cmdAddOrder.TabIndex = 2;
             this.cmdAddOrder.Text = "Add Order";
             this.cmdAddOrder.UseVisualStyleBackColor = true;
+            this.cmdAddOrder.Click += new System.EventHandler(this.cmdAddOrder_Click);
             // 
             // cmdCancel
             // 
