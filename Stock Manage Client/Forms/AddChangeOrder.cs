@@ -19,6 +19,8 @@ namespace Stock_Manage_Client.Forms
         /// </summary>
         private Table _productsTable;
 
+        private Table _tempProductsTable;
+
         /// <summary>
         /// Stores the supplier id if changing a product
         /// </summary>
@@ -48,6 +50,7 @@ namespace Stock_Manage_Client.Forms
             InitializeComponent();
             _supplierId = supplierId;
             _orderId = orderId;
+            cmdAddOrder.Text = "Change Order";
             RefreshSuppliers();
         }
 

@@ -67,9 +67,9 @@
             // 
             // cmdAddOrder
             // 
-            this.cmdAddOrder.Location = new System.Drawing.Point(1147, 349);
+            this.cmdAddOrder.Location = new System.Drawing.Point(1139, 349);
             this.cmdAddOrder.Name = "cmdAddOrder";
-            this.cmdAddOrder.Size = new System.Drawing.Size(75, 23);
+            this.cmdAddOrder.Size = new System.Drawing.Size(83, 23);
             this.cmdAddOrder.TabIndex = 2;
             this.cmdAddOrder.Text = "Add Order";
             this.cmdAddOrder.UseVisualStyleBackColor = true;
@@ -78,7 +78,7 @@
             // cmdCancel
             // 
             this.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cmdCancel.Location = new System.Drawing.Point(1066, 349);
+            this.cmdCancel.Location = new System.Drawing.Point(1058, 349);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(75, 23);
             this.cmdCancel.TabIndex = 3;
