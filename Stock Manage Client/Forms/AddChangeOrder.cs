@@ -10,26 +10,26 @@ namespace Stock_Manage_Client.Forms
     public partial class AddChangeOrder : Form
     {
         /// <summary>
-        /// Stores the table data for suppliers
+        /// Stores the order id if changing a product
         /// </summary>
-        private Table _suppliersTable;
+        private int _orderId;
 
         /// <summary>
         /// Stores the table data for products
         /// </summary>
         private Table _productsTable;
 
-        private Table _tempProductsTable;
-
         /// <summary>
         /// Stores the supplier id if changing a product
         /// </summary>
         private int _supplierId;
-        
+
         /// <summary>
-        /// Stores the order id if changing a product
+        /// Stores the table data for suppliers
         /// </summary>
-        private int _orderId;
+        private Table _suppliersTable;
+
+        private Table _tempProductsTable;
 
         /// <summary>
         /// Initialises a new AddChangeOrder form and refreshes the suppliers list
@@ -45,7 +45,7 @@ namespace Stock_Manage_Client.Forms
         /// </summary>
         /// <param name="supplierId">The supplier id that the order goes to</param>
         /// <param name="orderId">The id of the order</param>
-        public AddChangeOrder(int supplierId,int orderId)
+        public AddChangeOrder(int supplierId, int orderId)
         {
             InitializeComponent();
             _supplierId = supplierId;
@@ -103,11 +103,17 @@ namespace Stock_Manage_Client.Forms
 
                 if (_orderId == 0)
                 {
-                    Program.SendData("SELECT PK_ProductId, Barcode, Name, Location, Units_In_Case as 'Units in case', Critical_level as 'Critical Level', Nominal_Level as 'Nomianal Level', Purchase_Price as Cost, Quantity as 'Current Quantity' FROM tbl_Products WHERE FK_SupplierId = '" + row[0].Cells[0].Value + "';");
+                    Program.SendData(
+                        "SELECT PK_ProductId, Barcode, Name, Location, Units_In_Case as 'Units in case', Critical_level as 'Critical Level', Nominal_Level as 'Nomianal Level', Purchase_Price as Cost, Quantity as 'Current Quantity' FROM tbl_Products WHERE FK_SupplierId = '" +
+                        row[0].Cells[0].Value + "';");
                 }
                 else
                 {
-                    Program.SendData("SELECT PK_ProductId, Barcode, Name, Location, Units_In_Case as 'Units in case', Critical_level as 'Critical Level', Nominal_Level as 'Nomianal Level', Purchase_Price as Cost, Quantity as 'Current Quantity', coalesce(Product_Quantity,0) as 'Quantity' FROM (SELECT * FROM tbl_orders WHERE FK_OrderId = '" + _orderId + "')t RIGHT JOIN tbl_products ON t.FK_ProductId = tbl_products.PK_ProductId WHERE FK_SupplierId = '" + _supplierId + "';");
+                    Program.SendData(
+                        "SELECT PK_ProductId, Barcode, Name, Location, Units_In_Case as 'Units in case', Critical_level as 'Critical Level', Nominal_Level as 'Nomianal Level', Purchase_Price as Cost, Quantity as 'Current Quantity', coalesce(Product_Quantity,0) as 'Quantity' FROM (SELECT * FROM tbl_orders WHERE FK_OrderId = '" +
+                        _orderId +
+                        "')t RIGHT JOIN tbl_products ON t.FK_ProductId = tbl_products.PK_ProductId WHERE FK_SupplierId = '" +
+                        _supplierId + "';");
                 }
             }
         }
@@ -125,7 +131,7 @@ namespace Stock_Manage_Client.Forms
                 if (_productsTable.TableData.Columns.Count == 9)
                 {
                     // Add a new column to the table for the users to enter into
-                    _productsTable.TableData.Columns.Add("Quantity", typeof(Int32));
+                    _productsTable.TableData.Columns.Add("Quantity", typeof (Int32));
                     // Set all columns to be readonly
                     foreach (DataColumn column in _productsTable.TableData.Columns)
                     {
@@ -137,7 +143,7 @@ namespace Stock_Manage_Client.Forms
                     foreach (DataRow row in _productsTable.TableData.Rows)
                     {
                         row[9] = 0;
-                    } 
+                    }
                 }
                 // Set the datasource and clear the selection
                 Invoke(new MethodInvoker(delegate { dgdProducts.DataSource = _productsTable.TableData; }));
@@ -154,7 +160,7 @@ namespace Stock_Manage_Client.Forms
         /// <summary>
         /// Happens when a new supplier is selected, calls to refresh the list of products
         /// </summary>
-        private void dgdSuppliers_SelectionChanged(object sender, System.EventArgs e)
+        private void dgdSuppliers_SelectionChanged(object sender, EventArgs e)
         {
             RefreshProducts();
         }
@@ -181,40 +187,49 @@ namespace Stock_Manage_Client.Forms
         /// </summary>
         private void cmdAddOrder_Click(object sender, EventArgs e)
         {
-            // Check if they have selected a supplier, should always be true
-            var supplierRow = dgdSuppliers.SelectedRows;
-            if (supplierRow.Count == 0)
+            // If the temp is null then we are adding a new order so this code does that
+            if (_tempProductsTable == null)
             {
-                MessageBox.Show("Please select a supplier");
-                return;
-            }
-            // Create the statements
-            var insertOrder = "INSERT INTO tbl_Purchase_Orders (FK_UserId,FK_SupplierId) VALUES ('" +
-                              Program.UserId + "','" + supplierRow[0].Cells[0].Value + "');";
-            var getOrderId = "SELECT @ORDERID := LAST_INSERT_ID();";
-            var insertProducts = "INSERT INTO tbl_Orders (FK_OrderId,FK_ProductId,Product_Quantity,Total_Cost) VALUES ";
-            var count = 0;
-            // Create the insert into orders statment with all of the products
-            foreach (DataGridViewRow row in dgdProducts.Rows)
-            {
-                if (Convert.ToInt32(row.Cells[9].Value) > 0)
+                // Check if they have selected a supplier, should always be true
+                var supplierRow = dgdSuppliers.SelectedRows;
+                if (supplierRow.Count == 0)
                 {
-                    insertProducts += "(@ORDERID,'" + row.Cells[0].Value + "','" + row.Cells[9].Value + "','" +
-                                      (Convert.ToDecimal(row.Cells[7].Value)*
-                                      Convert.ToInt32(row.Cells[9].Value)) + "'),";
-                    count++;
+                    MessageBox.Show("Please select a supplier");
+                    return;
                 }
+
+                // Create the statements
+                var insertOrder = "INSERT INTO tbl_Purchase_Orders (FK_UserId,FK_SupplierId) VALUES ('" +
+                                  Program.UserId + "','" + supplierRow[0].Cells[0].Value + "');";
+                var getOrderId = "SELECT @ORDERID := LAST_INSERT_ID();";
+                var insertProducts =
+                    "INSERT INTO tbl_Orders (FK_OrderId,FK_ProductId,Product_Quantity,Total_Cost) VALUES ";
+                var count = 0;
+
+                // Create the insert into orders statment with all of the products
+                foreach (DataGridViewRow row in dgdProducts.Rows)
+                {
+                    if (Convert.ToInt32(row.Cells[9].Value) > 0)
+                    {
+                        insertProducts += "(@ORDERID,'" + row.Cells[0].Value + "','" + row.Cells[9].Value + "','" +
+                                          (Convert.ToDecimal(row.Cells[7].Value)*
+                                           Convert.ToInt32(row.Cells[9].Value)) + "'),";
+                        count++;
+                    }
+                }
+                if (count == 0)
+                {
+                    MessageBox.Show("Please buy a product before adding an order");
+                    return;
+                }
+
+                // Take away the , at the end and insert a ;
+                insertProducts = insertProducts.TrimEnd(',') + ";";
+                PacketHandler.DataRecieved += cmdAddOrder_DataRecieved;
+
+                // Send the entire statement off to the server
+                Program.SendData(insertOrder + getOrderId + insertProducts);
             }
-            if (count == 0)
-            {
-                MessageBox.Show("Please buy a product before adding an order");
-                return;
-            }
-            // Take away the , at the end and insert a ;
-            insertProducts = insertProducts.TrimEnd(',') + ";";
-            PacketHandler.DataRecieved += cmdAddOrder_DataRecieved;
-            // Send the entire statement off to the server
-            Program.SendData(insertOrder + getOrderId + insertProducts);
         }
 
         /// <summary>
