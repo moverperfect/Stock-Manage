@@ -223,9 +223,22 @@ namespace Stock_Manage_Client.Classes.TabPages
             }
         }
 
+        /// <summary>
+        /// Opens a new form allowing the user to change the order 
+        /// </summary>
         private void CmdChangeDetails_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            var row = DgdOrders.SelectedRows;
+            if (row.Count > 0)
+            {
+                var changeOrder = new AddChangeOrder((int) row[0].Cells[4].Value,(int) row[0].Cells[0].Value);
+                changeOrder.ShowDialog();
+                RefreshList();
+            }
+            else
+            {
+                MessageBox.Show("Please select a row");
+            }
         }
 
         private void CmdDeleteOrder_Click(object sender, EventArgs e)

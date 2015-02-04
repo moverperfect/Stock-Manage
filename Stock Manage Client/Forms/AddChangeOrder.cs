@@ -20,11 +20,34 @@ namespace Stock_Manage_Client.Forms
         private Table _productsTable;
 
         /// <summary>
+        /// Stores the supplier id if changing a product
+        /// </summary>
+        private int _supplierId;
+        
+        /// <summary>
+        /// Stores the order id if changing a product
+        /// </summary>
+        private int _orderId;
+
+        /// <summary>
         /// Initialises a new AddChangeOrder form and refreshes the suppliers list
         /// </summary>
         public AddChangeOrder()
         {
             InitializeComponent();
+            RefreshSuppliers();
+        }
+
+        /// <summary>
+        /// Initialises the form for changing an order, takes in supplier id and order id
+        /// </summary>
+        /// <param name="supplierId">The supplier id that the order goes to</param>
+        /// <param name="orderId">The id of the order</param>
+        public AddChangeOrder(int supplierId,int orderId)
+        {
+            InitializeComponent();
+            _supplierId = supplierId;
+            _orderId = orderId;
             RefreshSuppliers();
         }
 
@@ -45,7 +68,22 @@ namespace Stock_Manage_Client.Forms
         {
             PacketHandler.DataRecieved -= RefreshSuppliers_DataRecieved;
             _suppliersTable = new Table(packet);
-            Invoke(new MethodInvoker(delegate { dgdSuppliers.DataSource = _suppliersTable.TableData; }));
+            Invoke(new MethodInvoker(delegate
+            {
+                // We remove the eventhandle here as the event triggers several times and causes errors
+                dgdSuppliers.SelectionChanged -= dgdSuppliers_SelectionChanged;
+                dgdSuppliers.DataSource = _suppliersTable.TableData;
+                dgdSuppliers.ClearSelection();
+                foreach (DataGridViewRow row in dgdSuppliers.Rows)
+                {
+                    if (row.Cells[0].Value.ToString() == _supplierId.ToString())
+                    {
+                        row.Selected = true;
+                    }
+                }
+                dgdSuppliers.SelectionChanged += dgdSuppliers_SelectionChanged;
+            }));
+            Invoke(new MethodInvoker(RefreshProducts));
         }
 
         /// <summary>
@@ -59,7 +97,15 @@ namespace Stock_Manage_Client.Forms
             if (row.Count != 0)
             {
                 PacketHandler.DataRecieved += RefreshProducts_DataRecieved;
-                Program.SendData("SELECT PK_ProductId, Barcode, Name, Location, Units_In_Case as 'Units in case', Critical_level as 'Critical Level', Nominal_Level as 'Nomianal Level', Purchase_Price as Cost, Quantity as 'Current Quantity' FROM tbl_Products WHERE FK_SupplierId = '" + row[0].Cells[0].Value + "';");
+
+                if (_orderId == 0)
+                {
+                    Program.SendData("SELECT PK_ProductId, Barcode, Name, Location, Units_In_Case as 'Units in case', Critical_level as 'Critical Level', Nominal_Level as 'Nomianal Level', Purchase_Price as Cost, Quantity as 'Current Quantity' FROM tbl_Products WHERE FK_SupplierId = '" + row[0].Cells[0].Value + "';");
+                }
+                else
+                {
+                    Program.SendData("SELECT PK_ProductId, Barcode, Name, Location, Units_In_Case as 'Units in case', Critical_level as 'Critical Level', Nominal_Level as 'Nomianal Level', Purchase_Price as Cost, Quantity as 'Current Quantity', coalesce(Product_Quantity,0) as 'Quantity' FROM (SELECT * FROM tbl_orders WHERE FK_OrderId = '" + _orderId + "')t RIGHT JOIN tbl_products ON t.FK_ProductId = tbl_products.PK_ProductId WHERE FK_SupplierId = '" + _supplierId + "';");
+                }
             }
         }
 
@@ -70,24 +116,36 @@ namespace Stock_Manage_Client.Forms
         private void RefreshProducts_DataRecieved(byte[] packet)
         {
             PacketHandler.DataRecieved -= RefreshProducts_DataRecieved;
-            _productsTable = new Table(packet);
-            // Add a new column to the table for the users to enter into
-            _productsTable.TableData.Columns.Add("Quantity", typeof(Int32));
-            // Set all columns to be readonly
-            foreach (DataColumn column in _productsTable.TableData.Columns)
+            try
             {
-                column.ReadOnly = true;
+                _productsTable = new Table(packet);
+                if (_productsTable.TableData.Columns.Count == 9)
+                {
+                    // Add a new column to the table for the users to enter into
+                    _productsTable.TableData.Columns.Add("Quantity", typeof(Int32));
+                    // Set all columns to be readonly
+                    foreach (DataColumn column in _productsTable.TableData.Columns)
+                    {
+                        column.ReadOnly = true;
+                    }
+                    // Apart from the one the users enter into
+                    _productsTable.TableData.Columns[_productsTable.TableData.Columns.Count - 1].ReadOnly = false;
+                    // Set the defualt for all rows for the quantity to be 0
+                    foreach (DataRow row in _productsTable.TableData.Rows)
+                    {
+                        row[9] = 0;
+                    } 
+                }
+                // Set the datasource and clear the selection
+                Invoke(new MethodInvoker(delegate { dgdProducts.DataSource = _productsTable.TableData; }));
+                dgdProducts.ClearSelection();
+                Invoke(new MethodInvoker(
+                    delegate { dgdProducts_CellEndEdit(new object(), new DataGridViewCellEventArgs(0, 0)); }));
             }
-            // Apart from the one the users enter into
-            _productsTable.TableData.Columns[_productsTable.TableData.Columns.Count - 1].ReadOnly = false;
-            // Set the defualt for all rows for the quantity to be 0
-            foreach (DataRow row in _productsTable.TableData.Rows)
+            catch (Exception e)
             {
-                row[9] = 0;
+                Console.WriteLine(e.Message);
             }
-            // Set the datasource and clear the selection
-            Invoke(new MethodInvoker(delegate { dgdProducts.DataSource = _productsTable.TableData; }));
-            dgdProducts.ClearSelection();
         }
 
         /// <summary>
