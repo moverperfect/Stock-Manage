@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Windows.Forms;
 using Stock_Manage_Client.Classes;
@@ -29,7 +30,10 @@ namespace Stock_Manage_Client.Forms
         /// </summary>
         private Table _suppliersTable;
 
-        private Table _tempProductsTable;
+        /// <summary>
+        /// Stores a temporary list of all of the old quantities of the old order
+        /// </summary>
+        private List<int> _tempOldQuantities = new List<int>();
 
         /// <summary>
         /// Initialises a new AddChangeOrder form and refreshes the suppliers list
@@ -145,6 +149,14 @@ namespace Stock_Manage_Client.Forms
                         row[9] = 0;
                     }
                 }
+                else
+                {
+                    // If we are changing an order and not creating a new one then set the temp table
+                    foreach (DataRow row in _productsTable.TableData.Rows)
+                    {
+                        _tempOldQuantities.Add(Convert.ToInt32(row[9].ToString()));
+                    }
+                }
                 // Set the datasource and clear the selection
                 Invoke(new MethodInvoker(delegate { dgdProducts.DataSource = _productsTable.TableData; }));
                 dgdProducts.ClearSelection();
@@ -188,7 +200,7 @@ namespace Stock_Manage_Client.Forms
         private void cmdAddOrder_Click(object sender, EventArgs e)
         {
             // If the temp is null then we are adding a new order so this code does that
-            if (_tempProductsTable == null)
+            if (_tempOldQuantities == null)
             {
                 // Check if they have selected a supplier, should always be true
                 var supplierRow = dgdSuppliers.SelectedRows;
@@ -229,6 +241,31 @@ namespace Stock_Manage_Client.Forms
 
                 // Send the entire statement off to the server
                 Program.SendData(insertOrder + getOrderId + insertProducts);
+            }
+            else
+            {
+                var updateProducts = "";
+                if ((int) dgdSuppliers.SelectedRows[0].Cells[0].Value != _supplierId)
+                {
+                    // TODO Do something if the user changes the supplier id
+                    return;
+                }
+                for (var i = 0; i < _tempOldQuantities.Count; i++)
+                {
+                    if (_tempOldQuantities[i].ToString() != dgdProducts.Rows[i].Cells[9].Value.ToString())
+                    {
+                        // TODO Add this in and send and should be complete
+                        updateProducts += "UPDATE tbl_orders SET Product_Quantity = '" +
+                                          dgdProducts.Rows[i].Cells[9].Value + "', Total_Cost = '" +
+                                          (Convert.ToDecimal(dgdProducts.Rows[i].Cells[7].Value)*
+                                           Convert.ToInt32(dgdProducts.Rows[i].Cells[9].Value)) +
+                                          "' WHERE FK_OrderId = '" + _orderId + "' AND FK_ProductId = '" +
+                                          dgdProducts.Rows[i].Cells[0].Value + "';";
+                    }
+                }
+                PacketHandler.DataRecieved += cmdAddOrder_DataRecieved;
+
+                Program.SendData(updateProducts);
             }
         }
 
