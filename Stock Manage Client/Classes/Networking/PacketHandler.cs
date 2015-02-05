@@ -22,7 +22,15 @@ namespace Stock_Manage_Client.Classes.Networking
             // Invoke the DataRecieved event
             if (DataRecieved != null && !(new StdData(packet).Text.Contains("ERROR:")))
             {
-                DataRecieved(packet);
+                try
+                {
+                    DataRecieved(packet);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                    DataRecieved = null;
+                }
                 return;
             }
 

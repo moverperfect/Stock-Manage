@@ -82,7 +82,7 @@ namespace Stock_Manage_Client.Classes.Networking
                         Array.Copy(_packet,temp,_packet.Length);
                         Array.Copy(_buffer, 0,temp, _packet.Length, noRecieved);
                         _packet = temp;
-                        if (_packet.Length != BitConverter.ToInt16(_packet,0))
+                        if (_packet.Length != BitConverter.ToInt16(_packet,0) && noRecieved != 0)
                         {
                             clientSocket.BeginReceive(_buffer, 0, 256, SocketFlags.None, ReceivedCallBack, clientSocket);
                             return;
