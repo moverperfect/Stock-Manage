@@ -7,8 +7,10 @@ using System.Windows.Forms;
 
 namespace Stock_Manage_Client.Classes.Networking
 {
+
     public class CustomSocket
     {
+        private byte[] _packet;
         private byte[] _buffer;
         private Socket _socket;
 
@@ -48,6 +50,7 @@ namespace Stock_Manage_Client.Classes.Networking
             var clientSocket = _socket.EndAccept(result);
             if (clientSocket != null)
             {
+                _packet = null;
                 _buffer = new byte[2];
 
                 clientSocket.BeginReceive(_buffer, 0, _buffer.Length, SocketFlags.None, ReceivedCallBack, clientSocket);
@@ -62,24 +65,32 @@ namespace Stock_Manage_Client.Classes.Networking
                 var clientSocket = result.AsyncState as Socket;
                 if (_buffer.Length == 2)
                 {
-                    _buffer = new byte[BitConverter.ToInt16(_buffer, 0)];
+                    _packet = _buffer;
+                    _buffer = new byte[256];
                     if (clientSocket != null && _buffer.Length != 0)
-                        clientSocket.BeginReceive(_buffer, 2, _buffer.Length - 2, SocketFlags.None, ReceivedCallBack,
+                        clientSocket.BeginReceive(_buffer, 0, 256, SocketFlags.None, ReceivedCallBack,
                             clientSocket);
                 }
                 else
                 {
-                    Array.Copy(BitConverter.GetBytes(_buffer.Length), _buffer, 2);
+                    //Array.Copy(BitConverter.GetBytes(_buffer.Length), _buffer, 2);
                     if (clientSocket != null)
                     {
                         SocketError se;
-                        var bufferSize = clientSocket.EndReceive(result, out se) + 2;
+                        var noRecieved = clientSocket.EndReceive(result, out se);
+                        var temp = new byte[_packet.Length + noRecieved];
+                        Array.Copy(_packet,temp,_packet.Length);
+                        Array.Copy(_buffer, 0,temp, _packet.Length, noRecieved);
+                        _packet = temp;
+                        if (_packet.Length != BitConverter.ToInt16(_packet,0))
+                        {
+                            clientSocket.BeginReceive(_buffer, 0, 256, SocketFlags.None, ReceivedCallBack, clientSocket);
+                            return;
+                        }
+
                         if (se == SocketError.Success)
                         {
-                            var packet = new byte[bufferSize];
-                            Array.Copy(_buffer, packet, packet.Length);
-
-                            HandlePacket(packet, clientSocket);
+                            HandlePacket(_packet, clientSocket);
                         }
                         clientSocket.Close();
                     }
