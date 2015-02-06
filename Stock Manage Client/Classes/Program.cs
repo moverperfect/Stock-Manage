@@ -32,9 +32,17 @@ namespace Stock_Manage_Client.Classes
                 try
                 {
                     GetFileData();
+                    if (Type == "debug")
+                    {
+                        Console.WriteLine("Debug mode: please enter the mode you would like!");
+                        Console.WriteLine("1. Management");
+                        Console.WriteLine("2. Ordering");
+                        Console.WriteLine("3. Workshop");
+                        Type = Console.ReadLine().ToLower();
+                    }
                     switch (Type)
                     {
-                        case "manage":
+                        case "management":
                             Console.WriteLine("This computer is set up for management");
                             Application.Run(new Authentication());
                             if (UserId != "0")
@@ -129,7 +137,7 @@ namespace Stock_Manage_Client.Classes
             {
                 Console.WriteLine("Machine id?");
                 MachineId = Console.ReadLine();
-                Console.WriteLine("Machine type? Manage, Ordering, Workshop");
+                Console.WriteLine("Machine type? Management, Ordering, Workshop");
                 Type = Console.ReadLine().ToLower();
                 Console.WriteLine("What is the IP address of the server?");
                 IpAddress = Console.ReadLine();
