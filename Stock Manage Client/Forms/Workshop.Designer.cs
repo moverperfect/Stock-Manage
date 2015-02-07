@@ -49,11 +49,11 @@
             // 
             // cmdManageProducts
             // 
-            this.cmdManageProducts.Location = new System.Drawing.Point(5, 41);
+            this.cmdManageProducts.Location = new System.Drawing.Point(5, 122);
             this.cmdManageProducts.Name = "cmdManageProducts";
-            this.cmdManageProducts.Size = new System.Drawing.Size(104, 23);
+            this.cmdManageProducts.Size = new System.Drawing.Size(104, 104);
             this.cmdManageProducts.TabIndex = 16;
-            this.cmdManageProducts.Text = "Manage Products";
+            this.cmdManageProducts.Text = "Products";
             this.cmdManageProducts.UseVisualStyleBackColor = true;
             this.cmdManageProducts.Click += new System.EventHandler(this.cmdManageProducts_Click);
             // 
@@ -61,7 +61,7 @@
             // 
             this.btn_CloseTab.Location = new System.Drawing.Point(5, 12);
             this.btn_CloseTab.Name = "btn_CloseTab";
-            this.btn_CloseTab.Size = new System.Drawing.Size(104, 23);
+            this.btn_CloseTab.Size = new System.Drawing.Size(104, 104);
             this.btn_CloseTab.TabIndex = 15;
             this.btn_CloseTab.Text = "Close Current Tab";
             this.btn_CloseTab.UseVisualStyleBackColor = true;
@@ -87,7 +87,7 @@
             this.cmdLogOut.Enabled = false;
             this.cmdLogOut.Location = new System.Drawing.Point(5, 610);
             this.cmdLogOut.Name = "cmdLogOut";
-            this.cmdLogOut.Size = new System.Drawing.Size(104, 107);
+            this.cmdLogOut.Size = new System.Drawing.Size(104, 104);
             this.cmdLogOut.TabIndex = 18;
             this.cmdLogOut.Text = "Log Out";
             this.cmdLogOut.UseVisualStyleBackColor = true;

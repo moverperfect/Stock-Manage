@@ -45,7 +45,7 @@ namespace Stock_Manage_Client.Forms
 
         private void cmdManageProducts_Click(object sender, EventArgs e)
         {
-            tc_MainControl.TabPages.Add(new ManageProductsTab());
+            tc_MainControl.TabPages.Add(new WorkshopProductsTab());
         }
 
         private void cmdLogOut_Click(object sender, EventArgs e)
