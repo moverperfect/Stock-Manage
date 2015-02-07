@@ -53,7 +53,11 @@ namespace Stock_Manage_Client.Classes
                             break;
                         case "ordering":
                             Console.WriteLine("This computer is set up for ordering");
-                            Application.Run(new Ordering());
+                            Application.Run(new Authentication());
+                            if (UserId != "0")
+                            {
+                                Application.Run(new Ordering());
+                            }
                             Environment.Exit(0);
                             break;
                         case "workshop":
