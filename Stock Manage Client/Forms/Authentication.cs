@@ -15,6 +15,13 @@ namespace Stock_Manage_Client.Forms
             InitializeComponent();
         }
 
+        public Authentication(int userId)
+        {
+            InitializeComponent();
+            txt_UserId.Text = userId.ToString();
+            txt_UserId.Enabled = false;
+        }
+
         private void txt_UserId_TextChanged(object sender, EventArgs e)
         {
             if (Regex.IsMatch(txt_UserId.Text, "[^0-9]"))
@@ -51,6 +58,7 @@ namespace Stock_Manage_Client.Forms
                 if (password == table.TableData.Rows[0]["Password_Hash"].ToString())
                 {
                     Program.UserId = txt_UserId.Text;
+                    Program.OnUserIdChanged(this, EventArgs.Empty);
                     Invoke((MethodInvoker) Close);
                     return;
                 }

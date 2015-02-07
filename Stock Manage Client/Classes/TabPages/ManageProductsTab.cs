@@ -17,6 +17,7 @@ namespace Stock_Manage_Client.Classes.TabPages
         {
             InitializeComponent();
             RefreshList();
+            Program_UserIdChanged(this, EventArgs.Empty);
         }
 
         /// <summary>
@@ -30,7 +31,8 @@ namespace Stock_Manage_Client.Classes.TabPages
             if (type == "supplier")
             {
                 SupplierId = foriegnKey;
-            } else if (type == "order")
+            }
+            else if (type == "order")
             {
                 OrderId = foriegnKey;
                 CmdAddNewProduct.Enabled = false;
@@ -177,6 +179,8 @@ namespace Stock_Manage_Client.Classes.TabPages
 
             DgdProducts.DataSourceChanged += DgdProducts_DataSourceChanged;
 
+            Program.UserIdChanged += Program_UserIdChanged;
+
             // Adding all of the controls to the tabpage
             Controls.Add(DgdProducts);
             Controls.Add(CmdAddNewProduct);
@@ -198,7 +202,9 @@ namespace Stock_Manage_Client.Classes.TabPages
             }
             else if (OrderId != 0)
             {
-                Program.SendData("SELECT PK_ProductId as 'Product Id', Barcode, Name, Description, Location, Purchase_Price as 'Purchase Price', Critical_Level as 'Critical Level', Nominal_Level as 'Nominal Level', Quantity as 'Quantity in Stock', Product_Quantity as 'Quantity Bought', Total_Cost as 'Total Cost' FROM tbl_products INNER JOIN tbl_orders ON tbl_Products.PK_ProductId = tbl_orders.FK_ProductId WHERE FK_OrderId = '" + OrderId + "';");
+                Program.SendData(
+                    "SELECT PK_ProductId as 'Product Id', Barcode, Name, Description, Location, Purchase_Price as 'Purchase Price', Critical_Level as 'Critical Level', Nominal_Level as 'Nominal Level', Quantity as 'Quantity in Stock', Product_Quantity as 'Quantity Bought', Total_Cost as 'Total Cost' FROM tbl_products INNER JOIN tbl_orders ON tbl_Products.PK_ProductId = tbl_orders.FK_ProductId WHERE FK_OrderId = '" +
+                    OrderId + "';");
             }
             else
             {
@@ -275,7 +281,7 @@ namespace Stock_Manage_Client.Classes.TabPages
             var row = DgdProducts.SelectedRows;
             if (row.Count > 0)
             {
-                if (MessageBox.Show("Are you sure?","Confirmation",MessageBoxButtons.YesNo) == DialogResult.Yes)
+                if (MessageBox.Show("Are you sure?", "Confirmation", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
                     PacketHandler.DataRecieved += CmdDeleteProduct_DataRecieved;
                     Program.SendData("DELETE FROM tbl_products WHERE PK_productId = '" + row[0].Cells[0].Value + "';");
@@ -304,16 +310,58 @@ namespace Stock_Manage_Client.Classes.TabPages
         {
             foreach (DataGridViewRow row in DgdProducts.Rows)
             {
-                if(Convert.ToInt32(row.Cells[5].Value) <= Convert.ToInt32(row.Cells[9].Value))
+                if (Convert.ToInt32(row.Cells[5].Value) <= Convert.ToInt32(row.Cells[9].Value))
                 {
                     row.DefaultCellStyle.BackColor = Color.Red;
                 }
-                else if (Convert.ToInt32(row.Cells[9].Value) < Convert.ToInt32(row.Cells[5].Value) && Convert.ToInt32(row.Cells[5].Value) < Convert.ToInt32(row.Cells[10].Value))
+                else if (Convert.ToInt32(row.Cells[9].Value) < Convert.ToInt32(row.Cells[5].Value) &&
+                         Convert.ToInt32(row.Cells[5].Value) < Convert.ToInt32(row.Cells[10].Value))
                 {
                     row.DefaultCellStyle.BackColor = Color.Orange;
                 }
             }
             DgdProducts.ClearSelection();
+        }
+
+        private void Program_UserIdChanged(object sender, EventArgs e)
+        {
+            if (Created)
+            {
+                Invoke(new MethodInvoker(delegate
+                {
+                    if (Program.UserId == "0")
+                    {
+                        CmdAddNewProduct.Enabled = false;
+                        CmdChangeQuantity.Enabled = false;
+                        CmdChangeProduct.Enabled = false;
+                        CmdDeleteProduct.Enabled = false;
+                    }
+                    else
+                    {
+                        CmdAddNewProduct.Enabled = true;
+                        CmdChangeQuantity.Enabled = true;
+                        CmdChangeProduct.Enabled = true;
+                        CmdDeleteProduct.Enabled = true;
+                    }
+                }));
+            }
+            else
+            {
+                if (Program.UserId == "0")
+                {
+                    CmdAddNewProduct.Enabled = false;
+                    CmdChangeQuantity.Enabled = false;
+                    CmdChangeProduct.Enabled = false;
+                    CmdDeleteProduct.Enabled = false;
+                }
+                else
+                {
+                    CmdAddNewProduct.Enabled = true;
+                    CmdChangeQuantity.Enabled = true;
+                    CmdChangeProduct.Enabled = true;
+                    CmdDeleteProduct.Enabled = true;
+                }
+            }
         }
     }
 }

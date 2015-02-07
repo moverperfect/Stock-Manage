@@ -16,6 +16,7 @@ namespace Stock_Manage_Client.Classes
         public static String UserId = "0";
         public static String Type;
         public static String IpAddress = "127.0.0.1";
+        public static event EventHandler UserIdChanged;
 
         /// <summary>
         ///     The main entry point for the application.
@@ -158,6 +159,12 @@ namespace Stock_Manage_Client.Classes
             {
                 typewriter.Close();
             }
+        }
+
+        public static void OnUserIdChanged(object sender, EventArgs e)
+        {
+            var handler = UserIdChanged;
+            if (handler != null) handler(null, EventArgs.Empty);
         }
 
         [DllImport("kernel32.dll", SetLastError = true)]
