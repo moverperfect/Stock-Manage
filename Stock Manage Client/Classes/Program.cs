@@ -127,6 +127,13 @@ namespace Stock_Manage_Client.Classes
         /// </summary>
         public static void SetFileData()
         {
+            Console.WriteLine("Machine id?");
+            MachineId = Console.ReadLine();
+            Console.WriteLine("Machine type? Management, Ordering, Workshop");
+            Type = Console.ReadLine().ToLower();
+            Console.WriteLine("What is the IP address of the server?");
+            IpAddress = Console.ReadLine();
+
             Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) +
                                       "/stockmanage/");
 
@@ -135,13 +142,6 @@ namespace Stock_Manage_Client.Classes
                                  "/stockmanage/machine.txt");
             try
             {
-                Console.WriteLine("Machine id?");
-                MachineId = Console.ReadLine();
-                Console.WriteLine("Machine type? Management, Ordering, Workshop");
-                Type = Console.ReadLine().ToLower();
-                Console.WriteLine("What is the IP address of the server?");
-                IpAddress = Console.ReadLine();
-
                 typewriter.WriteLine(MachineId);
                 typewriter.WriteLine(Type);
                 typewriter.WriteLine(IpAddress);
