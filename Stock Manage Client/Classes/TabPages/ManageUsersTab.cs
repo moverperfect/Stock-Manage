@@ -198,7 +198,8 @@ namespace Stock_Manage_Client.Classes.TabPages
         private void CmdRefreshList_Click(object sender, EventArgs e)
         {
             PacketHandler.DataRecieved += CmdRefreshList_DataRecieved;
-            Program.SendData("SELECT PK_UserId as 'User Id', First_Name, Second_Name, System_Role FROM tbl_users ORDER BY PK_UserId;");
+            Program.SendData(
+                "SELECT PK_UserId as 'User Id', First_Name, Second_Name, System_Role FROM tbl_users ORDER BY PK_UserId;");
         }
 
         /// <summary>
@@ -246,7 +247,8 @@ namespace Stock_Manage_Client.Classes.TabPages
                     row[0].Cells[2].Value.ToString(), row[0].Cells[3].Value.ToString());
                 detailsForm.ShowDialog();
                 PacketHandler.DataRecieved += CmdChangeName_DataRecieved;
-                Program.SendData("UPDATE tbl_users SET First_Name = '" + detailsForm.FirstName + "', Second_Name = '" + detailsForm.LastName + "' WHERE PK_UserId = '" + detailsForm.UserId + "';");
+                Program.SendData("UPDATE tbl_users SET First_Name = '" + detailsForm.FirstName + "', Second_Name = '" +
+                                 detailsForm.LastName + "' WHERE PK_UserId = '" + detailsForm.UserId + "';");
             }
             else
             {
@@ -261,7 +263,7 @@ namespace Stock_Manage_Client.Classes.TabPages
         private void CmdChangeName_DataRecieved(byte[] packet)
         {
             PacketHandler.DataRecieved -= CmdChangeName_DataRecieved;
-            Invoke((MethodInvoker)CmdRefreshList.PerformClick);
+            Invoke((MethodInvoker) CmdRefreshList.PerformClick);
         }
 
         /// <summary>
@@ -281,7 +283,8 @@ namespace Stock_Manage_Client.Classes.TabPages
                 if (detailsForm.Password == "") return;
                 var salt = Utilities.GenerateSaltValue();
                 var hash = Utilities.HashPassword(detailsForm.Password, salt, MD5.Create());
-                Program.SendData("UPDATE tbl_users SET Salt = '" + salt + "', Password_Hash = '" + hash + "' WHERE PK_UserId = '" + detailsForm.UserId + "';");
+                Program.SendData("UPDATE tbl_users SET Salt = '" + salt + "', Password_Hash = '" + hash +
+                                 "' WHERE PK_UserId = '" + detailsForm.UserId + "';");
             }
             else
             {
@@ -314,7 +317,7 @@ namespace Stock_Manage_Client.Classes.TabPages
         private void CmdDeleteUser_DataRecieved(byte[] packet)
         {
             PacketHandler.DataRecieved -= CmdDeleteUser_DataRecieved;
-            Invoke((MethodInvoker)CmdRefreshList.PerformClick);
+            Invoke((MethodInvoker) CmdRefreshList.PerformClick);
         }
 
         /// <summary>
@@ -330,7 +333,7 @@ namespace Stock_Manage_Client.Classes.TabPages
                     row[0].Cells[1].Value.ToString(),
                     row[0].Cells[2].Value.ToString(), row[0].Cells[3].Value.ToString());
                 detailsForm.ShowDialog();
-                PacketHandler.DataRecieved += CmdChangeSystemRole_DataRecieved; 
+                PacketHandler.DataRecieved += CmdChangeSystemRole_DataRecieved;
                 Program.SendData("UPDATE tbl_users SET System_Role = '" +
                                  detailsForm.SystemRole + "' WHERE PK_UserId = '" + detailsForm.UserId + "';");
             }
@@ -347,7 +350,7 @@ namespace Stock_Manage_Client.Classes.TabPages
         private void CmdChangeSystemRole_DataRecieved(byte[] packet)
         {
             PacketHandler.DataRecieved -= CmdChangeSystemRole_DataRecieved;
-            Invoke((MethodInvoker)CmdRefreshList.PerformClick);
+            Invoke((MethodInvoker) CmdRefreshList.PerformClick);
         }
     }
 }

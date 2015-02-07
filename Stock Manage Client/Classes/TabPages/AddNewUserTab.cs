@@ -13,7 +13,6 @@ namespace Stock_Manage_Client.Classes.TabPages
     /// </summary>
     internal class AddNewUserTab : TabPage
     {
-        
         /// <summary>
         /// Empty constructor for the new tab
         /// </summary>

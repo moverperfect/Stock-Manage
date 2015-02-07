@@ -47,15 +47,30 @@ namespace Stock_Manage_Client.Forms
             }
         }
 
-        public int UserId { get { return Convert.ToInt32(txtUserId.Text); } }
+        public int UserId
+        {
+            get { return Convert.ToInt32(txtUserId.Text); }
+        }
 
-        public String FirstName { get { return txtFirstName.Text; } }
+        public String FirstName
+        {
+            get { return txtFirstName.Text; }
+        }
 
-        public String LastName { get { return txtLastName.Text; } }
+        public String LastName
+        {
+            get { return txtLastName.Text; }
+        }
 
-        public String Password { get { return txtPassword.Text; } }
+        public String Password
+        {
+            get { return txtPassword.Text; }
+        }
 
-        public String SystemRole { get { return cboSystemRole.Text; } }
+        public String SystemRole
+        {
+            get { return cboSystemRole.Text; }
+        }
 
         private void cmdChangeUserDetails_Click(object sender, EventArgs e)
         {

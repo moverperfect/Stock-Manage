@@ -1,7 +1,7 @@
-﻿using Stock_Manage_Client.Classes;
-using Stock_Manage_Client.Classes.Networking;
-using System;
+﻿using System;
 using System.Windows.Forms;
+using Stock_Manage_Client.Classes;
+using Stock_Manage_Client.Classes.Networking;
 
 namespace Stock_Manage_Client.Forms
 {
@@ -19,13 +19,14 @@ namespace Stock_Manage_Client.Forms
         private void cmdChangeQuantity_Click(object sender, EventArgs e)
         {
             PacketHandler.DataRecieved += cmdChangeQuantity_DataRecieved;
-            Program.SendData("UPDATE tbl_products SET Quantity = '" + updQuantity.Value + "' WHERE PK_ProductId = '" + ProductId + "';");
+            Program.SendData("UPDATE tbl_products SET Quantity = '" + updQuantity.Value + "' WHERE PK_ProductId = '" +
+                             ProductId + "';");
         }
 
         private void cmdChangeQuantity_DataRecieved(byte[] packet)
         {
             PacketHandler.DataRecieved -= cmdChangeQuantity_DataRecieved;
-            Invoke((MethodInvoker)Close);
+            Invoke((MethodInvoker) Close);
         }
     }
 }

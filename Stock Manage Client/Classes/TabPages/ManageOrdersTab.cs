@@ -1,8 +1,8 @@
 ﻿using System;
-using Stock_Manage_Client.Classes.Networking;
-using Stock_Manage_Client.Classes.Networking.Packets;
 using System.Drawing;
 using System.Windows.Forms;
+using Stock_Manage_Client.Classes.Networking;
+using Stock_Manage_Client.Classes.Networking.Packets;
 using Stock_Manage_Client.Forms;
 
 namespace Stock_Manage_Client.Classes.TabPages
@@ -214,8 +214,8 @@ namespace Stock_Manage_Client.Classes.TabPages
 
             if (row.Count > 0)
             {
-                ((TabControl)Parent).TabPages.Add(new ManageProductsTab(Convert.ToInt32(row[0].Cells[0].Value),"order"));
-                ((TabControl)Parent).SelectedIndex = ((TabControl)Parent).TabCount - 1;
+                ((TabControl) Parent).TabPages.Add(new ManageProductsTab(Convert.ToInt32(row[0].Cells[0].Value), "order"));
+                ((TabControl) Parent).SelectedIndex = ((TabControl) Parent).TabCount - 1;
             }
             else
             {
@@ -231,7 +231,7 @@ namespace Stock_Manage_Client.Classes.TabPages
             var row = DgdOrders.SelectedRows;
             if (row.Count > 0)
             {
-                var changeOrder = new AddChangeOrder((int) row[0].Cells[4].Value,(int) row[0].Cells[0].Value);
+                var changeOrder = new AddChangeOrder((int) row[0].Cells[4].Value, (int) row[0].Cells[0].Value);
                 changeOrder.ShowDialog();
                 RefreshList();
             }

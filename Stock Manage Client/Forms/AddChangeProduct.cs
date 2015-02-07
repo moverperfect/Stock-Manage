@@ -133,7 +133,8 @@ namespace Stock_Manage_Client.Forms
             else
             {
                 var update =
-                    "UPDATE tbl_products SET Barcode='" + txtBarcode.Text + "',Name='" + txtName.Text + "',Description='" +
+                    "UPDATE tbl_products SET Barcode='" + txtBarcode.Text + "',Name='" + txtName.Text +
+                    "',Description='" +
                     txtDescription.Text + "',Location='" + txtLocation.Text + "',Quantity='" + txtQuantity.Text +
                     "',Purchase_Price='" + txtPurchasePrice.Text + "',Units_In_Case='" + txtUnitsInCase.Text +
                     "',FK_SupplierId='" + row[0].Cells[0].Value + "',Critical_Level='" + txtCriticalLevel.Text +
@@ -148,7 +149,7 @@ namespace Stock_Manage_Client.Forms
         private void cmdAddProduct_DataRecieved(byte[] packet)
         {
             PacketHandler.DataRecieved -= cmdAddProduct_DataRecieved;
-            Invoke((MethodInvoker)Close);
+            Invoke((MethodInvoker) Close);
         }
 
         /// <summary>

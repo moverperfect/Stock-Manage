@@ -11,7 +11,7 @@ namespace Stock_Manage_Client.Forms
             InitializeComponent();
         }
 
-        private void btn_CloseTab_Click(object sender, System.EventArgs e)
+        private void btn_CloseTab_Click(object sender, EventArgs e)
         {
             tc_MainControl.TabPages.Remove(tc_MainControl.SelectedTab);
         }
