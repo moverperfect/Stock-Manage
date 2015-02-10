@@ -254,15 +254,45 @@ namespace Stock_Manage_Client.Forms
                 {
                     if (_tempOldQuantities[i].ToString() != dgdProducts.Rows[i].Cells[9].Value.ToString())
                     {
-                        // TODO Add this in and send and should be complete
-                        updateProducts += "UPDATE tbl_orders SET Product_Quantity = '" +
-                                          dgdProducts.Rows[i].Cells[9].Value + "', Total_Cost = '" +
-                                          (Convert.ToDecimal(dgdProducts.Rows[i].Cells[7].Value)*
-                                           Convert.ToInt32(dgdProducts.Rows[i].Cells[9].Value)) +
-                                          "' WHERE FK_OrderId = '" + _orderId + "' AND FK_ProductId = '" +
-                                          dgdProducts.Rows[i].Cells[0].Value + "';";
+                        if (_tempOldQuantities[i].ToString() == "0")
+                        {
+                            updateProducts +=
+                                "INSERT INTO tbl_Orders (FK_OrderId,FK_ProductId,Product_Quantity,Total_Cost) VALUES ('" +
+                                _orderId + "','" + dgdProducts.Rows[i].Cells[0].Value + "','" +
+                                dgdProducts.Rows[i].Cells[9].Value + "','" +
+                                (Convert.ToDecimal(dgdProducts.Rows[i].Cells[7].Value)*
+                                 Convert.ToInt32(dgdProducts.Rows[i].Cells[9].Value)) + "');";
+                        }
+                        else if (dgdProducts.Rows[i].Cells[9].Value.ToString() == "0" || dgdProducts.Rows[i].Cells[9].Value.ToString() == "")
+                        {
+                            updateProducts += "DELETE FROM tbl_orders WHERE FK_OrderId = '" + _orderId +
+                                              "' AND FK_ProductId = '" + dgdProducts.Rows[i].Cells[0].Value + "';";
+                        }
+                        else
+                        {
+                            updateProducts += "UPDATE tbl_orders SET Product_Quantity = '" +
+                                              dgdProducts.Rows[i].Cells[9].Value + "', Total_Cost = '" +
+                                              (Convert.ToDecimal(dgdProducts.Rows[i].Cells[7].Value)*
+                                               Convert.ToInt32(dgdProducts.Rows[i].Cells[9].Value)) +
+                                              "' WHERE FK_OrderId = '" + _orderId + "' AND FK_ProductId = '" +
+                                              dgdProducts.Rows[i].Cells[0].Value + "';";
+                        }
                     }
                 }
+
+                dgdProducts_CellEndEdit(this, new DataGridViewCellEventArgs(0, 0));
+
+                if (lblTotalCost.Text == "Total Cost: £0.00" &&
+                    MessageBox.Show("Are you sure you would like to delete this order?", "Are you sure?",
+                        MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    updateProducts += "DELETE FROM tbl_purchase_orders WHERE PK_OrderId = '" + _orderId + "';";
+                }
+                else
+                {
+                    return;
+                }
+
                 PacketHandler.DataRecieved += cmdAddOrder_DataRecieved;
 
                 Program.SendData(updateProducts);
