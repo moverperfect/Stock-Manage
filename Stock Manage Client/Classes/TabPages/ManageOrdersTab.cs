@@ -241,9 +241,39 @@ namespace Stock_Manage_Client.Classes.TabPages
             }
         }
 
+        /// <summary>
+        /// Sends an sql string to the server asking for the deletion of all the orders details
+        /// </summary>
         private void CmdDeleteOrder_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            var row = DgdOrders.SelectedRows;
+
+            if (row.Count == 0)
+            {
+                MessageBox.Show("Please select a row");
+                return;
+            }
+
+            if (MessageBox.Show("Are you sure you would like to delete this order?", "Are you sure?",
+                MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                var deleteOrder = "DELETE FROM tbl_orders WHERE FK_OrderId = '" + row[0].Cells[0].Value +
+                                  "'; DELETE FROM tbl_purchase_orders WHERE PK_OrderId = '" + row[0].Cells[0].Value +
+                                  "';";
+                PacketHandler.DataRecieved += CmdDeleteOrder_PacketRecieved;
+
+                Program.SendData(deleteOrder);
+            }
+        }
+
+        /// <summary>
+        /// Happens after we have deleted an order, calls for the refresh of the list
+        /// </summary>
+        /// <param name="packet"></param>
+        private void CmdDeleteOrder_PacketRecieved(byte[] packet)
+        {
+            PacketHandler.DataRecieved -= CmdDeleteOrder_PacketRecieved;
+            Invoke(new MethodInvoker(RefreshList));
         }
     }
 }
