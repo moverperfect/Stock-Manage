@@ -44,7 +44,7 @@
             this.tc_MainControl.Location = new System.Drawing.Point(115, 12);
             this.tc_MainControl.Name = "tc_MainControl";
             this.tc_MainControl.SelectedIndex = 0;
-            this.tc_MainControl.Size = new System.Drawing.Size(874, 705);
+            this.tc_MainControl.Size = new System.Drawing.Size(808, 705);
             this.tc_MainControl.TabIndex = 7;
             // 
             // cmdManageProducts
@@ -65,6 +65,7 @@
             this.btn_CloseTab.TabIndex = 15;
             this.btn_CloseTab.Text = "Close Current Tab";
             this.btn_CloseTab.UseVisualStyleBackColor = true;
+            this.btn_CloseTab.Click += new System.EventHandler(this.btn_CloseTab_Click);
             // 
             // dgdUsers
             // 
@@ -72,7 +73,7 @@
             this.dgdUsers.AllowUserToDeleteRows = false;
             this.dgdUsers.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.dgdUsers.Location = new System.Drawing.Point(995, 12);
+            this.dgdUsers.Location = new System.Drawing.Point(929, 12);
             this.dgdUsers.MultiSelect = false;
             this.dgdUsers.Name = "dgdUsers";
             this.dgdUsers.ReadOnly = true;
@@ -97,7 +98,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1350, 729);
+            this.ClientSize = new System.Drawing.Size(1284, 729);
             this.Controls.Add(this.cmdLogOut);
             this.Controls.Add(this.dgdUsers);
             this.Controls.Add(this.cmdManageProducts);
