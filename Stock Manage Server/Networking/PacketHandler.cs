@@ -36,12 +36,13 @@ namespace Stock_Manage_Server.Networking
                     connecter.NonQuery(nonQuery.Text);
                     Console.WriteLine(nonQuery.Text);
                     // TODO Maybe verify this message?
-                    clientSocket.Send(new StdData("Success", Program.MachineId, Program.UserId).Buffer);
+                    clientSocket.Send(new StdData("Success", Program.MachineId, Program.UserId).Data);
                     break;
 
                 case 2002:
                     var select = new StdData(packet);
                     connecter = new SqlConnecter("db_inventorymanagement");
+                    Console.WriteLine(select.Text);
                     var response = connecter.Select(select.Text);
                     if (response is DataTable)
                     {
