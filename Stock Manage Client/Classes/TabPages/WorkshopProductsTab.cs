@@ -7,6 +7,9 @@ using Stock_Manage_Client.Forms;
 
 namespace Stock_Manage_Client.Classes.TabPages
 {
+    /// <summary>
+    /// The tab page that acts as the front screen for managing products for workshop personnel 
+    /// </summary>
     internal class WorkshopProductsTab : TabPage
     {
         /// <summary>
@@ -136,8 +139,10 @@ namespace Stock_Manage_Client.Classes.TabPages
                 UseVisualStyleBackColor = true
             };
 
+            // When the user id changes, then check to see to enable/disable certain button
             Program.UserIdChanged += Program_UserIdChanged;
 
+            // Add all of the click event handlers needed for the tab page
             CmdAddCustom.Click += CmdAddQuantity_Click;
             CmdAddTen.Click += CmdAddQuantity_Click;
             CmdAddFive.Click += CmdAddQuantity_Click;
@@ -158,8 +163,10 @@ namespace Stock_Manage_Client.Classes.TabPages
             Controls.Add(CmdUseCustom);
             Controls.Add(DgdProducts);
 
+            // Enable/Disable the buttons according to what the user id currently is
             Program_UserIdChanged(this, EventArgs.Empty);
 
+            // Refresh the list of products in the tab page
             RefreshList();
         }
 
@@ -194,7 +201,7 @@ namespace Stock_Manage_Client.Classes.TabPages
         /// Allows the user to use one of the selected product
         /// </summary>
         private Button CmdUseOne { get; set; }
-        
+
         /// <summary>
         /// Allows the user to use 5 of the selected product
         /// </summary>
@@ -242,6 +249,7 @@ namespace Stock_Manage_Client.Classes.TabPages
         /// </summary>
         private void Program_UserIdChanged(object sender, EventArgs e)
         {
+            // If the tab page has been created then an invoke needs to be called, if not then can just call the function on this thread
             if (Created)
             {
                 Invoke(new MethodInvoker(() => ChangeButtonsEnabled(Program.UserId != "0")));
@@ -269,20 +277,22 @@ namespace Stock_Manage_Client.Classes.TabPages
         }
 
         /// <summary>
-        /// 
+        /// The main function that deals with all of the adding and removing of specified product quantity and updating that with the server
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">The object that the function call came from</param>
         private void CmdAddQuantity_Click(object sender, EventArgs e)
         {
             var row = DgdProducts.SelectedRows;
 
-            if (row.Count !=  0)
+            // If we have a row selected
+            if (row.Count != 0)
             {
+                // Create button as the object the function call came from
                 var btn = sender as Button;
 
                 var quantity = 0;
 
+                // Check the name of the button and depending on the name change the quantity to be added or removed
                 switch (btn.Name)
                 {
                     case "CmdAddCustom":
@@ -322,16 +332,22 @@ namespace Stock_Manage_Client.Classes.TabPages
                         break;
                 }
 
+                // Quantity is now turned into the actual quantity not just the number to be taken or given
                 quantity = int.Parse(row[0].Cells[5].Value.ToString()) + quantity;
 
+                // Initialise the statement that needs to be created to change this quantity
                 var sqlUpdate = "UPDATE tbl_products SET Quantity = '" + quantity + "' WHERE PK_ProductId = '" +
                                 row[0].Cells[0].Value + "';";
 
+                // Send the statemet to the server
                 PacketHandler.DataRecieved += CmdAddQuantity_DataRecieved;
                 Program.SendData(sqlUpdate);
             }
         }
 
+        /// <summary>
+        /// Happens the the server returns back that the data has been updated, then updates the list of products
+        /// </summary>
         private void CmdAddQuantity_DataRecieved(byte[] packet)
         {
             PacketHandler.DataRecieved -= CmdAddQuantity_DataRecieved;
