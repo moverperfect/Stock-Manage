@@ -170,7 +170,7 @@
             this.cmdClear.TabIndex = 12;
             this.cmdClear.Text = "Clear";
             this.cmdClear.UseVisualStyleBackColor = true;
-            this.cmdClear.Click += new System.EventHandler(this.cmdCancel_Click);
+            this.cmdClear.Click += new System.EventHandler(this.cmdClear_Click);
             // 
             // InputNumberPad
             // 
