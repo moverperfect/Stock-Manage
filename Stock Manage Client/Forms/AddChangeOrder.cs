@@ -8,12 +8,15 @@ using Stock_Manage_Client.Classes.Networking.Packets;
 
 namespace Stock_Manage_Client.Forms
 {
+    /// <summary>
+    /// Allows the user to add or change the details about an order
+    /// </summary>
     public partial class AddChangeOrder : Form
     {
         /// <summary>
         /// Stores the order id if changing a product
         /// </summary>
-        private int _orderId;
+        private readonly int _orderId;
 
         /// <summary>
         /// Stores the table data for products
@@ -23,7 +26,7 @@ namespace Stock_Manage_Client.Forms
         /// <summary>
         /// Stores the supplier id if changing a product
         /// </summary>
-        private int _supplierId;
+        private readonly int _supplierId;
 
         /// <summary>
         /// Stores the table data for suppliers
@@ -33,7 +36,7 @@ namespace Stock_Manage_Client.Forms
         /// <summary>
         /// Stores a temporary list of all of the old quantities of the old order
         /// </summary>
-        private List<int> _tempOldQuantities = new List<int>();
+        private readonly List<int> _tempOldQuantities = new List<int>();
 
         /// <summary>
         /// Initialises a new AddChangeOrder form and refreshes the suppliers list
@@ -96,7 +99,6 @@ namespace Stock_Manage_Client.Forms
         /// <summary>
         /// Refreshes the products table with the parsed supplierId
         /// </summary>
-        /// <param name="supplierId">Only products with this supplierId will show</param>
         private void RefreshProducts()
         {
             var row = dgdSuppliers.SelectedRows;
@@ -105,6 +107,7 @@ namespace Stock_Manage_Client.Forms
             {
                 PacketHandler.DataRecieved += RefreshProducts_DataRecieved;
 
+                // If order if is 0 then get all the products for the selected supplier, if not then that means that we are looking at a previous order so get the details for that order
                 if (_orderId == 0)
                 {
                     Program.SendData(
@@ -161,7 +164,7 @@ namespace Stock_Manage_Client.Forms
                 Invoke(new MethodInvoker(delegate { dgdProducts.DataSource = _productsTable.TableData; }));
                 dgdProducts.ClearSelection();
                 Invoke(new MethodInvoker(
-                    delegate { dgdProducts_CellEndEdit(new object(), new DataGridViewCellEventArgs(0, 0)); }));
+                    () => dgdProducts_CellEndEdit(new object(), new DataGridViewCellEventArgs(0, 0))));
             }
             catch (Exception e)
             {
@@ -244,18 +247,26 @@ namespace Stock_Manage_Client.Forms
             }
             else
             {
+                // This is the entire sql string
                 var updateProducts = "";
+
+                // If this is a current order and the user has changed the supplier then who knows what to do
                 if ((int) dgdSuppliers.SelectedRows[0].Cells[0].Value != _supplierId)
                 {
                     // TODO Do something if the user changes the supplier id
                     return;
                 }
+
+                // For all of the products that the supplier has
                 for (var i = 0; i < _tempOldQuantities.Count; i++)
                 {
+                    // If the old quantity is different to the new quantity
                     if (_tempOldQuantities[i].ToString() != dgdProducts.Rows[i].Cells[9].Value.ToString())
                     {
+                        // If the old quantity was 0 so needs to be inserted into the database
                         if (_tempOldQuantities[i].ToString() == "0")
                         {
+                            // Add the 'new' product to the database
                             updateProducts +=
                                 "INSERT INTO tbl_Orders (FK_OrderId,FK_ProductId,Product_Quantity,Total_Cost) VALUES ('" +
                                 _orderId + "','" + dgdProducts.Rows[i].Cells[0].Value + "','" +
@@ -263,11 +274,14 @@ namespace Stock_Manage_Client.Forms
                                 (Convert.ToDecimal(dgdProducts.Rows[i].Cells[7].Value)*
                                  Convert.ToInt32(dgdProducts.Rows[i].Cells[9].Value)) + "');";
                         }
-                        else if (dgdProducts.Rows[i].Cells[9].Value.ToString() == "0" || dgdProducts.Rows[i].Cells[9].Value.ToString() == "")
+                            // If the new product quantity is 0 then remove it from the order on the database
+                        else if (dgdProducts.Rows[i].Cells[9].Value.ToString() == "0" ||
+                                 dgdProducts.Rows[i].Cells[9].Value.ToString() == "")
                         {
                             updateProducts += "DELETE FROM tbl_orders WHERE FK_OrderId = '" + _orderId +
                                               "' AND FK_ProductId = '" + dgdProducts.Rows[i].Cells[0].Value + "';";
                         }
+                            // Else update the row in the database to the new quantity
                         else
                         {
                             updateProducts += "UPDATE tbl_orders SET Product_Quantity = '" +
@@ -280,8 +294,10 @@ namespace Stock_Manage_Client.Forms
                     }
                 }
 
+                // Update the total cost label
                 dgdProducts_CellEndEdit(this, new DataGridViewCellEventArgs(0, 0));
 
+                // If the total cost label is 0 then the user is trying to delete the order so then ask them with a messagebox if they would like to delete the order
                 if (lblTotalCost.Text == "Total Cost: £0.00" &&
                     MessageBox.Show("Are you sure you would like to delete this order?", "Are you sure?",
                         MessageBoxButtons.YesNo) == DialogResult.Yes)
@@ -293,8 +309,8 @@ namespace Stock_Manage_Client.Forms
                     return;
                 }
 
+                // Send all of the sql of to the server
                 PacketHandler.DataRecieved += cmdAddOrder_DataRecieved;
-
                 Program.SendData(updateProducts);
             }
         }
