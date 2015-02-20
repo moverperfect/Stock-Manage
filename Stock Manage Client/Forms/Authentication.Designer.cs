@@ -1,6 +1,6 @@
 ﻿namespace Stock_Manage_Client.Forms
 {
-    partial class Authentication
+    internal partial class Authentication
     {
         /// <summary>
         /// Required designer variable.

@@ -45,7 +45,7 @@ namespace Stock_Manage_Client.Classes
                     {
                         case "management":
                             Console.WriteLine("This computer is set up for management");
-                            Application.Run(new Authentication());
+                            Application.Run(new Authentication("m"));
                             if (UserId != "0")
                             {
                                 Application.Run(new Management());
@@ -54,7 +54,7 @@ namespace Stock_Manage_Client.Classes
                             break;
                         case "ordering":
                             Console.WriteLine("This computer is set up for ordering");
-                            Application.Run(new Authentication());
+                            Application.Run(new Authentication("o"));
                             if (UserId != "0")
                             {
                                 Application.Run(new Ordering());
