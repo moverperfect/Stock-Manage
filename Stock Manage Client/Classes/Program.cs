@@ -8,14 +8,39 @@ using Stock_Manage_Client.Forms;
 
 namespace Stock_Manage_Client.Classes
 {
+    /// <summary>
+    /// Main entry point to the program
+    /// </summary>
     internal static class Program
     {
+        /// <summary>
+        /// Custom socket used to communicate with the server
+        /// </summary>
         private static readonly CustomSocket ClientSocket = new CustomSocket();
+
+        /// <summary>
+        /// The machine id of the machine
+        /// </summary>
         public static String MachineId;
-        // TODO CODE THIS IN
+        
+        /// <summary>
+        /// The user id of the user that is logged in
+        /// </summary>
         public static String UserId = "0";
+        
+        /// <summary>
+        /// The type of machine, Management, Workshop or ordering
+        /// </summary>
         public static String Type;
+        
+        /// <summary>
+        /// The ip address of the server to communicate with
+        /// </summary>
         public static String IpAddress = "127.0.0.1";
+        
+        /// <summary>
+        /// Event handler that triggers when the user id changes
+        /// </summary>
         public static event EventHandler UserIdChanged;
 
         /// <summary>
@@ -161,6 +186,9 @@ namespace Stock_Manage_Client.Classes
             }
         }
 
+        /// <summary>
+        /// Happens when the user id gets changed, calls the eventhandler
+        /// </summary>
         public static void OnUserIdChanged(object sender, EventArgs e)
         {
             var handler = UserIdChanged;
