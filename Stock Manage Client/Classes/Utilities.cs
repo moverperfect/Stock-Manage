@@ -5,8 +5,15 @@ using System.Text;
 
 namespace Stock_Manage_Client.Classes
 {
+    /// <summary>
+    /// Class that contains common utilites that the program uses like Generating salts and generating a hash value from a string
+    /// </summary>
     internal static class Utilities
     {
+        /// <summary>
+        /// Generates a random string salt value
+        /// </summary>
+        /// <returns>Random string</returns>
         public static string GenerateSaltValue()
         {
             // TODO Clean up this code a lot
@@ -38,6 +45,13 @@ namespace Stock_Manage_Client.Classes
             return saltValueString;
         }
 
+        /// <summary>
+        /// Generates a hash value
+        /// </summary>
+        /// <param name="clearData">Data to be hashed</param>
+        /// <param name="saltValue">The salt to add on to the end of the data</param>
+        /// <param name="hash">The hashing algorithm</param>
+        /// <returns>The final hash from the input string</returns>
         public static string HashPassword(string clearData, string saltValue, HashAlgorithm hash)
         {
             var encoding = new UTF8Encoding();
