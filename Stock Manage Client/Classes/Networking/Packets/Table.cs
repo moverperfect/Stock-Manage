@@ -6,21 +6,21 @@ using System.Runtime.Serialization.Formatters.Binary;
 namespace Stock_Manage_Client.Classes.Networking.Packets
 {
     /// <summary>
-    ///     A Table object for byte arrays
+    /// A Table object for byte arrays
     /// </summary>
     public class Table : PacketStructure
     {
         /// <summary>
-        ///     The DataTable data
+        /// The DataTable data
         /// </summary>
         private DataTable _table;
 
         /// <summary>
-        ///     Create a new Table with a DataTable
+        /// Create a new Table with a DataTable
         /// </summary>
-        /// <param name="tmpTable"></param>
-        /// <param name="machineId"></param>
-        /// <param name="userId"></param>
+        /// <param name="tmpTable">The table to be stored in the byte array</param>
+        /// <param name="machineId">The machine id of the machine that created the packet</param>
+        /// <param name="userId">The user id of the user who created the packet</param>
         public Table(DataTable tmpTable, ushort machineId, ushort userId)
         {
             TableData = tmpTable;
@@ -30,22 +30,28 @@ namespace Stock_Manage_Client.Classes.Networking.Packets
             WriteUShort(userId, 6);
         }
 
+        /// <summary>
+        /// Create a new Table with byte array already
+        /// </summary>
+        /// <param name="bytes">The byte array to be made with</param>
         public Table(Byte[] bytes)
             : base(bytes)
         {
-            // TODO When increase the packet change this
             var tempBytes = new Byte[bytes.Length - 8];
             Array.Copy(bytes, 8, tempBytes, 0, tempBytes.Length);
             ByteArrayToTable(tempBytes);
         }
 
+        /// <summary>
+        /// Create a empty Table packet
+        /// </summary>
         public Table()
         {
             _table = new DataTable();
         }
 
         /// <summary>
-        ///     The Datatable
+        /// The Datatable
         /// </summary>
         public DataTable TableData
         {
@@ -57,22 +63,29 @@ namespace Stock_Manage_Client.Classes.Networking.Packets
             }
         }
 
-
+        /// <summary>
+        /// Turns a DataTable into a byte array
+        /// </summary>
+        /// <param name="tmpList"></param>
         public void TableToByteArray(DataTable tmpList)
         {
             byte[] binaryDataResult;
+            // Serializing the DataTable
             using (var memStream = new MemoryStream())
             {
                 var brFormatter = new BinaryFormatter();
                 brFormatter.Serialize(memStream, tmpList);
                 binaryDataResult = memStream.ToArray();
             }
-            // TODO CHANGE THIS WHEN CHANGE PACKET STRUCTURE
             Buffer = new Byte[binaryDataResult.Length + 8];
             WriteUShort((ushort) Buffer.Length, 0);
             Array.Copy(binaryDataResult, 0, Buffer, 8, binaryDataResult.Length);
         }
 
+        /// <summary>
+        /// Turns the byte array into a DataTable
+        /// </summary>
+        /// <param name="arrayBytes">The byte array to be turned into a byte array</param>
         public void ByteArrayToTable(Byte[] arrayBytes)
         {
             Buffer = arrayBytes;

@@ -5,13 +5,27 @@ using Stock_Manage_Client.Classes.Networking.Packets;
 
 namespace Stock_Manage_Client.Classes.Networking
 {
+    /// <summary>
+    /// Class to handle any packets that come into the program
+    /// </summary>
     internal static class PacketHandler
     {
-        // A custom event handler that triggers when a packet comes through this class
+        /// <summary>
+        ///  A custom event handler where a byte array can be parsed through at the event
+        /// </summary>
+        /// <param name="packet">The byte array that was recieved</param>
         public delegate void DataRecievedEventHandler(byte[] packet);
 
+        /// <summary>
+        /// Event handler that happens when data is recieved apart from errors, byte array is parsed at event
+        /// </summary>
         public static event DataRecievedEventHandler DataRecieved;
 
+        /// <summary>
+        /// Handles the packet, whether error or event handler
+        /// </summary>
+        /// <param name="packet">The packet that is being handled</param>
+        /// <param name="clientSocket">The client socket incase a message needs to be sent back to the server</param>
         public static void Handle(byte[] packet, Socket clientSocket)
         {
             var packetLength = BitConverter.ToUInt16(packet, 0);
