@@ -29,9 +29,6 @@ namespace Stock_Manage_Client.Classes.TabPages
                 UseVisualStyleBackColor = true,
             };
 
-            // Add event handler for the click
-            CmdAddUser.Click += CmdAddUser_Click;
-
             // TextBox for the password
             TxtPassword = new TextBox
             {
@@ -41,9 +38,6 @@ namespace Stock_Manage_Client.Classes.TabPages
                 Size = new Size(100, 20),
                 TabIndex = 3
             };
-
-            // Add event handler for text changed to ensure only numbers can only be entered
-            TxtPassword.TextChanged += TxtPassword_TextChanged;
 
             // Textbox for entering last name
             TxtLastName = new TextBox
@@ -122,6 +116,10 @@ namespace Stock_Manage_Client.Classes.TabPages
                 Text = "System Role"
             };
 
+            // Add event handlers for button and textbox
+            CmdAddUser.Click += CmdAddUser_Click;
+            TxtPassword.TextChanged += TxtPassword_TextChanged;
+
             // Adding all of the controls to the tabpage
             Controls.Add(CmdAddUser);
             Controls.Add(TxtPassword);
@@ -142,15 +140,49 @@ namespace Stock_Manage_Client.Classes.TabPages
             UseVisualStyleBackColor = true;
         }
 
-        // Declaring all of the tab controls
+        /// <summary>
+        /// Label that shows the user where the first name text box is
+        /// </summary>
         private Label LblFirstName { get; set; }
+
+        /// <summary>
+        /// Label that shows the user where the second name text box is
+        /// </summary>
         private Label LblSecondName { get; set; }
+
+        /// <summary>
+        /// Label that shows the user where the password text box is
+        /// </summary>
         private Label LblPassword { get; set; }
+
+        /// <summary>
+        /// Label that shows the user where the system role box is
+        /// </summary>
         private Label LblSystemRole { get; set; }
+
+        /// <summary>
+        /// Button that adds the user to the system
+        /// </summary>
         private Button CmdAddUser { get; set; }
+
+        /// <summary>
+        /// Textbox for entering password into the system
+        /// </summary>
         private TextBox TxtPassword { get; set; }
+
+        /// <summary>
+        /// Textbox for entering Last name
+        /// </summary>
         private TextBox TxtLastName { get; set; }
+        
+        /// <summary>
+        /// Textbox for entering first name
+        /// </summary>
         private TextBox TxtFirstName { get; set; }
+
+        /// <summary>
+        /// The combobox that allows the user to select the system role of the user
+        /// </summary>
         private ComboBox CboSystemRole { get; set; }
 
         /// <summary>
@@ -158,6 +190,7 @@ namespace Stock_Manage_Client.Classes.TabPages
         /// </summary>
         private void CmdAddUser_Click(object sender, EventArgs e)
         {
+            // If there is missing information
             if (TxtFirstName.Text == "" || TxtLastName.Text == "" || TxtPassword.Text == "" || CboSystemRole.Text == "")
             {
                 MessageBox.Show("Missing information, insert and try again");

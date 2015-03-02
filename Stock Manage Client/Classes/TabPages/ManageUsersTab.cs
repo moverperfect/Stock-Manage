@@ -8,6 +8,9 @@ using Stock_Manage_Client.Forms;
 
 namespace Stock_Manage_Client.Classes.TabPages
 {
+    /// <summary>
+    /// Allows the management of users including add/deleteing and changing
+    /// </summary>
     internal class ManageUsersTab : TabPage
     {
         /// <summary>

@@ -7,6 +7,9 @@ using Stock_Manage_Client.Forms;
 
 namespace Stock_Manage_Client.Classes.TabPages
 {
+    /// <summary>
+    /// Allows management/ordering users to manage orders, add/change/delete
+    /// </summary>
     internal class ManageOrdersTab : TabPage
     {
         /// <summary>
@@ -151,6 +154,7 @@ namespace Stock_Manage_Client.Classes.TabPages
                 UseVisualStyleBackColor = true
             };
 
+            // Add clicking event handlers
             CmdAddNewOrder.Click += CmdAddNewOrder_Click;
             CmdViewProducts.Click += CmdViewProducts_Click;
             CmdChangeDetails.Click += CmdChangeDetails_Click;
@@ -206,8 +210,6 @@ namespace Stock_Manage_Client.Classes.TabPages
         /// <summary>
         /// Opens a new tab that only shows a detailed view of the products fot the selected order
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void CmdViewProducts_Click(object sender, EventArgs e)
         {
             var row = DgdOrders.SelectedRows;
@@ -269,7 +271,7 @@ namespace Stock_Manage_Client.Classes.TabPages
         /// <summary>
         /// Happens after we have deleted an order, calls for the refresh of the list
         /// </summary>
-        /// <param name="packet"></param>
+        /// <param name="packet">Success message back from the server</param>
         private void CmdDeleteOrder_PacketRecieved(byte[] packet)
         {
             PacketHandler.DataRecieved -= CmdDeleteOrder_PacketRecieved;

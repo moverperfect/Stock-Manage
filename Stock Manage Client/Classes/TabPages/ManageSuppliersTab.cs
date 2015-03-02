@@ -7,6 +7,9 @@ using Stock_Manage_Client.Forms;
 
 namespace Stock_Manage_Client.Classes.TabPages
 {
+    /// <summary>
+    /// Allows the management of suppliers, add/change/delete
+    /// </summary>
     internal class ManageSuppliersTab : TabPage
     {
         /// <summary>

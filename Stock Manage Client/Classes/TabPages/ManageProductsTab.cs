@@ -7,6 +7,9 @@ using Stock_Manage_Client.Forms;
 
 namespace Stock_Manage_Client.Classes.TabPages
 {
+    /// <summary>
+    /// A tab page that can manage products, shows products in datagridview on load
+    /// </summary>
     internal class ManageProductsTab : TabPage
     {
         /// <summary>
