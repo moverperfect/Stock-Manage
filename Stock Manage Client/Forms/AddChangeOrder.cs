@@ -19,24 +19,24 @@ namespace Stock_Manage_Client.Forms
         private readonly int _orderId;
 
         /// <summary>
-        /// Stores the table data for products
-        /// </summary>
-        private Table _productsTable;
-
-        /// <summary>
         /// Stores the supplier id if changing a product
         /// </summary>
         private readonly int _supplierId;
 
         /// <summary>
-        /// Stores the table data for suppliers
-        /// </summary>
-        private Table _suppliersTable;
-
-        /// <summary>
         /// Stores a temporary list of all of the old quantities of the old order
         /// </summary>
         private readonly List<int> _tempOldQuantities = new List<int>();
+
+        /// <summary>
+        /// Stores the table data for products
+        /// </summary>
+        private Table _productsTable;
+
+        /// <summary>
+        /// Stores the table data for suppliers
+        /// </summary>
+        private Table _suppliersTable;
 
         /// <summary>
         /// Initialises a new AddChangeOrder form and refreshes the suppliers list
