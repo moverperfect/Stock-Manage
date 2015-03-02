@@ -49,7 +49,7 @@ namespace Stock_Manage_Client.Classes.Networking.Packets
         public StdData(byte[] packet)
             : base(packet)
         {
-            
+
         }
 
         /// <summary>

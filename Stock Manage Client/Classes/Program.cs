@@ -22,22 +22,22 @@ namespace Stock_Manage_Client.Classes
         /// The machine id of the machine
         /// </summary>
         public static String MachineId;
-        
+
         /// <summary>
         /// The user id of the user that is logged in
         /// </summary>
         public static String UserId = "0";
-        
+
         /// <summary>
         /// The type of machine, Management, Workshop or ordering
         /// </summary>
         public static String Type;
-        
+
         /// <summary>
         /// The ip address of the server to communicate with
         /// </summary>
         public static String IpAddress = "127.0.0.1";
-        
+
         /// <summary>
         /// Event handler that triggers when the user id changes
         /// </summary>

@@ -174,7 +174,7 @@ namespace Stock_Manage_Client.Classes.TabPages
         /// Textbox for entering Last name
         /// </summary>
         private TextBox TxtLastName { get; set; }
-        
+
         /// <summary>
         /// Textbox for entering first name
         /// </summary>
