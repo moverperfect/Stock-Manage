@@ -203,7 +203,7 @@ namespace Stock_Manage_Client.Forms
         private void cmdAddOrder_Click(object sender, EventArgs e)
         {
             // If the temp is null then we are adding a new order so this code does that
-            if (_tempOldQuantities == null)
+            if (_tempOldQuantities.Count == 0)
             {
                 // Check if they have selected a supplier, should always be true
                 var supplierRow = dgdSuppliers.SelectedRows;
