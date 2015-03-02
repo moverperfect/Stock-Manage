@@ -4,8 +4,15 @@ using System.Windows.Forms;
 
 namespace Stock_Manage_Client.Forms
 {
+    /// <summary>
+    /// Allows the user to change a users details
+    /// TODO Change this to do sql inhouse
+    /// </summary>
     public partial class ChangeUserDetails : Form
     {
+        /// <summary>
+        /// Initialises the form
+        /// </summary>
         public ChangeUserDetails()
         {
             InitializeComponent();
@@ -47,36 +54,57 @@ namespace Stock_Manage_Client.Forms
             }
         }
 
+        /// <summary>
+        /// User id
+        /// </summary>
         public int UserId
         {
             get { return Convert.ToInt32(txtUserId.Text); }
         }
 
+        /// <summary>
+        /// First Name
+        /// </summary>
         public String FirstName
         {
             get { return txtFirstName.Text; }
         }
 
+        /// <summary>
+        /// Last Name
+        /// </summary>
         public String LastName
         {
             get { return txtLastName.Text; }
         }
 
+        /// <summary>
+        /// Password
+        /// </summary>
         public String Password
         {
             get { return txtPassword.Text; }
         }
 
+        /// <summary>
+        /// SystemRole
+        /// </summary>
         public String SystemRole
         {
             get { return cboSystemRole.Text; }
         }
 
+        /// <summary>
+        /// Closes the form
+        /// </summary>
         private void cmdChangeUserDetails_Click(object sender, EventArgs e)
         {
             Close();
         }
 
+        /// <summary>
+        /// Ensures that only numbers can be entered into the password textbox
+        /// </summary>
         private void txtPassword_TextChanged(object sender, EventArgs e)
         {
             if (Regex.IsMatch(txtPassword.Text, "[^0-9]"))

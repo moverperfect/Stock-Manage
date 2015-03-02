@@ -5,6 +5,9 @@ using Stock_Manage_Client.Classes.Networking;
 
 namespace Stock_Manage_Client.Forms
 {
+    /// <summary>
+    /// Allows the adding and changing of a suppliers details
+    /// </summary>
     public partial class AddChangeSupplier : Form
     {
         /// <summary>

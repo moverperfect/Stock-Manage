@@ -8,6 +8,9 @@ using Stock_Manage_Client.Classes.Networking.Packets;
 
 namespace Stock_Manage_Client.Forms
 {
+    /// <summary>
+    /// Form to allow the adding and changing of a product
+    /// </summary>
     public partial class AddChangeProduct : Form
     {
         /// <summary>
@@ -164,6 +167,10 @@ namespace Stock_Manage_Client.Forms
 
         #region Data Validation for all of the number input textboxes
 
+        /// <summary>
+        /// Data validation, prevents letters being typed into the textboxes
+        /// TODO Combine into one function
+        /// </summary>
         private void txtQuantity_TextChanged(object sender, EventArgs e)
         {
             if (Regex.IsMatch(txtQuantity.Text, "[^0-9]"))
@@ -173,6 +180,9 @@ namespace Stock_Manage_Client.Forms
             }
         }
 
+        /// <summary>
+        /// Data validation, prevents letters being typed into the textboxes
+        /// </summary>
         private void txtUnitsInCase_TextChanged(object sender, EventArgs e)
         {
             if (Regex.IsMatch(txtUnitsInCase.Text, "[^0-9]"))
@@ -182,6 +192,9 @@ namespace Stock_Manage_Client.Forms
             }
         }
 
+        /// <summary>
+        /// Data validation, prevents letters being typed into the textboxes
+        /// </summary>
         private void txtCriticalLevel_TextChanged(object sender, EventArgs e)
         {
             if (Regex.IsMatch(txtCriticalLevel.Text, "[^0-9]"))
@@ -191,6 +204,9 @@ namespace Stock_Manage_Client.Forms
             }
         }
 
+        /// <summary>
+        /// Data validation, prevents letters being typed into the textboxes
+        /// </summary>
         private void txtNominalLevel_TextChanged(object sender, EventArgs e)
         {
             if (Regex.IsMatch(txtNominalLevel.Text, "[^0-9]"))
