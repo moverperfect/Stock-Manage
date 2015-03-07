@@ -5,10 +5,19 @@ using Stock_Manage_Client.Classes.Networking.Packets;
 
 namespace Stock_Manage_Server.Networking
 {
+    /// <summary>
+    /// Handles all incoming packets into the server after fully recieving them
+    /// </summary>
     internal static class PacketHandler
     {
+        /// <summary>
+        /// Handles all incoming packets into the server after fully recieving them
+        /// </summary>
+        /// <param name="packet">The packet that was recieved</param>
+        /// <param name="clientSocket">The socket, used for sending back data to the client</param>
         public static void Handle(byte[] packet, Socket clientSocket)
         {
+            // Get the packet length and type
             var packetLength = BitConverter.ToUInt16(packet, 0);
             var packetType = BitConverter.ToUInt16(packet, 2);
 
@@ -26,11 +35,13 @@ namespace Stock_Manage_Server.Networking
             switch (packetType)
             {
                 case 2000:
+                    // Standard message, never used
                     var msg = new StdData(packet);
                     Console.WriteLine(msg.Text);
                     break;
 
                 case 2001:
+                    // Executes a non query to the sql server
                     var nonQuery = new StdData(packet);
                     connecter = new SqlConnecter("db_inventorymanagement");
                     connecter.NonQuery(nonQuery.Text);
@@ -40,6 +51,7 @@ namespace Stock_Manage_Server.Networking
                     break;
 
                 case 2002:
+                    // Sends a select statement to the sql server then sends back to the client what the sql server replied with
                     var select = new StdData(packet);
                     connecter = new SqlConnecter("db_inventorymanagement");
                     Console.WriteLine(select.Text);
@@ -57,7 +69,7 @@ namespace Stock_Manage_Server.Networking
                     break;
 
                 case 2004:
-                    // TODO Implement this
+                    // TODO Implement this to notify management of low products and of orders that need to be verified
                     var check = new StdData(packet);
                     connecter = new SqlConnecter("db_inventorymanagement");
                     //var isManagement = connecter.Select("SELECT ");
