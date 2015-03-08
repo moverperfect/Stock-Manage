@@ -8,7 +8,7 @@ namespace Stock_Manage_Client.Classes
     /// <summary>
     /// Class that contains common utilites that the program uses like Generating salts and generating a hash value from a string
     /// </summary>
-    internal static class Utilities
+    public static class Utilities
     {
         /// <summary>
         /// Generates a random string salt value

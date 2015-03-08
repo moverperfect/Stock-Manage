@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Data;
+using System.Security.Cryptography;
+using Stock_Manage_Client.Classes;
 using Stock_Manage_Server.Networking;
 
 namespace Stock_Manage_Server
@@ -28,12 +31,77 @@ namespace Stock_Manage_Server
         /// </summary>
         private static void Main(string[] args)
         {
+            SetupSql();
+
             // Open the server and listen to connections
             Serversocket.Bind(8221);
             Serversocket.Listen(500);
             Serversocket.Accept();
 
             Console.ReadLine();
+        }
+
+        /// <summary>
+        /// Sets up the MySql server with the correct tables
+        /// </summary>
+        private static void SetupSql()
+        {
+            var sqlconnector = new SqlConnecter("db_inventorymanagement");
+            if (!sqlconnector.TestConnection()) // If we are not able to connect with that database name
+            {
+                // Set up the entire database if able to connect
+                sqlconnector = new SqlConnecter("");
+                if (sqlconnector.TestConnection())
+                {
+                    sqlconnector.NonQuery(ServerResources.CreateSqlDatabase);
+                    Console.WriteLine("MySql Server has been setup, please ignore previous messages");
+                }
+            }
+            else
+            {
+                // Get the tables in the database
+                var tables = (DataTable) sqlconnector.Select("SHOW TABLES");
+                var found = tables.Rows.Count != 0;
+                for (int i = 0; i < tables.Rows.Count; i++)
+                {
+                    // If we have not found a table
+                    if (
+                        !(tables.Rows[i][0].ToString() == "tbl_orders" || tables.Rows[i][0].ToString() == "tbl_products" ||
+                          tables.Rows[i][0].ToString() == "tbl_purchase_orders" ||
+                          tables.Rows[i][0].ToString() == "tbl_suppliers" ||
+                          tables.Rows[i][0].ToString() == "tbl_users"))
+                    {
+                        found = false;
+                    }
+                }
+
+                // If we havent found a table then run the sql to create the tables
+                if (!found)
+                {
+                    sqlconnector.NonQuery(ServerResources.CreateSqlDatabase);
+                }
+
+            }
+
+            // Get the users in the database
+            var users = (DataTable)sqlconnector.Select("SELECT * FROM tbl_users");
+
+            // If there are no users then ask to setup a management user
+            if (users.Rows.Count == 0)
+            {
+                Console.WriteLine("There are no users in the database, please enter a 4 digit UserID");
+                var userid = Console.ReadLine();
+                Console.WriteLine("Please enter the 4 digit password");
+                var password = Console.ReadLine();
+
+                // Create salt and hash
+                var salt = Stock_Manage_Client.Classes.Utilities.GenerateSaltValue();
+                var passwordhash = Utilities.HashPassword(password, salt, MD5.Create());
+
+                sqlconnector.NonQuery("INSERT INTO tbl_Users(UserId, System_Role, First_Name, Second_Name, Password_Hash, Salt) VALUES ('" +
+                UserId + "','Management','','','" + passwordhash + "','" + salt +
+                "');");
+            }
         }
     }
 }
