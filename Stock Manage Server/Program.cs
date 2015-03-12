@@ -56,6 +56,11 @@ namespace Stock_Manage_Server
                     sqlconnector.NonQuery(ServerResources.CreateSqlDatabase);
                     Console.WriteLine("MySql Server has been setup, please ignore previous messages");
                 }
+                else
+                {
+                    Console.WriteLine("Unable to connect to the database, please start MySql and reopen this program.");
+                    return;
+                }
             }
             else
             {
