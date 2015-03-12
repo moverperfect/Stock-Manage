@@ -304,7 +304,7 @@ namespace Stock_Manage_Client.Forms
                 {
                     updateProducts += "DELETE FROM tbl_purchase_orders WHERE PK_OrderId = '" + _orderId + "';";
                 }
-                else
+                else if (lblTotalCost.Text == "Total Cost: £0.00") // TODO Make elegant
                 {
                     return;
                 }
