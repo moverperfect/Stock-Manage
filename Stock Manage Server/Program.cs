@@ -103,8 +103,8 @@ namespace Stock_Manage_Server
                 var salt = Stock_Manage_Client.Classes.Utilities.GenerateSaltValue();
                 var passwordhash = Utilities.HashPassword(password, salt, MD5.Create());
 
-                sqlconnector.NonQuery("INSERT INTO tbl_Users(UserId, System_Role, First_Name, Second_Name, Password_Hash, Salt) VALUES ('" +
-                UserId + "','Management','','','" + passwordhash + "','" + salt +
+                sqlconnector.NonQuery("INSERT INTO tbl_Users(PK_UserId, System_Role, First_Name, Second_Name, Password_Hash, Salt) VALUES ('" +
+                userid + "','Management','','','" + passwordhash + "','" + salt +
                 "');");
             }
         }
