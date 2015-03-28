@@ -39,10 +39,10 @@ namespace Stock_Manage_Client.Classes.Networking
         /// </summary>
         /// <param name="ipAddress">The ip address to connect to</param>
         /// <param name="port">The port number to access</param>
-        public void Connect(string ipAddress, int port)
+        public void Connect(IPAddress ipAddress, int port)
         {
             _socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            _socket.BeginConnect(new IPEndPoint(IPAddress.Parse(ipAddress), port), ConnectCallback, null);
+            _socket.BeginConnect(new IPEndPoint(ipAddress, port), ConnectCallback, null);
         }
 
         /// <summary>

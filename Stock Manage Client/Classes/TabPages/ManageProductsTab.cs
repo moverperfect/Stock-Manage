@@ -332,7 +332,7 @@ namespace Stock_Manage_Client.Classes.TabPages
             {
                 Invoke(new MethodInvoker(delegate
                 {
-                    if (Program.UserId == "0")
+                    if (Program.UserId == 0)
                     {
                         CmdAddNewProduct.Enabled = false;
                         CmdChangeQuantity.Enabled = false;
@@ -350,7 +350,7 @@ namespace Stock_Manage_Client.Classes.TabPages
             }
             else
             {
-                if (Program.UserId == "0")
+                if (Program.UserId == 0)
                 {
                     CmdAddNewProduct.Enabled = false;
                     CmdChangeQuantity.Enabled = false;

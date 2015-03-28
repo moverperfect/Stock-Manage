@@ -132,7 +132,7 @@ namespace Stock_Manage_Client.Forms
                     table.TableData.Rows[0]["Salt"].ToString(), MD5.Create());
                 if (password == table.TableData.Rows[0]["Password_Hash"].ToString())
                 {
-                    Program.UserId = txt_UserId.Text;
+                    Program.UserId = ushort.Parse(txt_UserId.Text);
                     Program.OnUserIdChanged(this, EventArgs.Empty);
                     Invoke((MethodInvoker) Close);
                     return;

@@ -83,7 +83,7 @@ namespace Stock_Manage_Client.Forms
         /// </summary>
         private void cmdLogOut_Click(object sender, EventArgs e)
         {
-            Program.UserId = "0";
+            Program.UserId = 0;
             Program.OnUserIdChanged(this, EventArgs.Empty);
         }
 
@@ -94,7 +94,7 @@ namespace Stock_Manage_Client.Forms
         {
             Invoke(new MethodInvoker(delegate
             {
-                if (Program.UserId == "0")
+                if (Program.UserId == 0)
                 {
                     cmdLogOut.Enabled = false;
                 }

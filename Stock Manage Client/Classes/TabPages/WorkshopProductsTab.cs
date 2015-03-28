@@ -252,11 +252,11 @@ namespace Stock_Manage_Client.Classes.TabPages
             // If the tab page has been created then an invoke needs to be called, if not then can just call the function on this thread
             if (Created)
             {
-                Invoke(new MethodInvoker(() => ChangeButtonsEnabled(Program.UserId != "0")));
+                Invoke(new MethodInvoker(() => ChangeButtonsEnabled(Program.UserId != 0)));
             }
             else
             {
-                ChangeButtonsEnabled(Program.UserId != "0");
+                ChangeButtonsEnabled(Program.UserId != 0);
             }
         }
 

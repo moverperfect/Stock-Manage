@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Stock_Manage_Client.Classes.Networking;
 using Stock_Manage_Client.Classes.Networking.Packets;
 using Stock_Manage_Client.Forms;
+using System.Net;
 
 namespace Stock_Manage_Client.Classes
 {
@@ -21,12 +23,12 @@ namespace Stock_Manage_Client.Classes
         /// <summary>
         /// The machine id of the machine
         /// </summary>
-        public static String MachineId;
+        public static ushort MachineId;
 
         /// <summary>
         /// The user id of the user that is logged in
         /// </summary>
-        public static String UserId = "0";
+        public static ushort UserId = 0;
 
         /// <summary>
         /// The type of machine, Management, Workshop or ordering
@@ -36,7 +38,7 @@ namespace Stock_Manage_Client.Classes
         /// <summary>
         /// The ip address of the server to communicate with
         /// </summary>
-        public static String IpAddress = "127.0.0.1";
+        public static IPAddress IpAddress = IPAddress.Parse("127.0.0.1");
 
         /// <summary>
         /// Event handler that triggers when the user id changes
@@ -44,11 +46,17 @@ namespace Stock_Manage_Client.Classes
         public static event EventHandler UserIdChanged;
 
         /// <summary>
+        /// A list of the machine types available
+        /// </summary>
+        public static List<String> MachineTypes = new List<string>();
+
+        /// <summary>
         ///     The main entry point for the application.
         /// </summary>
         [STAThread]
         private static void Main()
         {
+            // Enable the visualstyles and open a new console window
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             AllocConsole();
@@ -57,7 +65,10 @@ namespace Stock_Manage_Client.Classes
             {
                 try
                 {
+                    // Get the data from the configuration file
                     GetFileData();
+
+                    // If we are in debug mode then ask for the type of machine to lauch into
                     if (Type == "debug")
                     {
                         Console.WriteLine("Debug mode: please enter the mode you would like!");
@@ -66,12 +77,16 @@ namespace Stock_Manage_Client.Classes
                         Console.WriteLine("3. Workshop");
                         Type = Console.ReadLine().ToLower();
                     }
+
+                    // Open the relevant window based on the type of machine that this is
                     switch (Type)
                     {
                         case "management":
                             Console.WriteLine("This computer is set up for management");
+                            // Authenticate the user and if the user id after authentication 
+                            // is not 0 then open the management window otherwise exit the program
                             Application.Run(new Authentication("m"));
-                            if (UserId != "0")
+                            if (UserId != 0)
                             {
                                 Application.Run(new Management());
                             }
@@ -79,8 +94,10 @@ namespace Stock_Manage_Client.Classes
                             break;
                         case "ordering":
                             Console.WriteLine("This computer is set up for ordering");
+                            // Authenticate the user and if the user id after authentication 
+                            // is not 0 then open the ordering window otherwise exit the program
                             Application.Run(new Authentication("o"));
-                            if (UserId != "0")
+                            if (UserId != 0)
                             {
                                 Application.Run(new Ordering());
                             }
@@ -88,10 +105,13 @@ namespace Stock_Manage_Client.Classes
                             break;
                         case "workshop":
                             Console.WriteLine("This computer is set up for workshop");
+                            // Authenticate the user and if the user id after authentication 
+                            // is not 0 then open the workshop window otherwise exit the program
                             Application.Run(new Workshop());
                             Environment.Exit(0);
                             break;
                         default:
+                            // If we have no type then get and write the file data
                             SetFileData();
                             break;
                     }
@@ -142,9 +162,23 @@ namespace Stock_Manage_Client.Classes
                 var data =
                     File.ReadAllLines(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) +
                                       "/stockmanage/machine.txt");
-                MachineId = data[0];
+
+                // Try to parse the machine id
+                if (!ushort.TryParse(data[0], out MachineId))
+                {
+                    MessageBox.Show("Machine Id Configuration unable to be read, please enter configuration data again");
+                    SetFileData();
+                }
+
+                // Parse the type of machine that this is
                 Type = data[1];
-                IpAddress = data[2];
+                
+                // Parse the ipaddress of the machine
+                if (!IPAddress.TryParse(data[2], out IpAddress))
+                {
+                    MessageBox.Show("Unable to parse the ipaddress configuration data, please enter configuration data again");
+                    SetFileData();
+                }
             }
             catch (Exception e)
             {
@@ -157,13 +191,25 @@ namespace Stock_Manage_Client.Classes
         /// </summary>
         public static void SetFileData()
         {
+            // Ask for the machine id and parse it
             Console.WriteLine("Machine id?");
-            MachineId = Console.ReadLine();
+            while (!ushort.TryParse(Console.ReadLine(), out MachineId))
+            {
+                MessageBox.Show("Invalid Machine id, please enter a number");
+            }
+
+            // TODO Do validation on this input
             Console.WriteLine("Machine type? Management, Ordering, Workshop");
             Type = Console.ReadLine().ToLower();
-            Console.WriteLine("What is the IP address of the server?");
-            IpAddress = Console.ReadLine();
 
+            // Parse the ip address
+            Console.WriteLine("What is the IP address of the server?");
+            while (!IPAddress.TryParse(Console.ReadLine(), out IpAddress))
+            {
+                MessageBox.Show("Invalid IPaddress, please try again");
+            }
+
+            // Create the directory if it does not exist and write the data to the file
             Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) +
                                       "/stockmanage/");
 
