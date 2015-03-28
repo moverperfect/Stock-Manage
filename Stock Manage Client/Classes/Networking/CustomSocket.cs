@@ -118,16 +118,16 @@ namespace Stock_Manage_Client.Classes.Networking
                         SocketError se;
 
                         // Increase the number of bytes we have recieved so far
-                        var noRecieved = clientSocket.EndReceive(result, out se);
+                        var noReceived = clientSocket.EndReceive(result, out se);
 
                         // Add the stuff we have just received to the whole packet
-                        var temp = new byte[_packet.Length + noRecieved];
+                        var temp = new byte[_packet.Length + noReceived];
                         Array.Copy(_packet, temp, _packet.Length);
-                        Array.Copy(_buffer, 0, temp, _packet.Length, noRecieved);
+                        Array.Copy(_buffer, 0, temp, _packet.Length, noReceived);
                         _packet = temp;
 
                         // If we have not finished receiving the data then call this function again recieving another 256 bytes
-                        if (_packet.Length != BitConverter.ToInt16(_packet, 0) && noRecieved != 0)
+                        if (_packet.Length != BitConverter.ToInt16(_packet, 0) && noReceived != 0)
                         {
                             clientSocket.BeginReceive(_buffer, 0, 256, SocketFlags.None, ReceivedCallBack, clientSocket);
                             return;
@@ -171,13 +171,14 @@ namespace Stock_Manage_Client.Classes.Networking
         {
             if (_socket.Connected)
             {
-                // If we are connected then start receiving in case the connected server needs to send data back
+                // If we are connected then end the connection request
                 // TODO NOTE A event handler could be used here to send the data after we have connected but this was not
-                // realised at the time of design maybe a TODO
+                // realised at the time of design maybe
                 _socket.EndConnect(result);
                 Console.WriteLine("Connected to the server!");
                 _buffer = new byte[2];
 
+                // Start receiving in case the connected server needs to send data back
                 _socket.BeginReceive(_buffer, 0, _buffer.Length, SocketFlags.None, ReceivedCallBack, _socket);
             }
         }
@@ -190,6 +191,7 @@ namespace Stock_Manage_Client.Classes.Networking
         {
             var stopwatch = new Stopwatch();
             stopwatch.Start();
+            // While less than 3 seconds have passed try to send the data
             while (stopwatch.ElapsedMilliseconds < 3000)
             {
                 if (_socket.Connected)

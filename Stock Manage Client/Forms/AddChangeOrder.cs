@@ -84,6 +84,7 @@ namespace Stock_Manage_Client.Forms
                 dgdSuppliers.SelectionChanged -= dgdSuppliers_SelectionChanged;
                 dgdSuppliers.DataSource = _suppliersTable.TableData;
                 dgdSuppliers.ClearSelection();
+                // Select the supplier for which we are changing the order for
                 foreach (DataGridViewRow row in dgdSuppliers.Rows)
                 {
                     if (row.Cells[0].Value.ToString() == _supplierId.ToString())
@@ -93,6 +94,8 @@ namespace Stock_Manage_Client.Forms
                 }
                 dgdSuppliers.SelectionChanged += dgdSuppliers_SelectionChanged;
             }));
+
+            // Refresh the products after refreshing the suppliers
             Invoke(new MethodInvoker(RefreshProducts));
         }
 
@@ -160,7 +163,7 @@ namespace Stock_Manage_Client.Forms
                         _tempOldQuantities.Add(Convert.ToInt32(row[9].ToString()));
                     }
                 }
-                // Set the datasource and clear the selection
+                // Set the datasource and clear the selection and update the total cost label
                 Invoke(new MethodInvoker(delegate { dgdProducts.DataSource = _productsTable.TableData; }));
                 dgdProducts.ClearSelection();
                 Invoke(new MethodInvoker(
@@ -185,6 +188,7 @@ namespace Stock_Manage_Client.Forms
         /// </summary>
         private void dgdProducts_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
+            // For each product, adds up the quantity * price and enters it into the label
             decimal sum = 0;
             foreach (DataGridViewRow row in dgdProducts.Rows)
             {

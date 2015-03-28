@@ -135,6 +135,7 @@ namespace Stock_Manage_Client.Forms
             }
             else
             {
+                // Else update the product details
                 var update =
                     "UPDATE tbl_products SET Barcode='" + txtBarcode.Text + "',Name='" + txtName.Text +
                     "',Description='" +

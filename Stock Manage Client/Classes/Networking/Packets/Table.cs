@@ -70,13 +70,14 @@ namespace Stock_Manage_Client.Classes.Networking.Packets
         public void TableToByteArray(DataTable tmpList)
         {
             byte[] binaryDataResult;
-            // Serializing the DataTable
+            // Serializing the DataTable using a binaryformmatter to memorystream to byte array
             using (var memStream = new MemoryStream())
             {
                 var brFormatter = new BinaryFormatter();
                 brFormatter.Serialize(memStream, tmpList);
                 binaryDataResult = memStream.ToArray();
             }
+            // Add the length metadata to the byte array
             Buffer = new Byte[binaryDataResult.Length + 8];
             WriteUShort((ushort) Buffer.Length, 0);
             Array.Copy(binaryDataResult, 0, Buffer, 8, binaryDataResult.Length);
@@ -90,7 +91,7 @@ namespace Stock_Manage_Client.Classes.Networking.Packets
         {
             Buffer = arrayBytes;
             DataTable dt;
-            // Deserializing into datatable    
+            // Deserializing into datatable using a memory stream to binaryformmatter deserialiser to datatable
             using (var stream = new MemoryStream(arrayBytes))
             {
                 var bformatter = new BinaryFormatter();

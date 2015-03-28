@@ -68,6 +68,7 @@ namespace Stock_Manage_Client.Classes.Networking
                     break;
 
                 case 2000:
+                    // If we have an error, display as a message box, if not then display in the console
                     var msg = new StdData(packet);
                     if (msg.Text.Contains("ERROR:"))
                     {
