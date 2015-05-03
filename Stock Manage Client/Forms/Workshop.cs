@@ -67,7 +67,7 @@ namespace Stock_Manage_Client.Forms
         /// </summary>
         private void btn_CloseTab_Click(object sender, EventArgs e)
         {
-            tc_MainControl.TabPages.Remove(tc_MainControl.SelectedTab);
+            TabManagement.RemoveTab(tc_MainControl, -1);
         }
 
         /// <summary>
