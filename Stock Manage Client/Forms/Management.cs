@@ -8,7 +8,7 @@ namespace Stock_Manage_Client.Forms
     /// <summary>
     /// Main form for the management UI
     /// </summary>
-    public partial class Management : Form
+    internal partial class Management : Form
     {
         /// <summary>
         /// Initialises the form
@@ -23,7 +23,7 @@ namespace Stock_Manage_Client.Forms
         /// </summary>
         private void btn_newUser_Click(object sender, EventArgs e)
         {
-            tc_MainControl.TabPages.Add(new AddNewUserTab());
+            TabManagement.AddTab(new AddNewUserTab(), tc_MainControl);
         }
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace Stock_Manage_Client.Forms
         /// </summary>
         private void cmdManageUsers_Click(object sender, EventArgs e)
         {
-            tc_MainControl.TabPages.Add(new ManageUsersTab());
+            TabManagement.AddTab(new ManageUsersTab(), tc_MainControl);
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace Stock_Manage_Client.Forms
         /// </summary>
         private void cmdManageProducts_Click(object sender, EventArgs e)
         {
-            tc_MainControl.TabPages.Add(new ManageProductsTab());
+            TabManagement.AddTab(new ManageProductsTab(), tc_MainControl);
         }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace Stock_Manage_Client.Forms
         /// </summary>
         private void cmdManageSuppliers_Click(object sender, EventArgs e)
         {
-            tc_MainControl.TabPages.Add(new ManageSuppliersTab());
+            TabManagement.AddTab(new ManageSuppliersTab(), tc_MainControl);
         }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace Stock_Manage_Client.Forms
         /// </summary>
         private void cmdManageOrders_Click(object sender, EventArgs e)
         {
-            tc_MainControl.TabPages.Add(new ManageOrdersTab());
+            TabManagement.AddTab(new ManageOrdersTab(), tc_MainControl);
         }
     }
 }

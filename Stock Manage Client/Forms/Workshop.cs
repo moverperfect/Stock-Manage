@@ -10,7 +10,7 @@ namespace Stock_Manage_Client.Forms
     /// <summary>
     /// Main form presented to the workshop users
     /// </summary>
-    public partial class Workshop : Form
+    internal partial class Workshop : Form
     {
         /// <summary>
         /// Datasource for the datagridview
@@ -30,7 +30,7 @@ namespace Stock_Manage_Client.Forms
         /// <summary>
         /// Refreshes the users inside the datagridview
         /// </summary>
-        public void RefreshUsers()
+        private void RefreshUsers()
         {
             PacketHandler.DataRecieved += RefreshUsers_DataRecieved;
             Program.SendData(
@@ -75,7 +75,7 @@ namespace Stock_Manage_Client.Forms
         /// </summary>
         private void cmdManageProducts_Click(object sender, EventArgs e)
         {
-            tc_MainControl.TabPages.Add(new WorkshopProductsTab());
+            TabManagement.AddTab(new WorkshopProductsTab(), tc_MainControl);
         }
 
         /// <summary>

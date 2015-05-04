@@ -1,18 +1,18 @@
 ﻿using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
 
 namespace Stock_Manage_Client.Classes
 {
     internal static class TabManagement
     {
         /// <summary>
-        /// 
+        /// Adds a new tab to the tab control
         /// </summary>
-        /// <param name="tabPage"></param>
-        /// <param name="tabControl"></param>
+        /// <param name="tabPage">The tab page to be added to the tab control</param>
+        /// <param name="tabControl">The tab control that the tab page will be added to</param>
         public static void AddTab(TabPage tabPage, TabControl tabControl)
         {
-            
+            tabControl.TabPages.Add(tabPage);
+            tabControl.SelectTab(tabPage);
         }
 
         /// <summary>
@@ -24,7 +24,7 @@ namespace Stock_Manage_Client.Classes
         {
             if (index < 0 && tabControl.TabCount != 0)
             {
-               tabControl.TabPages.Remove(tabControl.SelectedTab); 
+                tabControl.TabPages.Remove(tabControl.SelectedTab);
             }
             else if (index < tabControl.TabCount && tabControl.TabCount != 0)
             {

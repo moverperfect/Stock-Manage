@@ -1,6 +1,6 @@
 ﻿namespace Stock_Manage_Client.Forms
 {
-    partial class Ordering
+    internal partial class Ordering
     {
         /// <summary>
         /// Required designer variable.

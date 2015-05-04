@@ -1,6 +1,6 @@
 ﻿namespace Stock_Manage_Client.Forms
 {
-    partial class Workshop
+    internal partial class Workshop
     {
         /// <summary>
         /// Required designer variable.
