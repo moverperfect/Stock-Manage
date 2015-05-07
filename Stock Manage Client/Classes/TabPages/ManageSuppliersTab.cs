@@ -40,7 +40,8 @@ namespace Stock_Manage_Client.Classes.TabPages
                 ReadOnly = true,
                 SelectionMode = DataGridViewSelectionMode.FullRowSelect,
                 Size = new Size(1209, 644),
-                TabIndex = 0
+                TabIndex = 11,
+                StandardTab = true
             };
 
             // Initialise the button to add a new supplier
@@ -50,7 +51,7 @@ namespace Stock_Manage_Client.Classes.TabPages
                 Location = new Point(3, 653),
                 Name = "cmdAddSupplier",
                 Size = new Size(75, 23),
-                TabIndex = 1,
+                TabIndex = 12,
                 Text = "Add Supplier",
                 UseVisualStyleBackColor = true
             };
@@ -62,7 +63,7 @@ namespace Stock_Manage_Client.Classes.TabPages
                 Location = new Point(471, 653),
                 Name = "cmdViewProducts",
                 Size = new Size(126, 23),
-                TabIndex = 2,
+                TabIndex = 13,
                 Text = "View Supplier Products",
                 UseVisualStyleBackColor = true
             };
@@ -74,7 +75,7 @@ namespace Stock_Manage_Client.Classes.TabPages
                 Location = new Point(603, 653),
                 Name = "cmdViewOrders",
                 Size = new Size(117, 23),
-                TabIndex = 3,
+                TabIndex = 14,
                 Text = "View Supplier Orders",
                 UseVisualStyleBackColor = true
             };
@@ -86,7 +87,7 @@ namespace Stock_Manage_Client.Classes.TabPages
                 Location = new Point(988, 653),
                 Name = "cmdChangeDetails",
                 Size = new Size(130, 23),
-                TabIndex = 4,
+                TabIndex = 15,
                 Text = "Change Supplier Details",
                 UseVisualStyleBackColor = true
             };
@@ -98,7 +99,7 @@ namespace Stock_Manage_Client.Classes.TabPages
                 Location = new Point(1124, 653),
                 Name = "cmdDeleteSupplier",
                 Size = new Size(88, 23),
-                TabIndex = 5,
+                TabIndex = 16,
                 Text = "Delete Supplier",
                 UseVisualStyleBackColor = true
             };

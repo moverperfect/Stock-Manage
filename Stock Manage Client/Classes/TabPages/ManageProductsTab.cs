@@ -120,7 +120,8 @@ namespace Stock_Manage_Client.Classes.TabPages
                 ReadOnly = true,
                 SelectionMode = DataGridViewSelectionMode.FullRowSelect,
                 Size = new Size(1209, 644),
-                TabIndex = 0
+                TabIndex = 11,
+                StandardTab = true
             };
 
             // Button that shows a form that asks for details of a new product
@@ -131,7 +132,7 @@ namespace Stock_Manage_Client.Classes.TabPages
                 Location = new Point(3, 653),
                 Name = "cmdAddNewProduct",
                 Size = new Size(105, 23),
-                TabIndex = 1,
+                TabIndex = 12,
                 Text = "Add a new product",
                 UseVisualStyleBackColor = true
             };
@@ -144,7 +145,7 @@ namespace Stock_Manage_Client.Classes.TabPages
                 Location = new Point(877, 653),
                 Name = "cmdChangeQuantity",
                 Size = new Size(96, 23),
-                TabIndex = 4,
+                TabIndex = 13,
                 Text = "Change Quantity",
                 UseVisualStyleBackColor = true
             };
@@ -157,7 +158,7 @@ namespace Stock_Manage_Client.Classes.TabPages
                 Location = new Point(979, 653),
                 Name = "cmdChangeProduct",
                 Size = new Size(129, 23),
-                TabIndex = 3,
+                TabIndex = 14,
                 Text = "Change Product Details",
                 UseVisualStyleBackColor = true
             };
@@ -170,7 +171,7 @@ namespace Stock_Manage_Client.Classes.TabPages
                 Location = new Point(1114, 653),
                 Name = "cmdDeleteProduct",
                 Size = new Size(98, 23),
-                TabIndex = 2,
+                TabIndex = 15,
                 Text = "Delete a Product",
                 UseVisualStyleBackColor = true
             };

@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Stock_Manage_Client.Classes.Networking;
 using Stock_Manage_Client.Classes.Networking.Packets;
+using Stock_Manage_Client.Forms;
 
 namespace Stock_Manage_Client.Classes.TabPages
 {

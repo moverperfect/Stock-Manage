@@ -37,7 +37,8 @@ namespace Stock_Manage_Client.Classes.TabPages
                 Location = new Point(3, 3),
                 Name = "DgdUsers",
                 Size = new Size(1065, 781),
-                TabIndex = 0,
+                TabIndex = 11,
+                StandardTab = true,
                 AllowUserToAddRows = false,
                 AllowUserToDeleteRows = false,
                 SelectionMode = DataGridViewSelectionMode.FullRowSelect,
@@ -53,7 +54,7 @@ namespace Stock_Manage_Client.Classes.TabPages
                 Location = new Point(3, 790),
                 Name = "CmdRefreshList",
                 Size = new Size(75, 23),
-                TabIndex = 6,
+                TabIndex = 12,
                 Text = "Refresh List",
                 UseVisualStyleBackColor = true
             };
@@ -66,7 +67,7 @@ namespace Stock_Manage_Client.Classes.TabPages
                 Location = new Point(569, 790),
                 Name = "CmdAddNewUser",
                 Size = new Size(87, 23),
-                TabIndex = 5,
+                TabIndex = 13,
                 Text = "Add New User",
                 UseVisualStyleBackColor = true
             };
@@ -79,7 +80,7 @@ namespace Stock_Manage_Client.Classes.TabPages
                 Location = new Point(662, 790),
                 Name = "CmdChangeName",
                 Size = new Size(85, 23),
-                TabIndex = 4,
+                TabIndex = 14,
                 Text = "Change name",
                 UseVisualStyleBackColor = true
             };
@@ -92,7 +93,7 @@ namespace Stock_Manage_Client.Classes.TabPages
                 Location = new Point(753, 790),
                 Name = "CmdChangePassword",
                 Size = new Size(102, 23),
-                TabIndex = 3,
+                TabIndex = 15,
                 Text = "Change password",
                 UseVisualStyleBackColor = true
             };
@@ -105,7 +106,7 @@ namespace Stock_Manage_Client.Classes.TabPages
                 Location = new Point(861, 790),
                 Name = "CmdChangeSystemRole",
                 Size = new Size(112, 23),
-                TabIndex = 2,
+                TabIndex = 16,
                 Text = "Change system role",
                 UseVisualStyleBackColor = true
             };
@@ -118,7 +119,7 @@ namespace Stock_Manage_Client.Classes.TabPages
                 Location = new Point(979, 790),
                 Name = "CmdDeleteUser",
                 Size = new Size(89, 23),
-                TabIndex = 1,
+                TabIndex = 17,
                 Text = "Delete User",
                 UseVisualStyleBackColor = true
             };

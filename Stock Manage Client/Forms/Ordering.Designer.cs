@@ -44,14 +44,14 @@
             this.tc_MainControl.Name = "tc_MainControl";
             this.tc_MainControl.SelectedIndex = 0;
             this.tc_MainControl.Size = new System.Drawing.Size(1223, 705);
-            this.tc_MainControl.TabIndex = 6;
+            this.tc_MainControl.TabIndex = 10;
             // 
             // cmdManageOrders
             // 
             this.cmdManageOrders.Location = new System.Drawing.Point(5, 99);
             this.cmdManageOrders.Name = "cmdManageOrders";
             this.cmdManageOrders.Size = new System.Drawing.Size(104, 23);
-            this.cmdManageOrders.TabIndex = 16;
+            this.cmdManageOrders.TabIndex = 4;
             this.cmdManageOrders.Text = "Manage Orders";
             this.cmdManageOrders.UseVisualStyleBackColor = true;
             this.cmdManageOrders.Click += new System.EventHandler(this.cmdManageOrders_Click);
@@ -61,7 +61,7 @@
             this.cmdManageSuppliers.Location = new System.Drawing.Point(5, 70);
             this.cmdManageSuppliers.Name = "cmdManageSuppliers";
             this.cmdManageSuppliers.Size = new System.Drawing.Size(104, 23);
-            this.cmdManageSuppliers.TabIndex = 15;
+            this.cmdManageSuppliers.TabIndex = 3;
             this.cmdManageSuppliers.Text = "Manage Suppliers";
             this.cmdManageSuppliers.UseVisualStyleBackColor = true;
             this.cmdManageSuppliers.Click += new System.EventHandler(this.cmdManageSuppliers_Click);
@@ -71,7 +71,7 @@
             this.cmdManageProducts.Location = new System.Drawing.Point(5, 41);
             this.cmdManageProducts.Name = "cmdManageProducts";
             this.cmdManageProducts.Size = new System.Drawing.Size(104, 23);
-            this.cmdManageProducts.TabIndex = 14;
+            this.cmdManageProducts.TabIndex = 2;
             this.cmdManageProducts.Text = "Manage Products";
             this.cmdManageProducts.UseVisualStyleBackColor = true;
             this.cmdManageProducts.Click += new System.EventHandler(this.cmdManageProducts_Click);
@@ -81,7 +81,7 @@
             this.btn_CloseTab.Location = new System.Drawing.Point(5, 12);
             this.btn_CloseTab.Name = "btn_CloseTab";
             this.btn_CloseTab.Size = new System.Drawing.Size(104, 23);
-            this.btn_CloseTab.TabIndex = 13;
+            this.btn_CloseTab.TabIndex = 1;
             this.btn_CloseTab.Text = "Close Current Tab";
             this.btn_CloseTab.UseVisualStyleBackColor = true;
             this.btn_CloseTab.Click += new System.EventHandler(this.btn_CloseTab_Click);
@@ -90,6 +90,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = btn_CloseTab;
             this.ClientSize = new System.Drawing.Size(1350, 729);
             this.Controls.Add(this.cmdManageOrders);
             this.Controls.Add(this.cmdManageSuppliers);

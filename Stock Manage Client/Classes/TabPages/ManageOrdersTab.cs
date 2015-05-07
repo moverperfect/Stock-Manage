@@ -100,7 +100,8 @@ namespace Stock_Manage_Client.Classes.TabPages
                 ReadOnly = true,
                 SelectionMode = DataGridViewSelectionMode.FullRowSelect,
                 Size = new Size(1209, 644),
-                TabIndex = 0
+                TabIndex = 11,
+                StandardTab = true
             };
 
             // Button that opens new form so can edit orders
@@ -111,7 +112,7 @@ namespace Stock_Manage_Client.Classes.TabPages
                 Location = new Point(3, 653),
                 Name = "cmdAddNewOrder",
                 Size = new Size(94, 23),
-                TabIndex = 1,
+                TabIndex = 12,
                 Text = "Add New Order",
                 UseVisualStyleBackColor = true
             };
@@ -123,7 +124,7 @@ namespace Stock_Manage_Client.Classes.TabPages
                 Location = new Point(539, 653),
                 Name = "cmdViewProducts",
                 Size = new Size(128, 23),
-                TabIndex = 2,
+                TabIndex = 13,
                 Text = "View Ordered Products",
                 UseVisualStyleBackColor = true
             };
@@ -136,7 +137,7 @@ namespace Stock_Manage_Client.Classes.TabPages
                 Location = new Point(1010, 653),
                 Name = "cmdChangeDetails",
                 Size = new Size(121, 23),
-                TabIndex = 3,
+                TabIndex = 14,
                 Text = "Change Order Details",
                 UseVisualStyleBackColor = true
             };
@@ -149,7 +150,7 @@ namespace Stock_Manage_Client.Classes.TabPages
                 Location = new Point(1137, 653),
                 Name = "cmdDeleteOrder",
                 Size = new Size(75, 23),
-                TabIndex = 4,
+                TabIndex = 15,
                 Text = "Delete Order",
                 UseVisualStyleBackColor = true
             };

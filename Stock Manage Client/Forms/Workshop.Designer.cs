@@ -45,14 +45,14 @@
             this.tc_MainControl.Name = "tc_MainControl";
             this.tc_MainControl.SelectedIndex = 0;
             this.tc_MainControl.Size = new System.Drawing.Size(808, 705);
-            this.tc_MainControl.TabIndex = 7;
+            this.tc_MainControl.TabIndex = 10;
             // 
             // cmdManageProducts
             // 
             this.cmdManageProducts.Location = new System.Drawing.Point(5, 122);
             this.cmdManageProducts.Name = "cmdManageProducts";
             this.cmdManageProducts.Size = new System.Drawing.Size(104, 104);
-            this.cmdManageProducts.TabIndex = 16;
+            this.cmdManageProducts.TabIndex = 2;
             this.cmdManageProducts.Text = "Products";
             this.cmdManageProducts.UseVisualStyleBackColor = true;
             this.cmdManageProducts.Click += new System.EventHandler(this.cmdManageProducts_Click);
@@ -62,7 +62,7 @@
             this.btn_CloseTab.Location = new System.Drawing.Point(5, 12);
             this.btn_CloseTab.Name = "btn_CloseTab";
             this.btn_CloseTab.Size = new System.Drawing.Size(104, 104);
-            this.btn_CloseTab.TabIndex = 15;
+            this.btn_CloseTab.TabIndex = 1;
             this.btn_CloseTab.Text = "Close Current Tab";
             this.btn_CloseTab.UseVisualStyleBackColor = true;
             this.btn_CloseTab.Click += new System.EventHandler(this.btn_CloseTab_Click);
@@ -79,7 +79,8 @@
             this.dgdUsers.ReadOnly = true;
             this.dgdUsers.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgdUsers.Size = new System.Drawing.Size(343, 705);
-            this.dgdUsers.TabIndex = 17;
+            this.dgdUsers.StandardTab = true;
+            this.dgdUsers.TabIndex = 20;
             this.dgdUsers.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgdUsers_CellClick);
             // 
             // cmdLogOut
@@ -89,7 +90,7 @@
             this.cmdLogOut.Location = new System.Drawing.Point(5, 610);
             this.cmdLogOut.Name = "cmdLogOut";
             this.cmdLogOut.Size = new System.Drawing.Size(104, 104);
-            this.cmdLogOut.TabIndex = 18;
+            this.cmdLogOut.TabIndex = 3;
             this.cmdLogOut.Text = "Log Out";
             this.cmdLogOut.UseVisualStyleBackColor = true;
             this.cmdLogOut.Click += new System.EventHandler(this.cmdLogOut_Click);
@@ -109,6 +110,7 @@
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             ((System.ComponentModel.ISupportInitialize)(this.dgdUsers)).EndInit();
             this.ResumeLayout(false);
+            this.CancelButton = cmdLogOut;
 
         }
 

@@ -40,7 +40,8 @@ namespace Stock_Manage_Client.Classes.TabPages
                 ReadOnly = true,
                 SelectionMode = DataGridViewSelectionMode.FullRowSelect,
                 Size = new Size(1208, 571),
-                TabIndex = 0
+                TabIndex = 11,
+                StandardTab = true
             };
 
             // Button that allows the user to use a custom amount of the product
@@ -50,7 +51,7 @@ namespace Stock_Manage_Client.Classes.TabPages
                 Location = new Point(4, 581),
                 Name = "CmdUseCustom",
                 Size = new Size(95, 95),
-                TabIndex = 1,
+                TabIndex = 12,
                 Text = "Use Custom Amount",
                 UseVisualStyleBackColor = true
             };
@@ -62,7 +63,7 @@ namespace Stock_Manage_Client.Classes.TabPages
                 Location = new Point(105, 581),
                 Name = "CmdUseTen",
                 Size = new Size(95, 95),
-                TabIndex = 2,
+                TabIndex = 13,
                 Text = "Use 10",
                 UseVisualStyleBackColor = true
             };
@@ -74,7 +75,7 @@ namespace Stock_Manage_Client.Classes.TabPages
                 Location = new Point(206, 581),
                 Name = "CmdUseFive",
                 Size = new Size(95, 95),
-                TabIndex = 3,
+                TabIndex = 14,
                 Text = "Use 5",
                 UseVisualStyleBackColor = true
             };
@@ -86,7 +87,7 @@ namespace Stock_Manage_Client.Classes.TabPages
                 Location = new Point(307, 581),
                 Name = "CmdUseOne",
                 Size = new Size(95, 95),
-                TabIndex = 4,
+                TabIndex = 15,
                 Text = "Use 1",
                 UseVisualStyleBackColor = true
             };
@@ -98,7 +99,7 @@ namespace Stock_Manage_Client.Classes.TabPages
                 Location = new Point(814, 581),
                 Name = "CmdAddOne",
                 Size = new Size(95, 95),
-                TabIndex = 5,
+                TabIndex = 16,
                 Text = "Put Back 1",
                 UseVisualStyleBackColor = true
             };
@@ -110,7 +111,7 @@ namespace Stock_Manage_Client.Classes.TabPages
                 Location = new Point(915, 581),
                 Name = "CmdAddFive",
                 Size = new Size(95, 95),
-                TabIndex = 6,
+                TabIndex = 17,
                 Text = "Put Back 5",
                 UseVisualStyleBackColor = true
             };
@@ -122,7 +123,7 @@ namespace Stock_Manage_Client.Classes.TabPages
                 Location = new Point(1016, 581),
                 Name = "CmdAddTen",
                 Size = new Size(95, 95),
-                TabIndex = 7,
+                TabIndex = 18,
                 Text = "Put Back 10",
                 UseVisualStyleBackColor = true
             };
@@ -134,7 +135,7 @@ namespace Stock_Manage_Client.Classes.TabPages
                 Location = new Point(1117, 581),
                 Name = "CmdAddCustom",
                 Size = new Size(95, 95),
-                TabIndex = 8,
+                TabIndex = 19,
                 Text = "Put Back Custom",
                 UseVisualStyleBackColor = true
             };

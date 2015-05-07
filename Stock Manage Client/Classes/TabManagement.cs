@@ -13,6 +13,7 @@ namespace Stock_Manage_Client.Classes
         {
             tabControl.TabPages.Add(tabPage);
             tabControl.SelectTab(tabPage);
+            tabPage.Focus();
         }
 
         /// <summary>
@@ -22,14 +23,18 @@ namespace Stock_Manage_Client.Classes
         /// <param name="index">Use "-1" for the currently selected tab</param>
         public static void RemoveTab(TabControl tabControl, int index)
         {
-            if (index < 0 && tabControl.TabCount != 0)
-            {
-                tabControl.TabPages.Remove(tabControl.SelectedTab);
-            }
-            else if (index < tabControl.TabCount && tabControl.TabCount != 0)
-            {
-                tabControl.TabPages.RemoveAt(index);
-            }
+        	if(tabControl.TabCount != 0)
+        	{
+        		if (index < 0) 
+        		{
+        			index = tabControl.SelectedIndex;
+        		}
+        		tabControl.TabPages.RemoveAt(index);
+            	if(index != 0)
+            	{
+            		tabControl.SelectedIndex = index - 1;
+            	}
+        	}
         }
     }
 }
