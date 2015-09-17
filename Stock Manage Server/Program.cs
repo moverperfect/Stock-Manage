@@ -3,6 +3,7 @@ using System.Data;
 using System.Security.Cryptography;
 using Stock_Manage_Client.Classes;
 using Stock_Manage_Server.Networking;
+using System.Collections.Generic;
 
 namespace Stock_Manage_Server
 {
@@ -66,22 +67,22 @@ namespace Stock_Manage_Server
             {
                 // Get the tables in the database
                 var tables = (DataTable) sqlconnector.Select("SHOW TABLES");
+                var list = new List<String>();
                 var found = tables.Rows.Count != 0;
                 for (int i = 0; i < tables.Rows.Count; i++)
                 {
                     // If we have not found a table
-                    if (
-                        !(tables.Rows[i][0].ToString() == "tbl_orders" || tables.Rows[i][0].ToString() == "tbl_products" ||
+                    if ((tables.Rows[i][0].ToString() == "tbl_orders" || tables.Rows[i][0].ToString() == "tbl_products" ||
                           tables.Rows[i][0].ToString() == "tbl_purchase_orders" ||
                           tables.Rows[i][0].ToString() == "tbl_suppliers" ||
                           tables.Rows[i][0].ToString() == "tbl_users"))
                     {
-                        found = false;
+                        list.Add(tables.Rows[i][0].ToString());
                     }
                 }
 
                 // If we havent found a table then run the sql to create the tables
-                if (!found)
+                if (list.Count != 5)
                 {
                     sqlconnector.NonQuery(ServerResources.CreateSqlDatabase);
                 }

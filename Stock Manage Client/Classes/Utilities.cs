@@ -74,7 +74,7 @@ namespace Stock_Manage_Client.Classes
                 var binarySaltValue = new byte[saltValue.Length];
                 Buffer.BlockCopy(saltValue.ToCharArray(), 0, binarySaltValue, 0, binarySaltValue.Length);
 
-                var valueToHash = new byte[4 + encoding.GetByteCount(clearData)];
+                var valueToHash = new byte[binarySaltValue.Length + encoding.GetByteCount(clearData)];
                 var binaryPassword = encoding.GetBytes(clearData);
 
                 // Copy the salt value and the password to the hash buffer.
