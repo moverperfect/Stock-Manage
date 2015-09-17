@@ -70,11 +70,9 @@ namespace Stock_Manage_Server {
         ///  `FK_ProductId` int(11) NOT NULL,
         ///  `Product_Quantity` int(11) NOT NULL,
         ///  `Total_Cost` float NOT NULL,
-        ///  PRIMARY KEY(`PK_ID`)
-        ///) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
-        ///
-        ///CREATE TABLE IF NOT EXISTS `tbl_products` (
-        ///  `PK_Pro [rest of string was truncated]&quot;;.
+        ///  PRIMARY KEY(`PK_ID`),
+        ///  FOREIGN KEY(`FK_OrderId`) REFERENCES tbl_purchase_orders(`PK_OrderId`),
+        ///  FOREIGN KEY(`FK_ProductId`) REFERENC [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string CreateSqlDatabase {
             get {
