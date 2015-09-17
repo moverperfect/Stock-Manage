@@ -93,6 +93,12 @@
     <Compile Include="Forms\AddChangeSupplier.Designer.cs">
       <DependentUpon>AddChangeSupplier.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\AddNewUser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AddNewUser.Designer.cs">
+      <DependentUpon>AddNewUser.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\ChangeUserDetails.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -145,6 +151,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\AddChangeSupplier.resx">
       <DependentUpon>AddChangeSupplier.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AddNewUser.resx">
+      <DependentUpon>AddNewUser.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Authentication.resx">
       <DependentUpon>Authentication.cs</DependentUpon>
