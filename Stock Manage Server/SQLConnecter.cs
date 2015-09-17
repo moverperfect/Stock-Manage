@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using MySql.Data.MySqlClient;
+using Stock_Manage_Client.Classes.Networking.Packets;
 
 namespace Stock_Manage_Server
 {
@@ -41,7 +42,7 @@ namespace Stock_Manage_Server
         private void Initialize(String database, String server, String uid, String password)
         {
             var connectionString = "SERVER=" + server + ";DATABASE=" + database + ";UID=" + uid + ";PASSWORD=" +
-                                   password + ";Allow User Variables=true";
+                                   password + ";Allow User Variables=true;ALLOW ZERO DATETIME=true;convert zero datetime=true;";
 
             _connection = new MySqlConnection(connectionString);
         }
@@ -146,8 +147,15 @@ namespace Stock_Manage_Server
                     foreach (DataRowView row in schemaTable.DefaultView)
                     {
                         var columnName = (string) row["ColumnName"];
-                        var type = (Type) row["DataType"];
-                        dt.Columns.Add(columnName, type);
+                        if (row["DataType"].ToString() == "MySql.Data.Types.MySqlDateTime")
+                        {
+                            dt.Columns.Add(columnName, typeof(DateTime));
+                        }
+                        else
+                        {
+                            var type = (Type)row["DataType"];
+                            dt.Columns.Add(columnName, type);
+                        }
                     }
 
 

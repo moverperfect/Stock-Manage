@@ -218,8 +218,8 @@ namespace Stock_Manage_Client.Forms
                 }
 
                 // Create the statements
-                var insertOrder = "INSERT INTO tbl_Purchase_Orders (FK_UserId,FK_SupplierId) VALUES ('" +
-                                  Program.UserId + "','" + supplierRow[0].Cells[0].Value + "');";
+                var insertOrder = "INSERT INTO tbl_Purchase_Orders (FK_UserId,FK_SupplierId, DateOrdered) VALUES ('" +
+                                  Program.UserId + "','" + supplierRow[0].Cells[0].Value + "','" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") +"');";
                 var getOrderId = "SELECT @ORDERID := LAST_INSERT_ID();";
                 var insertProducts =
                     "INSERT INTO tbl_Orders (FK_OrderId,FK_ProductId,Product_Quantity,Total_Cost) VALUES ";
