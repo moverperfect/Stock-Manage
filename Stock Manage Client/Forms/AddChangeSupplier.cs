@@ -66,13 +66,8 @@ namespace Stock_Manage_Client.Forms
             // If we are adding and not changing a supplier then insert and if not then update
             if (_supplierId == 0)
             {
-                var values = string.Join("','",
-                    new[]
-                    {
-                        txtName.Text, txtAddress1.Text, txtAddress2.Text, txtAddress3.Text, txtCity.Text,
-                        txtPostcode.Text,
-                        txtContact.Text, txtTelephone.Text, txtType.Text
-                    });
+                var values = string.Join("','", txtName.Text, txtAddress1.Text, txtAddress2.Text, txtAddress3.Text,
+                    txtCity.Text, txtPostcode.Text, txtContact.Text, txtTelephone.Text, txtType.Text);
                 Program.SendData(
                     "INSERT INTO tbl_suppliers(Name, AddressLine1, AddressLine2, AddressLine3, City, Postcode, Contact, Telephone, type) VALUES ('" +
                     values + "');");

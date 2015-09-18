@@ -68,7 +68,6 @@ namespace Stock_Manage_Server
                 // Get the tables in the database
                 var tables = (DataTable) sqlconnector.Select("SHOW TABLES");
                 var list = new List<String>();
-                var found = tables.Rows.Count != 0;
                 for (int i = 0; i < tables.Rows.Count; i++)
                 {
                     // If we have not found a table
@@ -101,7 +100,7 @@ namespace Stock_Manage_Server
                 var password = Console.ReadLine();
 
                 // Create salt and hash
-                var salt = Stock_Manage_Client.Classes.Utilities.GenerateSaltValue();
+                var salt = Utilities.GenerateSaltValue();
                 var passwordhash = Utilities.HashPassword(password, salt, MD5.Create());
 
                 sqlconnector.NonQuery("INSERT INTO tbl_Users(PK_UserId, System_Role, First_Name, Second_Name, Password_Hash, Salt) VALUES ('" +

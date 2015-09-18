@@ -219,7 +219,8 @@ namespace Stock_Manage_Client.Forms
 
                 // Create the statements
                 var insertOrder = "INSERT INTO tbl_Purchase_Orders (FK_UserId,FK_SupplierId, DateOrdered) VALUES ('" +
-                                  Program.UserId + "','" + supplierRow[0].Cells[0].Value + "','" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") +"');";
+                                  Program.UserId + "','" + supplierRow[0].Cells[0].Value + "','" +
+                                  DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "');";
                 var getOrderId = "SELECT @ORDERID := LAST_INSERT_ID();";
                 var insertProducts =
                     "INSERT INTO tbl_Orders (FK_OrderId,FK_ProductId,Product_Quantity,Total_Cost) VALUES ";
@@ -278,14 +279,14 @@ namespace Stock_Manage_Client.Forms
                                 (Convert.ToDecimal(dgdProducts.Rows[i].Cells[7].Value)*
                                  Convert.ToInt32(dgdProducts.Rows[i].Cells[9].Value)) + "');";
                         }
-                            // If the new product quantity is 0 then remove it from the order on the database
+                        // If the new product quantity is 0 then remove it from the order on the database
                         else if (dgdProducts.Rows[i].Cells[9].Value.ToString() == "0" ||
                                  dgdProducts.Rows[i].Cells[9].Value.ToString() == "")
                         {
                             updateProducts += "DELETE FROM tbl_orders WHERE FK_OrderId = '" + _orderId +
                                               "' AND FK_ProductId = '" + dgdProducts.Rows[i].Cells[0].Value + "';";
                         }
-                            // Else update the row in the database to the new quantity
+                        // Else update the row in the database to the new quantity
                         else
                         {
                             updateProducts += "UPDATE tbl_orders SET Product_Quantity = '" +

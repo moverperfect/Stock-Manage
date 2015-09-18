@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Data;
 using MySql.Data.MySqlClient;
-using Stock_Manage_Client.Classes.Networking.Packets;
 
 namespace Stock_Manage_Server
 {
