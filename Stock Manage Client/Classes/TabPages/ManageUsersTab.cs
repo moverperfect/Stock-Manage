@@ -233,8 +233,8 @@ namespace Stock_Manage_Client.Classes.TabPages
         /// </summary>
         private void CmdAddNewUser_Click(object sender, EventArgs e)
         {
-            ((TabControl) Parent).TabPages.Add(new AddNewUserTab());
-            ((TabControl) Parent).SelectedIndex = ((TabControl) Parent).TabCount - 1;
+            var addUser = new AddNewUser();
+            addUser.ShowDialog();
         }
 
         /// <summary>

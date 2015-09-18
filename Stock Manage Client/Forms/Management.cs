@@ -23,7 +23,8 @@ namespace Stock_Manage_Client.Forms
         /// </summary>
         private void btn_newUser_Click(object sender, EventArgs e)
         {
-            TabManagement.AddTab(new AddNewUserTab(), tc_MainControl);
+            var addUser = new AddNewUser();
+            addUser.ShowDialog();
         }
 
         /// <summary>
