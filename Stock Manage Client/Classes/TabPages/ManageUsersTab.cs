@@ -152,6 +152,12 @@ namespace Stock_Manage_Client.Classes.TabPages
             Controls.Add(CmdDeleteUser);
         }
 
+        public override sealed string Text
+        {
+            get { return base.Text; }
+            set { base.Text = value; }
+        }
+
         #region Define accessor variables
 
         /// <summary>

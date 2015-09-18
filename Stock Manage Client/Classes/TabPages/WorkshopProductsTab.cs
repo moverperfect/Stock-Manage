@@ -171,6 +171,12 @@ namespace Stock_Manage_Client.Classes.TabPages
             RefreshList();
         }
 
+        public override sealed string Text
+        {
+            get { return base.Text; }
+            set { base.Text = value; }
+        }
+
         #region Define accessor variables
 
         /// <summary>
