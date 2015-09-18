@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Net.Sockets;
+using System.Security.Cryptography.X509Certificates;
 using Stock_Manage_Client.Classes.Networking.Packets;
 
 namespace Stock_Manage_Server.Networking
@@ -10,6 +12,8 @@ namespace Stock_Manage_Server.Networking
     /// </summary>
     internal static class PacketHandler
     {
+        internal static List<ProductNotification> LowProducts = new List<ProductNotification>();
+
         /// <summary>
         /// Handles all incoming packets into the server after fully recieving them
         /// </summary>
@@ -72,10 +76,79 @@ namespace Stock_Manage_Server.Networking
                     // TODO Implement this to notify management of low products and of orders that need to be verified
                     var check = new StdData(packet);
                     connecter = new SqlConnecter("db_inventorymanagement");
-                    //var isManagement = connecter.Select("SELECT ");
+                    var isManagement =
+                        (DataTable)
+                            connecter.Select("SELECT * FROM tbl_users WHERE PK_Userid = " + check.UserId +
+                                             " AND System_Role = 'Management';");
+
+                    // If the user is in management
+                    if (isManagement.Rows.Count == 1)
+                    {
+                        var lowProducts =
+                            (DataTable)
+                                connecter.Select(
+                                    "SELECT * FROM db_inventorymanagement.tbl_products WHERE Quantity < Nominal_level;");
+
+                        var index = -1;
+
+                        // Find the index of the current user
+                        for (int i = 0; i < LowProducts.Count; i++)
+                        {
+                            if (check.UserId == LowProducts[i].UserId)
+                            {
+                                index = i;
+                                break;
+                            }
+                        }
+                        
+                        // Copy the products
+                        var sendProducts = lowProducts;
+
+                        // If the user is has no previous notifications
+                        if (index != -1)
+                        {
+                            for (int i = 0; i < lowProducts.Rows.Count; i++)
+                            {
+                                if (LowProducts[index].ProductId.Contains((int) lowProducts.Rows[i][0]))
+                                {
+                                    sendProducts.Rows.Remove(lowProducts.Rows[i]);
+                                }
+                            }
+                        }
+                        else if (sendProducts.Rows.Count != 0)
+                        {
+                            // Add the user to add the notifications
+                            LowProducts.Add(new ProductNotification());
+                            LowProducts[LowProducts.Count - 1].UserId = check.UserId;
+                            index = LowProducts.Count - 1;
+                        }
+
+                        // Add the products to the previous notifications
+                        for (int i = 0; i < sendProducts.Rows.Count; i++)
+                        {
+                            LowProducts[index].ProductId.Add((int)sendProducts.Rows[i][0]);
+                        }
+
+                        // Send the products back to the client
+                        var table = new Table(sendProducts,Program.MachineId,Program.UserId,2004);
+                        clientSocket.Send(table.Data);
+                        break;
+                    }
+                    clientSocket.Send(new StdData("", Program.MachineId, Program.UserId, 2004).Data);
                     break;
             }
             clientSocket.Close();
         }
+    }
+
+    internal class ProductNotification
+    {
+        internal ProductNotification()
+        {
+        }
+
+        internal int UserId { get; set; }
+
+        internal List<int> ProductId { get; set; }
     }
 }
