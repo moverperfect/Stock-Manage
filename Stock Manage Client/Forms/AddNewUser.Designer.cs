@@ -46,6 +46,7 @@
             this.TxtPassword.PasswordChar = '*';
             this.TxtPassword.Size = new System.Drawing.Size(100, 20);
             this.TxtPassword.TabIndex = 0;
+            this.TxtPassword.TextChanged += new System.EventHandler(this.TxtPassword_TextChanged);
             // 
             // CmdAddUser
             // 
@@ -55,6 +56,7 @@
             this.CmdAddUser.TabIndex = 5;
             this.CmdAddUser.Text = "Add User";
             this.CmdAddUser.UseVisualStyleBackColor = true;
+            this.CmdAddUser.Click += new System.EventHandler(this.CmdAddUser_Click);
             // 
             // TxtLastName
             // 
