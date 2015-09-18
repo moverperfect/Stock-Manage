@@ -59,14 +59,6 @@ namespace Stock_Manage_Client.Classes.Networking
             // 2003 - Count
             switch (packetType)
             {
-                case 1001:
-                    //Byte[] temp = new Byte[packet.Length-4];
-                    // TODO CHANGE THIS WHEN ADD PACKET STRUCTURE ASWELL
-                    //Array.Copy(packet,4,temp,0,temp.Length);
-                    //Program.TempReturnTable = new Table(packet);
-                    //Program.RefreshData();
-                    break;
-
                 case 2000:
                     // If we have an error, display as a message box, if not then display in the console
                     var msg = new StdData(packet);
