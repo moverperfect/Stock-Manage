@@ -86,7 +86,7 @@
             this.txtQuantity.Name = "txtQuantity";
             this.txtQuantity.Size = new System.Drawing.Size(100, 20);
             this.txtQuantity.TabIndex = 4;
-            this.txtQuantity.TextChanged += new System.EventHandler(this.txtQuantity_TextChanged);
+            this.txtQuantity.TextChanged += new System.EventHandler(this.ValidateText);
             // 
             // txtPurchasePrice
             // 
@@ -101,7 +101,7 @@
             this.txtUnitsInCase.Name = "txtUnitsInCase";
             this.txtUnitsInCase.Size = new System.Drawing.Size(100, 20);
             this.txtUnitsInCase.TabIndex = 6;
-            this.txtUnitsInCase.TextChanged += new System.EventHandler(this.txtUnitsInCase_TextChanged);
+            this.txtUnitsInCase.TextChanged += new System.EventHandler(this.ValidateText);
             // 
             // lblName
             // 
@@ -190,7 +190,7 @@
             this.txtCriticalLevel.Name = "txtCriticalLevel";
             this.txtCriticalLevel.Size = new System.Drawing.Size(100, 20);
             this.txtCriticalLevel.TabIndex = 16;
-            this.txtCriticalLevel.TextChanged += new System.EventHandler(this.txtCriticalLevel_TextChanged);
+            this.txtCriticalLevel.TextChanged += new System.EventHandler(this.ValidateText);
             // 
             // txtNominalLevel
             // 
@@ -198,7 +198,7 @@
             this.txtNominalLevel.Name = "txtNominalLevel";
             this.txtNominalLevel.Size = new System.Drawing.Size(100, 20);
             this.txtNominalLevel.TabIndex = 17;
-            this.txtNominalLevel.TextChanged += new System.EventHandler(this.txtNominalLevel_TextChanged);
+            this.txtNominalLevel.TextChanged += new System.EventHandler(this.ValidateText);
             // 
             // dgdSuppliers
             // 
