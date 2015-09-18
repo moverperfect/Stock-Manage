@@ -56,9 +56,6 @@
     <Compile Include="Classes\Networking\Packets\StdData.cs" />
     <Compile Include="Classes\Networking\Packets\Table.cs" />
     <Compile Include="Classes\TabManagement.cs" />
-    <Compile Include="Classes\TabPages\AddNewUserTab.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Classes\TabPages\ManageOrdersTab.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -92,6 +89,12 @@
     </Compile>
     <Compile Include="Forms\AddChangeSupplier.Designer.cs">
       <DependentUpon>AddChangeSupplier.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\AddNewUser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AddNewUser.Designer.cs">
+      <DependentUpon>AddNewUser.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\ChangeUserDetails.cs">
       <SubType>Form</SubType>
@@ -145,6 +148,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\AddChangeSupplier.resx">
       <DependentUpon>AddChangeSupplier.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AddNewUser.resx">
+      <DependentUpon>AddNewUser.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Authentication.resx">
       <DependentUpon>Authentication.cs</DependentUpon>
