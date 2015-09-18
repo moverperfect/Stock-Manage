@@ -11,7 +11,7 @@ namespace Stock_Manage_Client.Forms
     internal partial class Management : Form
     {
         /// <summary>
-        /// Initialises the form
+        /// Initialises the form and the management tick
         /// </summary>
         public Management()
         {

@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\Networking\CustomSocket.cs" />
+    <Compile Include="Classes\Networking\NotificationTick.cs" />
     <Compile Include="Classes\Networking\PacketHandler.cs" />
     <Compile Include="Classes\Networking\Packets\PacketStructure.cs" />
     <Compile Include="Classes\Networking\Packets\StdData.cs" />
