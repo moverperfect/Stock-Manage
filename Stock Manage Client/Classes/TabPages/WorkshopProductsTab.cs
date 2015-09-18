@@ -287,6 +287,7 @@ namespace Stock_Manage_Client.Classes.TabPages
         /// The main function that deals with all of the adding and removing of specified product quantity and updating that with the server
         /// </summary>
         /// <param name="sender">The object that the function call came from</param>
+        /// <param name="e">Unused args parsed into event</param>
         private void CmdAddQuantity_Click(object sender, EventArgs e)
         {
             var row = DgdProducts.SelectedRows;
