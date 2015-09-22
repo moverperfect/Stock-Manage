@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using Stock_Manage_Client.Classes;
+using Stock_Manage_Client.Classes.Networking;
 using Stock_Manage_Client.Classes.TabPages;
 
 namespace Stock_Manage_Client.Forms
@@ -10,12 +11,15 @@ namespace Stock_Manage_Client.Forms
     /// </summary>
     internal partial class Management : Form
     {
+        private NotificationTick Ticker;
+
         /// <summary>
         /// Initialises the form and the management tick
         /// </summary>
         public Management()
         {
             InitializeComponent();
+            Ticker = new NotificationTick();
         }
 
         /// <summary>

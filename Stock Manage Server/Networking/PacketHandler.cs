@@ -141,14 +141,27 @@ namespace Stock_Manage_Server.Networking
         }
     }
 
+    /// <summary>
+    /// Product notification object used for storing the products that have previously been notified to the users
+    /// </summary>
     internal class ProductNotification
     {
+        /// <summary>
+        /// Empty constructor
+        /// </summary>
         internal ProductNotification()
         {
+            ProductId = new List<int>();
         }
 
+        /// <summary>
+        /// The id of the user
+        /// </summary>
         internal int UserId { get; set; }
 
+        /// <summary>
+        /// The products that the user has already been notified about
+        /// </summary>
         internal List<int> ProductId { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using Stock_Manage_Client.Classes.Networking.Packets;
+using Stock_Manage_Client.Forms;
 using Timer = System.Timers.Timer;
 
 namespace Stock_Manage_Client.Classes.Networking
@@ -14,10 +15,11 @@ namespace Stock_Manage_Client.Classes.Networking
         /// </summary>
         internal NotificationTick()
         {
-            Tick = new Timer();
-            Tick.Elapsed += Request_Notification;
-            Tick.Interval = 10000;
-            Tick.Start();
+            //Tick = new Timer();
+            //Tick.Elapsed += Request_Notification;
+            //Tick.Interval = 10000;
+            //Tick.Start();
+            Request_Notification(null, null);
         }
 
         /// <summary>
@@ -28,7 +30,7 @@ namespace Stock_Manage_Client.Classes.Networking
         /// <summary>
         /// Sends a notification check to the server
         /// </summary>
-        private void Request_Notification(object sender, System.Timers.ElapsedEventArgs e)
+        public void Request_Notification(object sender, System.Timers.ElapsedEventArgs e)
         {
             PacketHandler.DataRecieved += Notification_Reply;
             Program.SendData(new StdData("Notification Check", Program.MachineId, Program.UserId, 2004));
@@ -42,7 +44,10 @@ namespace Stock_Manage_Client.Classes.Networking
         {
             if (BitConverter.ToUInt16(packet, 2) == 2004)
             {
-                
+                PacketHandler.DataRecieved -= Notification_Reply;
+                var recievedTable = new Table(packet);
+                var form = new ProductNotification(recievedTable);
+                form.ShowDialog();
             }
         }
     }
