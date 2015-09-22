@@ -11,9 +11,21 @@ namespace Stock_Manage_Client.Classes
         /// <param name="tabControl">The tab control that the tab page will be added to</param>
         public static void AddTab(TabPage tabPage, TabControl tabControl)
         {
-            tabControl.TabPages.Add(tabPage);
-            tabControl.SelectTab(tabPage);
-            tabPage.Focus();
+            if (tabControl.InvokeRequired)
+            {
+                tabControl.Invoke(new MethodInvoker(delegate
+                {
+                    tabControl.TabPages.Add(tabPage);
+                    tabControl.SelectTab(tabPage);
+                    tabPage.Focus();
+                }));
+            }
+            else
+            {
+                tabControl.TabPages.Add(tabPage);
+                tabControl.SelectTab(tabPage);
+                tabPage.Focus();
+            }
         }
 
         /// <summary>

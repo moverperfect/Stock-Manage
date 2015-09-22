@@ -19,7 +19,7 @@ namespace Stock_Manage_Client.Forms
         public Management()
         {
             InitializeComponent();
-            Ticker = new NotificationTick();
+            Ticker = new NotificationTick(AddCustomTab);
         }
 
         /// <summary>
@@ -69,6 +69,11 @@ namespace Stock_Manage_Client.Forms
         private void cmdManageOrders_Click(object sender, EventArgs e)
         {
             TabManagement.AddTab(new ManageOrdersTab(), tc_MainControl);
+        }
+
+        private void AddCustomTab(TabPage tp)
+        {
+            TabManagement.AddTab(tp,tc_MainControl);
         }
     }
 }
