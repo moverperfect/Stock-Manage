@@ -41,11 +41,27 @@ namespace Stock_Manage_Client.Classes
         		{
         			index = tabControl.SelectedIndex;
         		}
-        		tabControl.TabPages.RemoveAt(index);
-            	if(index != 0)
-            	{
-            		tabControl.SelectedIndex = index - 1;
-            	}
+
+
+        	    if (tabControl.InvokeRequired)
+        	    {
+        	        tabControl.Invoke(new MethodInvoker(delegate
+        	        {
+        	            tabControl.TabPages.RemoveAt(index);
+        	            if (index != 0)
+        	            {
+        	                tabControl.SelectedIndex = index - 1;
+        	            }
+        	        }));
+        	    }
+        	    else
+        	    {
+                    tabControl.TabPages.RemoveAt(index);
+                    if (index != 0)
+                    {
+                        tabControl.SelectedIndex = index - 1;
+                    }
+                }
         	}
         }
     }
