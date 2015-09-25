@@ -41,6 +41,8 @@
             // 
             this.dgdSuppliers.AllowUserToAddRows = false;
             this.dgdSuppliers.AllowUserToDeleteRows = false;
+            this.dgdSuppliers.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.dgdSuppliers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgdSuppliers.Location = new System.Drawing.Point(12, 12);
             this.dgdSuppliers.MultiSelect = false;
@@ -55,19 +57,23 @@
             // 
             this.dgdProducts.AllowUserToAddRows = false;
             this.dgdProducts.AllowUserToDeleteRows = false;
+            this.dgdProducts.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dgdProducts.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dgdProducts.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgdProducts.Location = new System.Drawing.Point(307, 12);
             this.dgdProducts.MultiSelect = false;
             this.dgdProducts.Name = "dgdProducts";
             this.dgdProducts.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgdProducts.Size = new System.Drawing.Size(915, 331);
+            this.dgdProducts.Size = new System.Drawing.Size(915, 330);
             this.dgdProducts.TabIndex = 1;
             this.dgdProducts.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgdProducts_CellEndEdit);
             // 
             // cmdAddOrder
             // 
-            this.cmdAddOrder.Location = new System.Drawing.Point(1139, 349);
+            this.cmdAddOrder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmdAddOrder.Location = new System.Drawing.Point(1139, 348);
             this.cmdAddOrder.Name = "cmdAddOrder";
             this.cmdAddOrder.Size = new System.Drawing.Size(83, 23);
             this.cmdAddOrder.TabIndex = 2;
@@ -77,8 +83,9 @@
             // 
             // cmdCancel
             // 
+            this.cmdCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cmdCancel.Location = new System.Drawing.Point(1058, 349);
+            this.cmdCancel.Location = new System.Drawing.Point(1058, 348);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(75, 23);
             this.cmdCancel.TabIndex = 3;
@@ -87,8 +94,9 @@
             // 
             // lblTotalCost
             // 
+            this.lblTotalCost.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblTotalCost.AutoSize = true;
-            this.lblTotalCost.Location = new System.Drawing.Point(12, 354);
+            this.lblTotalCost.Location = new System.Drawing.Point(12, 353);
             this.lblTotalCost.Name = "lblTotalCost";
             this.lblTotalCost.Size = new System.Drawing.Size(88, 13);
             this.lblTotalCost.TabIndex = 4;
@@ -100,7 +108,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cmdCancel;
-            this.ClientSize = new System.Drawing.Size(1234, 382);
+            this.ClientSize = new System.Drawing.Size(1232, 379);
             this.Controls.Add(this.lblTotalCost);
             this.Controls.Add(this.cmdCancel);
             this.Controls.Add(this.cmdAddOrder);
