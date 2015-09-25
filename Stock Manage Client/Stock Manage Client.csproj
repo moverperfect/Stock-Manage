@@ -69,6 +69,9 @@
     <Compile Include="Classes\TabPages\ManageUsersTab.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Classes\TabPages\OrderNotificationTab.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Classes\TabPages\ProductNotificationTab.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -137,12 +140,6 @@
     <Compile Include="Forms\Authentication.Designer.cs">
       <DependentUpon>Authentication.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\OrderNotification.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\OrderNotification.Designer.cs">
-      <DependentUpon>OrderNotification.cs</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Forms\Workshop.cs">
       <SubType>Form</SubType>
@@ -179,9 +176,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Ordering.resx">
       <DependentUpon>Ordering.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\OrderNotification.resx">
-      <DependentUpon>OrderNotification.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Workshop.resx">
       <DependentUpon>Workshop.cs</DependentUpon>

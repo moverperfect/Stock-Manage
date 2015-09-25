@@ -217,8 +217,7 @@ namespace Stock_Manage_Client.Classes.TabPages
 
             if (row.Count > 0)
             {
-                ((TabControl) Parent).TabPages.Add(new ManageProductsTab(Convert.ToInt32(row[0].Cells[0].Value), "order"));
-                ((TabControl) Parent).SelectedIndex = ((TabControl) Parent).TabCount - 1;
+                TabManagement.AddTab(new ManageProductsTab(Convert.ToInt32(DgdOrders.SelectedRows[0].Cells[0].Value), "order"), (TabControl)Parent);
             }
             else
             {

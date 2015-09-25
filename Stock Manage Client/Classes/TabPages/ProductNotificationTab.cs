@@ -25,7 +25,7 @@ namespace Stock_Manage_Client.Classes.TabPages
         #region Define accessor variables
 
         /// <summary>
-        /// Datagrifview of the product notifications
+        /// Datagridview of the product notifications
         /// </summary>
         private DataGridView DgdProducts { get; set; }
 
@@ -123,6 +123,8 @@ namespace Stock_Manage_Client.Classes.TabPages
         /// <param name="e"></param>
         private void CmdCreateOrder_Click(object sender, EventArgs e)
         {
+            if (DgdProducts.SelectedRows.Count == 0) return;
+
             var addOrder = new AddChangeOrder((int) DgdProducts.SelectedRows[0].Cells[8].Value);
             addOrder.ShowDialog();
             DgdProducts.Rows.Remove(DgdProducts.SelectedRows[0]);
