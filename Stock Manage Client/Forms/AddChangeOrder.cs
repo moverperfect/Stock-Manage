@@ -48,6 +48,18 @@ namespace Stock_Manage_Client.Forms
         }
 
         /// <summary>
+        /// Initiaises the form for adding an order if we know the supplier id for the proucts
+        /// Used for adding an order from a low product notification
+        /// </summary>
+        /// <param name="supplierId">THe id of the supplier to be launched in</param>
+        public AddChangeOrder(int supplierId)
+        {
+            InitializeComponent();
+            _supplierId = supplierId;
+            RefreshSuppliers();
+        }
+
+        /// <summary>
         /// Initialises the form for changing an order, takes in supplier id and order id
         /// </summary>
         /// <param name="supplierId">The supplier id that the order goes to</param>

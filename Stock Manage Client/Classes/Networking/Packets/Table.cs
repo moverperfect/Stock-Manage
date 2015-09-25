@@ -23,9 +23,33 @@ namespace Stock_Manage_Client.Classes.Networking.Packets
         /// <param name="userId">The user id of the user who created the packet</param>
         public Table(DataTable tmpTable, ushort machineId, ushort userId)
         {
+            Initialise(tmpTable, machineId, userId, 1001);
+        }
+
+        /// <summary>
+        /// Create a new Table with a DataTable
+        /// </summary>
+        /// <param name="tmpTable">The table to be stored in the byte array</param>
+        /// <param name="machineId">The machine id of the machine that created the packet</param>
+        /// <param name="userId">The user id of the user who created the packet</param>
+        /// <param name="packetType">The type of the packet</param>
+        public Table(DataTable tmpTable, ushort machineId, ushort userId, ushort packetType)
+        {
+            Initialise(tmpTable, machineId, userId, packetType);
+        }
+
+        /// <summary>
+        /// Initialises the Table when creating with a DataTable
+        /// </summary>
+        /// <param name="tmpTable">The table to be stored in the byte array</param>
+        /// <param name="machineId">The machine id of the machine that created the packet</param>
+        /// <param name="userId">The user id of the user who created the packet</param>
+        /// <param name="packetType">The type of the packet</param>
+        private void Initialise(DataTable tmpTable, ushort machineId, ushort userId, ushort packetType)
+        {
             TableData = tmpTable;
             TableToByteArray(tmpTable);
-            WriteUShort(1001, 2);
+            WriteUShort(packetType, 2);
             WriteUShort(machineId, 4);
             WriteUShort(userId, 6);
         }

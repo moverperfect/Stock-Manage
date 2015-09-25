@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\Networking\CustomSocket.cs" />
+    <Compile Include="Classes\Networking\NotificationTick.cs" />
     <Compile Include="Classes\Networking\PacketHandler.cs" />
     <Compile Include="Classes\Networking\Packets\PacketStructure.cs" />
     <Compile Include="Classes\Networking\Packets\StdData.cs" />
@@ -66,6 +67,12 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Classes\TabPages\ManageUsersTab.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Classes\TabPages\OrderNotificationTab.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Classes\TabPages\ProductNotificationTab.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Classes\TabPages\WorkshopProductsTab.cs">
